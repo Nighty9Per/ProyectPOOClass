@@ -8,8 +8,9 @@ public class CitaMedica {
 	private Date fechaCita;
 	private String nombrePaciente;
 	private String telefonoPaciente;
-	private Medico medico;
+	private U_Medico medico;
 	private Boolean cancelada;
+	
 	public CitaMedica() {
 		// TODO Auto-generated constructor stub
 	}
