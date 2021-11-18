@@ -19,7 +19,7 @@ public class CitaMedica {
 		this.nombrePaciente = nombrePaciente;
 		this.telefonoPaciente = telefonoPaciente;
 		this.medico = medico;
-		this.cancelada = true;
+		this.cancelada = false;
 	}
 	public String getCodigoCita() {
 		return codigoCita;
