@@ -23,7 +23,7 @@ public class Paciente {
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.historial = null;
-		misConsulta = new ArrayList<>();
+		misConsulta = new ArrayList<Consulta>();
 	}
 
 	public String getCedula() {
