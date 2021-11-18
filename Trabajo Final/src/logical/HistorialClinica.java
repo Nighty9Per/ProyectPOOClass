@@ -10,8 +10,8 @@ public class HistorialClinica {
 	public HistorialClinica(String codigoHistorial) {
 		super();
 		this.codigoHistorial = codigoHistorial;
-		this.misConsultas = new ArrayList<>();
-		this.misVacunas = new ArrayList<>();
+		this.misConsultas = new ArrayList<Consulta>();
+		this.misVacunas = new ArrayList<Vacuna>();
 	}
 
 	public String getCodigoHistorial() {
