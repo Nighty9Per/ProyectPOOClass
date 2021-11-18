@@ -1,11 +1,13 @@
 package logical;
 
+import java.util.Date;
+
 public class CitaMedica {
 
 	private String codigoCita;
 	private Date fechaCita;
 	private String nombrePaciente;
-	private telefonoPaciente;
+	private String telefonoPaciente;
 	private Medico medico;
 	private Boolean cancelada;
 	public CitaMedica() {
