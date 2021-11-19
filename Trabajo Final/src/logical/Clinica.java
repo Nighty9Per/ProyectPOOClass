@@ -1,18 +1,22 @@
 package logical;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Clinica {
 	private ArrayList<Paciente> misPacientes;
 	private ArrayList<Vacuna> misVacunas;
 	private ArrayList<CitaMedica> misCitas;
 	private ArrayList<Usuario> misUsuarios;
+	private ArrayList<Enfermedad> misEnfermedas;
 	
 	private int generateCodigoCita;
 	private int generateCodigoAdministrador;
 	private int generateCodigoEnfermedad;
 	private int generateCodigoConsulta;
 	private int generateCodigoMedico;
+	private int generateCodigoHistorial;
+	private int generateCodigoVacuna;
 	
 	public static Clinica alma = null;
 	
@@ -22,11 +26,15 @@ public class Clinica {
 		misVacunas = new ArrayList<Vacuna>();
 		misCitas = new ArrayList<CitaMedica>();
 		misUsuarios = new ArrayList<Usuario>();
+		misEnfermedas = new ArrayList<Enfermedad>();
+		
 		generateCodigoAdministrador = 1;
 		generateCodigoCita = 1;
 		generateCodigoConsulta = 1;
 		generateCodigoEnfermedad = 1;
 		generateCodigoMedico = 1;
+		generateCodigoHistorial = 1;
+		generateCodigoVacuna = 1;
 		
 	}
 	
@@ -89,5 +97,158 @@ public class Clinica {
 		return generateCodigoMedico;
 	}
 	
+	public ArrayList<Enfermedad> getMisEnfermedas() {
+		return misEnfermedas;
+	}
+
+	public void setMisEnfermedas(ArrayList<Enfermedad> misEnfermedas) {
+		this.misEnfermedas = misEnfermedas;
+	}
+
+	public int getGenerateCodigoHistorial() {
+		return generateCodigoHistorial;
+	}
+
+	public int getGenerateCodigoVacuna() {
+		return generateCodigoVacuna;
+	}
+
+	// Crear Historial Medico.
+	private HistorialClinica crearHistorial() {
+		HistorialClinica historial = new HistorialClinica("H-" + generateCodigoHistorial);
+		generateCodigoHistorial++;
+		return historial;
+	}
 	
+	// Crear Paciente.
+	public Paciente crearPaciente(String cedula, String nombre, String genero, Date fechaNacimiento, String direccion, String telefono) {
+		Paciente paciente = new Paciente(cedula, nombre, genero, fechaNacimiento, direccion, telefono);
+		HistorialClinica historial = crearHistorial();
+		paciente.setHistorial(historial);
+		addPaciente(paciente);
+		return paciente;
+	}
+	
+	// Crear Cita Medica.
+	public CitaMedica crearCitaMedica(Date fechaCita, String nombrePaciente, String telefonoPaciente, Usuario medico) {
+		CitaMedica cita = new CitaMedica("CM-"+generateCodigoCita, fechaCita, nombrePaciente, telefonoPaciente, (U_Medico) medico);
+		generateCodigoCita++;
+		addCitaMedica(cita);
+		return cita;
+	}
+	
+	// Crear Doctor/Medico
+	public U_Medico crearMedico(String cedula, String login, String password, String nombre, String telefono, String direccion, String codigoMedico, String especialidad) {
+		U_Medico medico = new U_Medico("M-"+generateCodigoMedico, cedula, login, password, nombre, telefono, direccion, codigoMedico, especialidad);
+		generateCodigoMedico++;
+		addUsuario(medico);
+		return medico;
+	}
+	
+	// Crear Administrador
+	public U_Administrador crearAdministrado(String cedula, String login, String password, String nombre, String telefono, String direccion, String puestoLaboral) {
+		U_Administrador administrador = new U_Administrador("A-"+generateCodigoAdministrador, cedula, login, password, nombre, telefono, direccion, puestoLaboral);
+		generateCodigoAdministrador++;
+		addUsuario(administrador);
+		return administrador;
+	}
+	
+	// Crear Enfermedad Bajo Vigilancia
+	public Enfermedad crearEnfermedadBajoVigilancia (String nombreEnfermedad, String tipoEnfermedad, String descripcionEnfermedad) {
+		Enfermedad enfermedad = new Enfermedad("E-"+generateCodigoEnfermedad, nombreEnfermedad, tipoEnfermedad, descripcionEnfermedad);
+		generateCodigoEnfermedad++;
+		addEnfermedadBajoVigilancia(enfermedad);
+		return enfermedad;
+	}
+	
+	//Crear consulta sin agregarla al paciente.
+	public Consulta crearConsulta (String sintomas, String diagnostico, String procedimiento, String tratamiento, String comentarioExtra, Enfermedad enfermedadBajoVigilancia) {
+		Consulta consulta = new Consulta("C-"+generateCodigoConsulta, sintomas, diagnostico, procedimiento, tratamiento, comentarioExtra, enfermedadBajoVigilancia);
+		generateCodigoConsulta++;
+		return consulta;
+	}
+	
+	// Crear Vacuna Bajo Vigilacia
+	public void crearVacunaBajoVigilacia (String nombreVacuna) {
+		Vacuna vacuna = new Vacuna("V-"+generateCodigoVacuna, nombreVacuna, null);
+		generateCodigoVacuna++;
+		addVacunaBajoVigilancia(vacuna);
+	}
+	
+	// Buscar Paciente usando Cedula.
+	public Paciente buscarPacienteCedula(String cedula) {
+		Paciente returnPaciente = null;
+		boolean encontrado = false;
+		int i = 0, cantPacientes = misPacientes.size();
+		while(!encontrado && i < cantPacientes) {
+			if(misPacientes.get(i).getCedula().equalsIgnoreCase(cedula)) {
+				returnPaciente = misPacientes.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return returnPaciente;
+	}
+	
+	// Buscar Vacuna Bajo Vigilancia usando codigo vacuna.
+	public Vacuna buscarVacunaCodigo(String codigoVacuna) {
+		Vacuna returnVacuna = null;
+		boolean encontrado = false;
+		int i = 0, cantVacunas = misVacunas.size();
+		while(!encontrado && i < cantVacunas) {
+			if(misVacunas.get(i).getCodigoVacuna().equalsIgnoreCase(codigoVacuna)) {
+				returnVacuna = misVacunas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return returnVacuna;
+	}
+	
+	//Agregar una consulta a un paciente usando la cedula.
+	public boolean agregarConsultaPacienteCedula(String cedula, Consulta consulta, boolean consultaAHistorial) {
+		boolean agregado = false;
+		Paciente paciente = buscarPacienteCedula(cedula);
+		if(paciente != null) {
+			paciente.getMisConsulta().add(consulta);
+			if(consulta.getEnfermedadBajoVigilancia() != null || consultaAHistorial) {
+				paciente.getHistorial().getMisConsultas().add(consulta);
+			}
+			agregado = true;
+		}
+		return agregado;
+	}
+	
+	// add Paciente.
+	public void addPaciente(Paciente paciente) {
+		misPacientes.add(paciente);
+	}
+	// add Cita Medica.
+	public void addCitaMedica(CitaMedica cita) {
+		misCitas.add(cita);
+	}
+	// add Usuario.
+	public void addUsuario(Usuario usuario) {
+		misUsuarios.add(usuario);
+	}
+	// add Vacuna bajo Vigilancia.
+	public void addVacunaBajoVigilancia(Vacuna vacuna) {
+		misVacunas.add(vacuna);
+	}
+	// add Enfermedad Bajo Vigilancia.
+	public void addEnfermedadBajoVigilancia(Enfermedad enfermedad) {
+		misEnfermedas.add(enfermedad);
+	}
+
+	// agregar una vacuna a un paciente.
+	public boolean addVacunaAPaciente(String cedula, Vacuna vacuna) {
+		Paciente paciente = buscarPacienteCedula(cedula);
+		boolean agregado = false;
+		if(paciente != null) {
+			paciente.getHistorial().getMisVacunas().add(vacuna);
+			agregado = true;
+		}
+		return agregado;
+		
+	}
 }
