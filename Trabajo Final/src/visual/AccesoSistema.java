@@ -19,13 +19,14 @@ import java.awt.Window.Type;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class AccesoSistema extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtLogin;
-	private JTextField txtPassword;
 	private JButton btnAcceso;
+	private JPasswordField txtPassword;
 
 	/**
 	 * Launch the application.
@@ -76,15 +77,8 @@ public class AccesoSistema extends JFrame {
 		lblNewLabel_1.setBounds(27, 140, 46, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		txtPassword = new JTextField();
-		txtPassword.setToolTipText("");
-		txtPassword.setName("");
-		txtPassword.setColumns(10);
-		txtPassword.setBounds(101, 184, 134, 23);
-		contentPane.add(txtPassword);
-		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
-		lblContrasea.setBounds(27, 188, 82, 14);
+		lblContrasea.setBounds(27, 188, 96, 14);
 		contentPane.add(lblContrasea);
 		
 		btnAcceso = new JButton("Entrar");
@@ -110,5 +104,9 @@ public class AccesoSistema extends JFrame {
 		});
 		btnAcceso.setBounds(81, 269, 89, 23);
 		contentPane.add(btnAcceso);
+		
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(101, 185, 134, 23);
+		contentPane.add(txtPassword);
 	}
 }
