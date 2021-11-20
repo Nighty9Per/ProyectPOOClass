@@ -249,6 +249,16 @@ public class Clinica {
 			agregado = true;
 		}
 		return agregado;
-		
 	}
+	
+	public Usuario comprobarUsuario (String login, String password) {
+		Usuario user = null;
+		for (Usuario usuario : misUsuarios) {
+			if (usuario.getLogin().equals(login) && usuario.getPassword().equals(password)) {
+				user = usuario;
+			}
+		}
+		return user;
+	}
+	
 }
