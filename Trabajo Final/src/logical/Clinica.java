@@ -175,6 +175,36 @@ public class Clinica {
 		addVacunaBajoVigilancia(vacuna);
 	}
 	
+	// Buscar Usuario por login
+	public Usuario buscarUsuarioLogin(String login) {
+		Usuario returnUsuario = null;
+		boolean encontrado = false;
+		int i = 0, cantUsuario = misUsuarios.size();
+		while(!encontrado && i < cantUsuario) {
+			if(misUsuarios.get(i).getLogin().equalsIgnoreCase(login)) {
+				returnUsuario = misUsuarios.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return returnUsuario;
+	}
+	
+	// Buscar Usuario por CodigoUsuario
+		public Usuario buscarUsuarioCodigo(String codigo) {
+			Usuario returnUsuario = null;
+			boolean encontrado = false;
+			int i = 0, cantUsuario = misUsuarios.size();
+			while(!encontrado && i < cantUsuario) {
+				if(misUsuarios.get(i).getCodigoUsuario().equalsIgnoreCase(codigo)) {
+					returnUsuario = misUsuarios.get(i);
+					encontrado = true;
+				}
+				i++;
+			}
+			return returnUsuario;
+		}
+	
 	// Buscar Paciente usando Cedula.
 	public Paciente buscarPacienteCedula(String cedula) {
 		Paciente returnPaciente = null;
@@ -251,11 +281,12 @@ public class Clinica {
 		return agregado;
 	}
 	
-	public Usuario comprobarUsuario (String login, String password) {
-		Usuario user = null;
-		for (Usuario usuario : misUsuarios) {
-			if (usuario.getLogin().equals(login) && usuario.getPassword().equals(password)) {
-				user = usuario;
+	// Comprobar el login y el password de un Usuario y retornarlo
+	public Usuario comprobarUsuario(String login, String password) {
+		Usuario user = buscarUsuarioLogin(login);
+		if(user != null) {
+			if(!user.getPassword().equalsIgnoreCase(password)) {
+				user = null;
 			}
 		}
 		return user;
