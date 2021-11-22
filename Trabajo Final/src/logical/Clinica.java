@@ -285,7 +285,7 @@ public class Clinica {
 	public Usuario comprobarUsuario(String login, String password) {
 		Usuario user = buscarUsuarioLogin(login);
 		if(user != null) {
-			if(!user.getPassword().equalsIgnoreCase(password)) {
+			if(!user.getPassword().equals(password)) {
 				user = null;
 			}
 		}
