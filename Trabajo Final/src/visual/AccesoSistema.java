@@ -48,8 +48,9 @@ public class AccesoSistema extends JFrame {
 	 * Create the frame.
 	 */
 	public AccesoSistema() {
-		Usuario user1 = new U_Administrador("U-1", "Si", "Gameror0717", "Stardust", "Ismael Reynoso", "8295513092", "Ponton", "Director");
-		Clinica.getInstace().addUsuario(user1);
+		if (Clinica.getInstace().getMisUsuarios().size() == 0) {
+			Clinica.getInstace().crearAdministrado("527813520", "admin", "contrasena6", "Ismael Reynoso", "8295513092", "Pontó", "Director");
+		}
 		setResizable(false);
 		setTitle("Acceso");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
