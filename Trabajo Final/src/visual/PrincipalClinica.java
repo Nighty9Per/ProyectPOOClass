@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logical.Usuario;
+
 public class PrincipalClinica extends JFrame {
 
 	private JPanel contentPane;
@@ -18,7 +20,7 @@ public class PrincipalClinica extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PrincipalClinica frame = new PrincipalClinica();
+					PrincipalClinica frame = new PrincipalClinica(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -29,8 +31,9 @@ public class PrincipalClinica extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param acceso 
 	 */
-	public PrincipalClinica() {
+	public PrincipalClinica(Usuario acceso) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
