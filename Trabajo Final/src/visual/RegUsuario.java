@@ -73,6 +73,13 @@ public class RegUsuario extends JDialog {
 	 */
 	public RegUsuario(Usuario modificar) {
 		update = modificar;
+		setModal(true);
+		setResizable(false);
+		if(update == null) {
+			setTitle("Registrar Usuario");
+		} else {
+			setTitle("Modificar Usuario");
+		}
 		setBounds(100, 100, 608, 386);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
