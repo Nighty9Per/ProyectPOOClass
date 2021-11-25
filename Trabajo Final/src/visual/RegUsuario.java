@@ -326,7 +326,7 @@ public class RegUsuario extends JDialog {
 	}
 	
 	private void loadUser(Usuario aux) {
-		if (aux != null && aux instanceof U_Administrador) {
+		if (aux != null) {
 			txtCodigo.setText(aux.getCodigoUsuario());
 			txtNombre.setText(aux.getNombre());
 			txtTelefono.setText(aux.getTelefono());
@@ -334,26 +334,27 @@ public class RegUsuario extends JDialog {
 			txtDirec.setText(aux.getDireccion());
 			txtLogin.setText(aux.getLogin());
 			txtPassword.setText(aux.getPassword());
-			rdbtnAdmin.setSelected(true);
-			rdbtnAdmin.setEnabled(false);
-			rdbtnMedico.setEnabled(false);
-			pnAdmin.setVisible(true);
-		}
-		if (aux != null && aux instanceof U_Medico) {
-			txtCodigo.setText(aux.getCodigoUsuario());
-			txtNombre.setText(aux.getNombre());
-			txtTelefono.setText(aux.getTelefono());
-			txtCed.setText(aux.getCedula());
-			txtDirec.setText(aux.getDireccion());
-			txtLogin.setText(aux.getLogin());
-			txtPassword.setText(aux.getPassword());
-			rdbtnMedico.setSelected(true);
-			rdbtnAdmin.setEnabled(false);
-			rdbtnMedico.setEnabled(false);
-			pnMed.setVisible(true);
-		}
+			if (aux instanceof U_Administrador) {
+				rdbtnAdmin.setSelected(true);
+				rdbtnAdmin.setEnabled(false);
+				rdbtnMedico.setEnabled(false);
+				pnAdmin.setVisible(true);
+				U_Administrador mod = (U_Administrador)aux;
+				txtPuesto.setText(mod.getPuestoLaboral());
+			}else if (aux instanceof U_Medico) {
+				rdbtnMedico.setSelected(true);
+				rdbtnAdmin.setEnabled(false);
+				rdbtnMedico.setEnabled(false);
+				pnMed.setVisible(true);
+				U_Medico mod = (U_Medico)aux;
+				txtCodMed.setText(mod.getCodigoMedico());
+				txtEspecialidad.setText(mod.getEspecialidad());
+			}
 		
+			
+		}
 	}
+		
 
 	public static Usuario getUpdate() {
 		return update;
