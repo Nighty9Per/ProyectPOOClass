@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class U_Medico extends Usuario {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String codigoMedico;
 	private String especialidad;
 	private ArrayList<String> misPacientes;	
