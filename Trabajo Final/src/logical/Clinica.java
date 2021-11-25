@@ -181,7 +181,7 @@ public class Clinica {
 		boolean encontrado = false;
 		int i = 0, cantUsuario = misUsuarios.size();
 		while(!encontrado && i < cantUsuario) {
-			if(misUsuarios.get(i).getLogin().equalsIgnoreCase(login)) {
+			if(misUsuarios.get(i).getLogin().equals(login)) {
 				returnUsuario = misUsuarios.get(i);
 				encontrado = true;
 			}
