@@ -44,7 +44,6 @@ public class PrincipalClinica extends JFrame {
 	private JPanel panelFoundation;
 	private JPanel panelLogin;
 	private JButton btnCerrar;
-	private static Usuario user = null;
 	private JButton btnInicio;
 	private JLabel lblUser;
 
@@ -72,6 +71,8 @@ public class PrincipalClinica extends JFrame {
 	}
 
 	private PrincipalClinica() {
+		
+		Clinica.getInstace().crearAdministrado("asd", "admin", "admin", "asd", "asdasd", "direasdasdccion", "asd");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1150, 700);
@@ -110,9 +111,6 @@ public class PrincipalClinica extends JFrame {
 		btnInicio.setEnabled(false);
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(user != null) {
-					
-				}
 			}
 		});
 		btnInicio.setBounds(926, 13, 89, 23);
@@ -200,15 +198,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	public void getUserLoginFeedback(Usuario user) {
-		setUser(user);
+		Clinica.getInstace().setLoginUser(user);
 		viewCleanPanelUser();
-	}
-	
-	public void setUser(Usuario user) {
-		this.user = user;
-	}
-	
-	public Usuario getUser() {
-		return user;
 	}
 }

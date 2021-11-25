@@ -302,8 +302,8 @@ public class Clinica implements Serializable{
 		return loginUser;
 	}
 
-	public static void setLoginUser(Usuario loginUser) {
-		Clinica.loginUser = loginUser;
+	public static void setLoginUser(Usuario user) {
+		loginUser = user;
 	}
 	
 }
