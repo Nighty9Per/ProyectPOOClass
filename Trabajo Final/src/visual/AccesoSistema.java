@@ -87,8 +87,7 @@ public class AccesoSistema extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Usuario acceso = Clinica.getInstace().comprobarUsuario(txtLogin.getText(), txtPassword.getText());
 				if(acceso != null) {
-					PrincipalClinica prin = new PrincipalClinica();
-					prin.setVisible(true);
+					PrincipalClinica.getInstace().setVisible(true);
 					dispose();
 					JOptionPane.showMessageDialog(null, "Bienvenido usuario " +acceso.getNombre(), "Información", JOptionPane.INFORMATION_MESSAGE);
 				}else {
