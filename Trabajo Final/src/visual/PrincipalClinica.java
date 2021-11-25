@@ -151,12 +151,21 @@ public class PrincipalClinica extends JFrame {
 		panelFoundation.setBounds(0, 67, 1124, 584);
 		panelMain.add(panelFoundation);
 		
-		panelLogin = new JPanel();
+		panelLogin = new PanelLogin();
 		panelLogin.setBounds(0, 45, 1124, 606);
 		panelMain.add(panelLogin);
+		
+		viewLoginPanel();
 	}
 	
 	private void guardarDatos() {
 		
+	}
+	
+	// Poner el panel Login en frente
+	private void viewLoginPanel() {
+		panelLogin.setVisible(true);
+		panelUser.setVisible(false);
+		panelFoundation.setVisible(false);
 	}
 }
