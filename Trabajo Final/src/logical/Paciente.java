@@ -1,9 +1,14 @@
 package logical;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Paciente {
+public class Paciente implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5698020486666860908L;
 	private String cedula;
 	private String nombre;
 	private String genero;

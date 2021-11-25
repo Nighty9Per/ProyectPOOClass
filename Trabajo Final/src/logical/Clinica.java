@@ -1,9 +1,14 @@
 package logical;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Clinica {
+public class Clinica implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2645705140098860303L;
 	private ArrayList<Paciente> misPacientes;
 	private ArrayList<Vacuna> misVacunas;
 	private ArrayList<CitaMedica> misCitas;
@@ -19,8 +24,9 @@ public class Clinica {
 	private int generateCodigoVacuna;
 	
 	public static Clinica alma = null;
+	private static Usuario loginUser = null;
 	
-	private Clinica() {
+	private Clinica () {
 		super();
 		misPacientes = new ArrayList<Paciente>();
 		misVacunas = new ArrayList<Vacuna>();
@@ -290,6 +296,14 @@ public class Clinica {
 			}
 		}
 		return user;
+	}
+
+	public static Usuario getLoginUser() {
+		return loginUser;
+	}
+
+	public static void setLoginUser(Usuario loginUser) {
+		Clinica.loginUser = loginUser;
 	}
 	
 }
