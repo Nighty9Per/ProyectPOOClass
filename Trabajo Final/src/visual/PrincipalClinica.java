@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logical.Clinica;
 import logical.Usuario;
 import javax.swing.border.TitledBorder;
 import java.awt.FlowLayout;
@@ -22,6 +23,7 @@ import java.awt.event.ActionEvent;
 
 public class PrincipalClinica extends JFrame {
 
+	public static PrincipalClinica clinicaVisual = null;
 	private JPanel contentPane;
 	private JPanel panelMain;
 	private JPanel panelUserInfo;
@@ -41,7 +43,10 @@ public class PrincipalClinica extends JFrame {
 	private JMenuBar menuBar;
 	private JPanel panelFoundation;
 	private JPanel panelLogin;
-	private JButton btnNewButton_1;
+	private JButton btnCerrar;
+	private static Usuario user = null;
+	private JButton btnInicio;
+	private JLabel lblUser;
 
 	/**
 	 * Launch the application.
@@ -50,7 +55,7 @@ public class PrincipalClinica extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PrincipalClinica frame = new PrincipalClinica();
+					PrincipalClinica frame = PrincipalClinica.getInstace();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,13 +63,19 @@ public class PrincipalClinica extends JFrame {
 			}
 		});
 	}
+	
+	public static PrincipalClinica getInstace() {
+		if(clinicaVisual == null) {
+			clinicaVisual = new PrincipalClinica();
+		}
+		return clinicaVisual;
+	}
 
-	/**
-	 * Create the frame.
-	 */
-	public PrincipalClinica() {
+	private PrincipalClinica() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1150, 700);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -82,26 +93,39 @@ public class PrincipalClinica extends JFrame {
 		panelUserInfo.setLayout(null);
 		
 		btnLogOut = new JButton("Log In");
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewLoginPanel();
+			}
+		});
 		btnLogOut.setBounds(827, 13, 89, 23);
 		panelUserInfo.add(btnLogOut);
 		
-		JLabel lblNewLabel = new JLabel("User: N/A");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(10, 15, 166, 14);
-		panelUserInfo.add(lblNewLabel);
+		lblUser = new JLabel("User: N/A");
+		lblUser.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblUser.setBounds(10, 15, 166, 14);
+		panelUserInfo.add(lblUser);
 		
-		JButton btnNewButton = new JButton("Inicio");
-		btnNewButton.setBounds(926, 13, 89, 23);
-		panelUserInfo.add(btnNewButton);
+		btnInicio = new JButton("Inicio");
+		btnInicio.setEnabled(false);
+		btnInicio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(user != null) {
+					
+				}
+			}
+		});
+		btnInicio.setBounds(926, 13, 89, 23);
+		panelUserInfo.add(btnInicio);
 		
-		btnNewButton_1 = new JButton("Cerrar");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnCerrar = new JButton("Cerrar");
+		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(1025, 13, 89, 23);
-		panelUserInfo.add(btnNewButton_1);
+		btnCerrar.setBounds(1025, 13, 89, 23);
+		panelUserInfo.add(btnCerrar);
 		
 		panelUser = new JPanel();
 		panelUser.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -147,6 +171,7 @@ public class PrincipalClinica extends JFrame {
 		mnListEnfermedades.add(mntmNewMenuItem_6);
 		
 		panelFoundation = new JPanel();
+		panelFoundation.setVisible(false);
 		panelFoundation.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelFoundation.setBounds(0, 67, 1124, 584);
 		panelMain.add(panelFoundation);
@@ -166,6 +191,24 @@ public class PrincipalClinica extends JFrame {
 	private void viewLoginPanel() {
 		panelLogin.setVisible(true);
 		panelUser.setVisible(false);
-		panelFoundation.setVisible(false);
+	}
+	
+	
+	private void viewCleanPanelUser() {
+		panelUser.setVisible(true);
+		panelLogin.setVisible(false);
+	}
+	
+	public void getUserLoginFeedback(Usuario user) {
+		setUser(user);
+		viewCleanPanelUser();
+	}
+	
+	public void setUser(Usuario user) {
+		this.user = user;
+	}
+	
+	public Usuario getUser() {
+		return user;
 	}
 }
