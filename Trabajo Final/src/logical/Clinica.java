@@ -241,6 +241,20 @@ public class Clinica implements Serializable{
 		return returnVacuna;
 	}
 	
+	private Enfermedad buscarEnfermedadCodigo(String codigo) {
+		Enfermedad enf = null;
+		boolean encontrado = false;
+		int i = 0, cantEnfermedades = misEnfermedas.size();
+		while (!encontrado && i < cantEnfermedades) {
+			if (misEnfermedas.get(i).getCodigoEnfermedad().equalsIgnoreCase(codigo)) {
+				enf = misEnfermedas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return enf;
+	}
+	
 	//Agregar una consulta a un paciente usando la cedula.
 	public boolean agregarConsultaPacienteCedula(String cedula, Consulta consulta, boolean consultaAHistorial) {
 		boolean agregado = false;
@@ -296,6 +310,37 @@ public class Clinica implements Serializable{
 			}
 		}
 		return user;
+	}
+	
+	public void editarUsuario(String codigo, Usuario userUpdate) {
+		Usuario user = buscarUsuarioCodigo(codigo);
+		user.setCedula(userUpdate.getCedula());
+		user.setNombre(userUpdate.getNombre());
+		user.setTelefono(userUpdate.getTelefono());
+		user.setDireccion(userUpdate.getDireccion());
+		user.setLogin(userUpdate.getLogin());
+		user.setPassword(userUpdate.getPassword());
+		
+		if (user instanceof U_Administrador) {
+			U_Administrador aux = (U_Administrador)user;
+			U_Administrador mod = (U_Administrador)userUpdate;
+			
+			aux.setPuestoLaboral(mod.getPuestoLaboral());
+		}else if (user instanceof U_Medico) {
+			U_Medico aux = (U_Medico) user;
+			U_Medico mod = (U_Medico) userUpdate;
+			
+			aux.setCodigoMedico(mod.getCodigoMedico());
+			aux.setEspecialidad(mod.getEspecialidad());
+		}
+		
+	}
+	
+	public void editarEnfermedad(String codigo, Enfermedad sick) {
+		Enfermedad aux = buscarEnfermedadCodigo(codigo);
+		aux.setDescripcionEnfermedad(sick.getDescripcionEnfermedad());
+		aux.setNombreEnfermedad(sick.getNombreEnfermedad());
+		aux.setTipoEnfermedad(sick.getTipoEnfermedad());
 	}
 
 	public static Usuario getLoginUser() {
