@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logical.Clinica;
+import logical.Enfermedad;
 import logical.U_Administrador;
 import logical.U_Medico;
 import logical.Usuario;
@@ -31,7 +32,7 @@ public class PrincipalClinica extends JFrame {
 	private JPanel panelUserInfo;
 	private JButton btnLogOut;
 	private JPanel panelUser;
-	private JMenuItem mntmRegMedico;
+	private JMenuItem mntmRegUsuario;
 	private JMenu mnAdministrador;
 	private JMenu mnMedico;
 	private JMenu mnVacunas;
@@ -147,13 +148,29 @@ public class PrincipalClinica extends JFrame {
 		mnAdministrador = new JMenu("Administrador");
 		menuBar.add(mnAdministrador);
 		
-		mntmRegMedico = new JMenuItem("Registrar Medico");
-		mnAdministrador.add(mntmRegMedico);
+		mntmRegUsuario = new JMenuItem("Registrar Usuario");
+		mntmRegUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegUsuario regUsuario = new RegUsuario(null);
+				regUsuario.setVisible(true);
+			}
+		});
+		mnAdministrador.add(mntmRegUsuario);
 		
 		mntmRegVacuna = new JMenuItem("Registrar Vacuna");
+		mntmRegVacuna.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegVacuna regVacuna = new RegVacuna();
+				regVacuna.setVisible(true);
+			}
+		});
 		mnAdministrador.add(mntmRegVacuna);
 		
 		mntmRegEnfermedad = new JMenuItem("Registrar Enfermedad");
+		mntmRegEnfermedad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mnAdministrador.add(mntmRegEnfermedad);
 		
 		mnMedico = new JMenu("M\u00E9dico");
@@ -206,9 +223,11 @@ public class PrincipalClinica extends JFrame {
 		panelLogin.setVisible(false);
 	}
 	
+	// Recordar remover los comentario despues de todos los test.
 	public void getUserLoginFeedback() {
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null) {
+			/*
 			if(user instanceof U_Medico) {
 				mnMedico.setEnabled(true);
 				mnAdministrador.setEnabled(false);
@@ -217,6 +236,7 @@ public class PrincipalClinica extends JFrame {
 				mnMedico.setEnabled(false);
 				mnAdministrador.setEnabled(true);
 			}
+			*/
 			btnLogOut.setText("Log Out");
 			btnInicio.setEnabled(true);
 		}

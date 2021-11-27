@@ -28,6 +28,7 @@ public class RegVacuna extends JDialog {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		try {
 			RegVacuna dialog = new RegVacuna();
@@ -37,7 +38,7 @@ public class RegVacuna extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	*/
 	/**
 	 * Create the dialog.
 	 */
@@ -46,6 +47,7 @@ public class RegVacuna extends JDialog {
 		setResizable(false);
 		setModal(true);
 		setBounds(100, 100, 223, 217);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
