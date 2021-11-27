@@ -24,7 +24,7 @@ public class Clinica implements Serializable{
 	private int generateCodigoVacuna;
 	
 	public static Clinica alma = null;
-	private static Usuario loginUser = null;
+	private Usuario loginUser = null;
 	
 	private Clinica () {
 		super();
@@ -343,11 +343,11 @@ public class Clinica implements Serializable{
 		aux.setTipoEnfermedad(sick.getTipoEnfermedad());
 	}
 
-	public static Usuario getLoginUser() {
+	public Usuario getLoginUser() {
 		return loginUser;
 	}
 
-	public static void setLoginUser(Usuario user) {
+	public void setLoginUser(Usuario user) {
 		loginUser = user;
 	}
 	

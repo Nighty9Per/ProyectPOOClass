@@ -19,6 +19,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class PanelLogin extends JPanel {
 	private JPanel panelMain;
@@ -26,11 +27,19 @@ public class PanelLogin extends JPanel {
 	private JTextField txtUsername;
 	private JTextField txtPassword;
 	private JLabel lblNewLabel;
+	public static PanelLogin login = null;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelLogin() {
+	public static PanelLogin getInstance() {
+		if(login == null) {
+			login = new PanelLogin();
+		}
+		return login;
+	}
+	
+	private PanelLogin() {
 		setLayout(null);
 		setBounds(0, 45, 1124, 606);
 		
@@ -55,30 +64,18 @@ public class PanelLogin extends JPanel {
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(btnLogin.getText().equalsIgnoreCase("Log In")) {
-					Usuario user = Clinica.getInstace().comprobarUsuario(txtUsername.getText(), txtPassword.getText());
+				Usuario user = Clinica.getInstace().getLoginUser();
+				if(user == null) {
+					user = Clinica.getInstace().comprobarUsuario(txtUsername.getText(), txtPassword.getText());
 					if(user != null) {
-						Clinica.getInstace().setLoginUser(user);
-						txtPassword.setText(user.getPassword());
-						txtUsername.setText(user.getLogin());
-						txtPassword.setEditable(false);
-						txtUsername.setEditable(false);
-						btnLogin.setText("Log Out");
-						JOptionPane.showMessageDialog(null, "Log In Succesful", "Log In", JOptionPane.INFORMATION_MESSAGE);
-						PrincipalClinica.getInstace().viewCleanPanelUser();
+						logIn(user);
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Informacion no coincide, revise Usuario y Contraseña", "Usuario no Encontrado", JOptionPane.WARNING_MESSAGE);
 					}
 				}
-				else if(btnLogin.getText().equalsIgnoreCase("Log Out")) {
-					Clinica.getInstace().setLoginUser(null);
-					txtPassword.setText("");
-					txtUsername.setText("");
-					txtPassword.setEditable(true);
-					txtUsername.setEditable(true);
-					btnLogin.setText("Log In");
-					JOptionPane.showMessageDialog(null, "Log Out Succesful", "Log Out", JOptionPane.INFORMATION_MESSAGE);
+				else if(user != null) {
+					logOut();
 				}
 			}
 		});
@@ -96,7 +93,7 @@ public class PanelLogin extends JPanel {
 		panel_1.add(txtUsername);
 		txtUsername.setColumns(10);
 		
-		txtPassword = new JTextField();
+		txtPassword = new JPasswordField();
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(141, 306, 278, 35);
 		panel_1.add(txtPassword);
@@ -113,21 +110,24 @@ public class PanelLogin extends JPanel {
 
 	}
 	
-	public void checkUserLoginFeedBack() {
-		Usuario user = Clinica.getInstace().getLoginUser();
-		if(user != null) {
-			txtPassword.setText(user.getPassword());
-			txtUsername.setText(user.getLogin());
-			txtPassword.setEditable(false);
-			txtUsername.setEditable(false);
-			btnLogin.setText("Log Out");
-		}
-		else {
-			txtPassword.setText("");
-			txtUsername.setText("");
-			txtPassword.setEditable(true);
-			txtUsername.setEditable(true);
-			btnLogin.setText("Log In");
-		}
+	public void logOut() {
+		Clinica.getInstace().setLoginUser(null);
+		txtPassword.setText("");
+		txtUsername.setText("");
+		txtPassword.setEditable(true);
+		txtUsername.setEditable(true);
+		btnLogin.setText("Log In");
+		JOptionPane.showMessageDialog(null, "Log Out Succesful", "Log Out", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void logIn(Usuario user) {
+		Clinica.getInstace().setLoginUser(user);
+		txtPassword.setText(user.getPassword());
+		txtUsername.setText(user.getLogin());
+		txtPassword.setEditable(false);
+		txtUsername.setEditable(false);
+		btnLogin.setText("Log Out");
+		JOptionPane.showMessageDialog(null, "Log In Succesful", "Log In", JOptionPane.INFORMATION_MESSAGE);
+		PrincipalClinica.getInstace().getUserLoginFeedback();
 	}
 }

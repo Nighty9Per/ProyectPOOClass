@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logical.Clinica;
+import logical.U_Administrador;
+import logical.U_Medico;
 import logical.Usuario;
 import javax.swing.border.TitledBorder;
 import java.awt.FlowLayout;
@@ -96,7 +98,13 @@ public class PrincipalClinica extends JFrame {
 		btnLogOut = new JButton("Log In");
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewLoginPanel();
+				Usuario user = Clinica.getInstace().getLoginUser();
+				if(user != null) {
+					PanelLogin.getInstance().logOut();
+					btnLogOut.setText("Log In");
+					btnInicio.setEnabled(false);
+					viewLoginPanel();
+				}
 			}
 		});
 		btnLogOut.setBounds(827, 13, 89, 23);
@@ -111,6 +119,7 @@ public class PrincipalClinica extends JFrame {
 		btnInicio.setEnabled(false);
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				viewCleanPanelUser();
 			}
 		});
 		btnInicio.setBounds(926, 13, 89, 23);
@@ -174,7 +183,7 @@ public class PrincipalClinica extends JFrame {
 		panelFoundation.setBounds(0, 67, 1124, 584);
 		panelMain.add(panelFoundation);
 		
-		panelLogin = new PanelLogin();
+		panelLogin = PanelLogin.getInstance();
 		panelLogin.setBounds(0, 45, 1124, 606);
 		panelMain.add(panelLogin);
 		
@@ -197,8 +206,23 @@ public class PrincipalClinica extends JFrame {
 		panelLogin.setVisible(false);
 	}
 	
-	public void getUserLoginFeedback(Usuario user) {
-		Clinica.getInstace().setLoginUser(user);
+	public void getUserLoginFeedback() {
+		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user != null) {
+			if(user instanceof U_Medico) {
+				mnMedico.setEnabled(true);
+				mnAdministrador.setEnabled(false);
+			}
+			else if(user instanceof U_Administrador) {
+				mnMedico.setEnabled(false);
+				mnAdministrador.setEnabled(true);
+			}
+			btnLogOut.setText("Log Out");
+			btnInicio.setEnabled(true);
+		}
+		else {
+			btnLogOut.setText("Log In");
+		}
 		viewCleanPanelUser();
 	}
 }
