@@ -192,7 +192,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	
-	private void viewCleanPanelUser() {
+	public void viewCleanPanelUser() {
 		panelUser.setVisible(true);
 		panelLogin.setVisible(false);
 	}
