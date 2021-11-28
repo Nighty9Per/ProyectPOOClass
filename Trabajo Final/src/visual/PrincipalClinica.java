@@ -129,6 +129,7 @@ public class PrincipalClinica extends JFrame {
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Clinica.getInstace().setLoginUser(null);
 				dispose();
 			}
 		});
@@ -169,6 +170,8 @@ public class PrincipalClinica extends JFrame {
 		mntmRegEnfermedad = new JMenuItem("Registrar Enfermedad");
 		mntmRegEnfermedad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				RegEnfermedad regEnfermedad = new RegEnfermedad(null);
+				regEnfermedad.setVisible(true);
 			}
 		});
 		mnAdministrador.add(mntmRegEnfermedad);

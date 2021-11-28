@@ -61,6 +61,7 @@ public class RegEnfermedad extends JDialog {
 			setTitle("Modificar Enfermedad");
 		}
 		setBounds(100, 100, 393, 287);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
