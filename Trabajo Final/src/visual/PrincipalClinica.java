@@ -49,6 +49,7 @@ public class PrincipalClinica extends JFrame {
 	private JButton btnCerrar;
 	private JButton btnInicio;
 	private JLabel lblUser;
+	private JMenuItem mntmNewMenuItem;
 
 	/**
 	 * Launch the application.
@@ -175,6 +176,15 @@ public class PrincipalClinica extends JFrame {
 			}
 		});
 		mnAdministrador.add(mntmRegEnfermedad);
+		
+		mntmNewMenuItem = new JMenuItem("Registrar Cita M\u00E9dica");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegCita regc = new RegCita();
+				regc.setVisible(true);
+			}
+		});
+		mnAdministrador.add(mntmNewMenuItem);
 		
 		mnMedico = new JMenu("M\u00E9dico");
 		menuBar.add(mnMedico);
