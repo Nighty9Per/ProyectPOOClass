@@ -60,7 +60,7 @@ public class PanelLogin extends JPanel {
 		panelMain.add(panel_1);
 		panel_1.setLayout(null);
 		
-		btnLogin = new JButton("Log In");
+		btnLogin = new JButton("Iniciar Sesi\u00F3n");
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,12 +98,12 @@ public class PanelLogin extends JPanel {
 		txtPassword.setBounds(141, 306, 278, 35);
 		panel_1.add(txtPassword);
 		
-		JLabel lblNewLabel_1 = new JLabel("Username");
+		JLabel lblNewLabel_1 = new JLabel("Usuario:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(141, 185, 178, 23);
 		panel_1.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Password");
+		JLabel lblNewLabel_2 = new JLabel("Contrase\u00F1a:");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_2.setBounds(141, 281, 178, 23);
 		panel_1.add(lblNewLabel_2);
@@ -111,13 +111,16 @@ public class PanelLogin extends JPanel {
 	}
 	
 	public void logOut() {
-		Clinica.getInstace().setLoginUser(null);
-		txtPassword.setText("");
-		txtUsername.setText("");
-		txtPassword.setEditable(true);
-		txtUsername.setEditable(true);
-		btnLogin.setText("Log In");
-		JOptionPane.showMessageDialog(null, "Log Out Succesful", "Log Out", JOptionPane.INFORMATION_MESSAGE);
+		int select = JOptionPane.showConfirmDialog(null, "¿Seguro que desea cerrar sesión?" , "Confirmación", JOptionPane.WARNING_MESSAGE);
+		if (select == JOptionPane.YES_OPTION) {
+			Clinica.getInstace().setLoginUser(null);
+			txtPassword.setText("");
+			txtUsername.setText("");
+			txtPassword.setEditable(true);
+			txtUsername.setEditable(true);
+			btnLogin.setText("Log In");
+			JOptionPane.showMessageDialog(null, "Sesión Finalizada", "Log Out", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	
 	private void logIn(Usuario user) {

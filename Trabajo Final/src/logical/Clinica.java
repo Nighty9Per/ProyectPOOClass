@@ -342,6 +342,13 @@ public class Clinica implements Serializable{
 		aux.setNombreEnfermedad(sick.getNombreEnfermedad());
 		aux.setTipoEnfermedad(sick.getTipoEnfermedad());
 	}
+	
+	public void editarPaciente (String codigo, Paciente pat) {
+		Paciente aux = buscarPacienteCedula(codigo);
+		aux.setDireccion(pat.getDireccion());
+		aux.setNombre(pat.getNombre());
+		aux.setTelefono(pat.getTelefono());
+	}
 
 	public Usuario getLoginUser() {
 		return loginUser;
