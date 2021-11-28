@@ -60,6 +60,10 @@ public class RegCita extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegCita() {
+		setTitle("Registro de Citas");
+		setModal(true);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 476, 236);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -146,7 +150,10 @@ public class RegCita extends JDialog {
 						Date dateaux = (Date) spnFecha.getValue();
 						Clinica.getInstace().crearCitaMedica(dateaux, txtNombre.getText(), txtTelefono.getText(), med);
 						JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+						clean();
 					}
+
+					
 				});
 				btnRegistrar.setActionCommand("OK");
 				buttonPane.add(btnRegistrar);
@@ -163,6 +170,18 @@ public class RegCita extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+	}
+	
+	private void clean() {
+		txtNombre.setText("");
+		txtTelefono.setText("");
+		Date date = new Date();
+		spnFecha.setModel(new SpinnerDateModel(date, null, null, Calendar.YEAR));
+		JSpinner.DateEditor de_spnFecha = new JSpinner.DateEditor(spnFecha,"dd/MM/yyyy");
+		spnFecha.setEditor(de_spnFecha);
+		txtCodigo.setText("CM-"+Clinica.getInstace().getGenerateCodigoCita());
+		cbxMedico.setSelectedIndex(0);
+		
 	}
 
 	public DefaultComboBoxModel<String> getCadena() {
