@@ -32,6 +32,9 @@ public class PrincipalClinica extends JFrame {
 	private JPanel panelUserInfo;
 	private ListUsuario panelListUsuario;
 	private ListCitaMedica panelListCitaMedica;
+	private ListPaciente panelListPaciente;
+	private ListVacuna panelListVacuna;
+	private ListEnfermedad panelListEnfermedad;
 	private JButton btnLogOut;
 	private JPanel panelUser;
 	private JMenuItem mntmRegUsuario;
@@ -53,6 +56,7 @@ public class PrincipalClinica extends JFrame {
 	private JLabel lblUser;
 	private JMenuItem mntmRegistrarCita;
 	private JMenuItem mntmListUsuarios;
+	private JMenuItem mntmMedicoPacientes;
 
 	/**
 	 * Launch the application.
@@ -216,16 +220,34 @@ public class PrincipalClinica extends JFrame {
 		});
 		mnMedico.add(mntmRegistrarCita);
 		
+		mntmMedicoPacientes = new JMenuItem("Ver Mis Pacientes");
+		mntmMedicoPacientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewListPacientes();
+			}
+		});
+		mnMedico.add(mntmMedicoPacientes);
+		
 		mnVacunas = new JMenu("Vacunas");
 		menuBar.add(mnVacunas);
 		
 		mntmListVacuna = new JMenuItem("Lista de Vacunas");
+		mntmListVacuna.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewListVacuna();
+			}
+		});
 		mnVacunas.add(mntmListVacuna);
 		
 		mnListEnfermedades = new JMenu("Enfermedades");
 		menuBar.add(mnListEnfermedades);
 		
 		mntmNewMenuItem_6 = new JMenuItem("Lista de Enfermedades");
+		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewListEnfermedad();
+			}
+		});
 		mnListEnfermedades.add(mntmNewMenuItem_6);
 		
 		panelFoundation = new JPanel();
@@ -246,6 +268,14 @@ public class PrincipalClinica extends JFrame {
 		panelListUsuario.setBounds(0, 45, 1124, 606);
 		panelMain.add(panelListCitaMedica);
 		
+		panelListPaciente = new ListPaciente();
+		panelListPaciente.setBounds(0, 45, 1124, 606);
+		panelMain.add(panelListPaciente);
+		
+		panelListEnfermedad = new ListEnfermedad();
+		panelListEnfermedad.setBounds(0, 45, 1124, 606);
+		panelMain.add(panelListEnfermedad);
+		
 		viewLoginPanel();
 	}
 	
@@ -259,6 +289,9 @@ public class PrincipalClinica extends JFrame {
 		panelUser.setVisible(false);
 		panelListUsuario.setVisible(false);
 		panelListCitaMedica.setVisible(false);
+		panelListPaciente.setVisible(false);
+		panelListVacuna.setVisible(false);
+		panelListEnfermedad.setVisible(false);
 	}
 	
 	public void viewCleanPanelUser() {
@@ -266,6 +299,9 @@ public class PrincipalClinica extends JFrame {
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(false);
 		panelListCitaMedica.setVisible(false);
+		panelListPaciente.setVisible(false);
+		panelListVacuna.setVisible(false);
+		panelListEnfermedad.setVisible(false);
 	}
 	
 	public void viewListUsuarioPanel() {
@@ -273,6 +309,9 @@ public class PrincipalClinica extends JFrame {
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(true);
 		panelListCitaMedica.setVisible(false);
+		panelListPaciente.setVisible(false);
+		panelListVacuna.setVisible(false);
+		panelListEnfermedad.setVisible(false);
 	}
 	
 	public void viewListCitaMedicaPanel() {
@@ -280,6 +319,39 @@ public class PrincipalClinica extends JFrame {
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(false);
 		panelListCitaMedica.setVisible(true);
+		panelListPaciente.setVisible(false);
+		panelListVacuna.setVisible(false);
+		panelListEnfermedad.setVisible(false);
+	}
+	
+	public void viewListPacientes() {
+		panelLogin.setVisible(false);
+		panelUser.setVisible(true);
+		panelListUsuario.setVisible(false);
+		panelListCitaMedica.setVisible(false);
+		panelListPaciente.setVisible(true);
+		panelListVacuna.setVisible(false);
+		panelListEnfermedad.setVisible(false);
+	}
+	
+	public void viewListVacuna() {
+		panelLogin.setVisible(false);
+		panelUser.setVisible(true);
+		panelListUsuario.setVisible(false);
+		panelListCitaMedica.setVisible(false);
+		panelListPaciente.setVisible(false);
+		panelListVacuna.setVisible(true);
+		panelListEnfermedad.setVisible(false);
+	}
+	
+	public void viewListEnfermedad() {
+		panelLogin.setVisible(false);
+		panelUser.setVisible(true);
+		panelListUsuario.setVisible(false);
+		panelListCitaMedica.setVisible(false);
+		panelListPaciente.setVisible(false);
+		panelListVacuna.setVisible(false);
+		panelListEnfermedad.setVisible(true);
 	}
 	
 	// Recordar remover los comentario despues de todos los test.
@@ -298,9 +370,11 @@ public class PrincipalClinica extends JFrame {
 			*/
 			btnLogOut.setText("Log Out");
 			btnInicio.setEnabled(true);
+			lblUser.setText(Clinica.getInstace().getLoginUser().getNombre());
 		}
 		else {
 			btnLogOut.setText("Log In");
+			lblUser.setText("N/A");
 		}
 		viewCleanPanelUser();
 	}
