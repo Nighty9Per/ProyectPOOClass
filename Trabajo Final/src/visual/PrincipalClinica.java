@@ -49,7 +49,8 @@ public class PrincipalClinica extends JFrame {
 	private JButton btnCerrar;
 	private JButton btnInicio;
 	private JLabel lblUser;
-	private JMenuItem mntmNewMenuItem;
+	private JMenuItem mntmRegistrarCita;
+	private JMenuItem mntmListUsuarios;
 
 	/**
 	 * Launch the application.
@@ -177,23 +178,28 @@ public class PrincipalClinica extends JFrame {
 		});
 		mnAdministrador.add(mntmRegEnfermedad);
 		
-		mntmNewMenuItem = new JMenuItem("Registrar Cita M\u00E9dica");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		mntmListUsuarios = new JMenuItem("Lista de Usuarios");
+		mnAdministrador.add(mntmListUsuarios);
+		
+		
+		
+		mnMedico = new JMenu("M\u00E9dico");
+		menuBar.add(mnMedico);
+		
+		mntmListCitaMedica = new JMenuItem("Lista de Citas Medicas");
+		mnMedico.add(mntmListCitaMedica);
+		
+		mntmCrearConsulta = new JMenuItem("Hacer Consulta");
+		mnMedico.add(mntmCrearConsulta);
+		
+		mntmRegistrarCita = new JMenuItem("Hacer Cita M\u00E9dica");
+		mntmRegistrarCita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegCita regc = new RegCita();
 				regc.setVisible(true);
 			}
 		});
-		mnAdministrador.add(mntmNewMenuItem);
-		
-		mnMedico = new JMenu("M\u00E9dico");
-		menuBar.add(mnMedico);
-		
-		mntmListCitaMedica = new JMenuItem("Lista Citas Medicas");
-		mnMedico.add(mntmListCitaMedica);
-		
-		mntmCrearConsulta = new JMenuItem("Hacer Consulta");
-		mnMedico.add(mntmCrearConsulta);
+		mnMedico.add(mntmRegistrarCita);
 		
 		mnVacunas = new JMenu("Vacunas");
 		menuBar.add(mnVacunas);
@@ -216,6 +222,8 @@ public class PrincipalClinica extends JFrame {
 		panelLogin = PanelLogin.getInstance();
 		panelLogin.setBounds(0, 45, 1124, 606);
 		panelMain.add(panelLogin);
+		
+		
 		
 		viewLoginPanel();
 	}
