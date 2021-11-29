@@ -131,7 +131,8 @@ public class PanelLogin extends JPanel {
 
 	}
 	
-	public void logOut() {
+	public boolean logOut() {
+		boolean salir = false;
 		int select = JOptionPane.showConfirmDialog(null, "¿Seguro que desea cerrar sesión?" , "Confirmación", JOptionPane.WARNING_MESSAGE);
 		if (select == JOptionPane.YES_OPTION) {
 			Clinica.getInstace().setLoginUser(null);
@@ -141,7 +142,9 @@ public class PanelLogin extends JPanel {
 			txtUsername.setEditable(true);
 			btnLogin.setText("Log In");
 			JOptionPane.showMessageDialog(null, "Sesión Finalizada", "Log Out", JOptionPane.INFORMATION_MESSAGE);
+			salir = true;
 		}
+		return salir;
 	}
 	
 	private void logIn(Usuario user) {

@@ -30,6 +30,8 @@ public class PrincipalClinica extends JFrame {
 	private JPanel contentPane;
 	private JPanel panelMain;
 	private JPanel panelUserInfo;
+	private ListUsuario panelListUsuario;
+	private ListCitaMedica panelListCitaMedica;
 	private JButton btnLogOut;
 	private JPanel panelUser;
 	private JMenuItem mntmRegUsuario;
@@ -92,6 +94,8 @@ public class PrincipalClinica extends JFrame {
 		contentPane.add(panelMain, BorderLayout.CENTER);
 		panelMain.setLayout(null);
 		
+		
+		
 		panelUserInfo = new JPanel();
 		panelUserInfo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelUserInfo.setBounds(0, 0, 1124, 46);
@@ -103,10 +107,11 @@ public class PrincipalClinica extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Usuario user = Clinica.getInstace().getLoginUser();
 				if(user != null) {
-					PanelLogin.getInstance().logOut();
-					btnLogOut.setText("Log In");
-					btnInicio.setEnabled(false);
-					viewLoginPanel();
+					if(PanelLogin.getInstance().logOut()) {
+						btnLogOut.setText("Log In");
+						btnInicio.setEnabled(false);
+						viewLoginPanel();
+					}
 				}
 			}
 		});
@@ -179,6 +184,11 @@ public class PrincipalClinica extends JFrame {
 		mnAdministrador.add(mntmRegEnfermedad);
 		
 		mntmListUsuarios = new JMenuItem("Lista de Usuarios");
+		mntmListUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewListUsuarioPanel();
+			}
+		});
 		mnAdministrador.add(mntmListUsuarios);
 		
 		
@@ -187,6 +197,11 @@ public class PrincipalClinica extends JFrame {
 		menuBar.add(mnMedico);
 		
 		mntmListCitaMedica = new JMenuItem("Lista de Citas Medicas");
+		mntmListCitaMedica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewListCitaMedicaPanel();
+			}
+		});
 		mnMedico.add(mntmListCitaMedica);
 		
 		mntmCrearConsulta = new JMenuItem("Hacer Consulta");
@@ -223,7 +238,13 @@ public class PrincipalClinica extends JFrame {
 		panelLogin.setBounds(0, 45, 1124, 606);
 		panelMain.add(panelLogin);
 		
+		panelListUsuario = new ListUsuario();
+		panelListUsuario.setBounds(0, 45, 1124, 606);
+		panelMain.add(panelListUsuario);
 		
+		panelListCitaMedica = new ListCitaMedica();
+		panelListUsuario.setBounds(0, 45, 1124, 606);
+		panelMain.add(panelListCitaMedica);
 		
 		viewLoginPanel();
 	}
@@ -236,12 +257,29 @@ public class PrincipalClinica extends JFrame {
 	private void viewLoginPanel() {
 		panelLogin.setVisible(true);
 		panelUser.setVisible(false);
+		panelListUsuario.setVisible(false);
+		panelListCitaMedica.setVisible(false);
 	}
 	
-	
 	public void viewCleanPanelUser() {
-		panelUser.setVisible(true);
 		panelLogin.setVisible(false);
+		panelUser.setVisible(true);
+		panelListUsuario.setVisible(false);
+		panelListCitaMedica.setVisible(false);
+	}
+	
+	public void viewListUsuarioPanel() {
+		panelLogin.setVisible(false);
+		panelUser.setVisible(true);
+		panelListUsuario.setVisible(true);
+		panelListCitaMedica.setVisible(false);
+	}
+	
+	public void viewListCitaMedicaPanel() {
+		panelLogin.setVisible(false);
+		panelUser.setVisible(true);
+		panelListUsuario.setVisible(false);
+		panelListCitaMedica.setVisible(true);
 	}
 	
 	// Recordar remover los comentario despues de todos los test.
