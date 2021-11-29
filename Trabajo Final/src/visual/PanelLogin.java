@@ -28,6 +28,10 @@ public class PanelLogin extends JPanel {
 	private JTextField txtPassword;
 	private JLabel lblNewLabel;
 	public static PanelLogin login = null;
+	private JPanel panel;
+	private JPanel panel_1;
+	private JLabel lblCita;
+	private JButton btnNewButton;
 
 	/**
 	 * Create the panel.
@@ -48,13 +52,30 @@ public class PanelLogin extends JPanel {
 		add(panelMain);
 		panelMain.setLayout(null);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(0, 11, 557, 595);
 		panelMain.add(panel);
 		panel.setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
+		lblCita = new JLabel("Hacer Cita");
+		lblCita.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCita.setFont(new Font("Tahoma", Font.BOLD, 42));
+		lblCita.setBounds(10, 53, 547, 82);
+		panel.add(lblCita);
+		
+		btnNewButton = new JButton("Hacer Cita");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegCita regCita = new RegCita();
+				regCita.setVisible(true);
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton.setBounds(113, 310, 334, 50);
+		panel.add(btnNewButton);
+		
+		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBounds(567, 11, 557, 595);
 		panelMain.add(panel_1);

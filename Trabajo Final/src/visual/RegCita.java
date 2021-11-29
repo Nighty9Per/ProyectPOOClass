@@ -63,8 +63,8 @@ public class RegCita extends JDialog {
 		setTitle("Registro de Citas");
 		setModal(true);
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setBounds(100, 100, 476, 236);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

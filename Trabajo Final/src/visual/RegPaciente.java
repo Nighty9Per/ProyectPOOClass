@@ -60,13 +60,13 @@ public class RegPaciente extends JDialog {
 		update = modificar;
 		setModal(true);
 		setResizable(false);
-		setLocationRelativeTo(null);
 		if(update == null) {
 			setTitle("Registrar Paciente");
 		} else {
 			setTitle("Modificar Paciente");
 		}
 		setBounds(100, 100, 597, 247);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
