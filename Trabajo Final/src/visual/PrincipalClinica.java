@@ -94,11 +94,9 @@ public class PrincipalClinica extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		panelMain = new JPanel();
-		panelMain.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelMain.setBorder(null);
 		contentPane.add(panelMain, BorderLayout.CENTER);
 		panelMain.setLayout(null);
-		
-		
 		
 		panelUserInfo = new JPanel();
 		panelUserInfo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -111,11 +109,7 @@ public class PrincipalClinica extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Usuario user = Clinica.getInstace().getLoginUser();
 				if(user != null) {
-					if(PanelLogin.getInstance().logOut()) {
-						btnLogOut.setText("Log In");
-						btnInicio.setEnabled(false);
-						viewLoginPanel();
-					}
+					PanelLogin.getInstance().logOut();
 				}
 			}
 		});
@@ -250,10 +244,11 @@ public class PrincipalClinica extends JFrame {
 		});
 		mnListEnfermedades.add(mntmNewMenuItem_6);
 		
+		
 		panelFoundation = new JPanel();
-		panelFoundation.setVisible(false);
 		panelFoundation.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelFoundation.setBounds(0, 67, 1124, 584);
+		panelFoundation.setVisible(false);
+		panelFoundation.setBounds(0, 62, 1124, 584);
 		panelMain.add(panelFoundation);
 		
 		panelLogin = PanelLogin.getInstance();
@@ -261,19 +256,24 @@ public class PrincipalClinica extends JFrame {
 		panelMain.add(panelLogin);
 		
 		panelListUsuario = new ListUsuario();
-		panelListUsuario.setBounds(0, 45, 1124, 606);
+		panelListUsuario.setBounds(0, 62, 1124, 584);
 		panelMain.add(panelListUsuario);
 		
 		panelListCitaMedica = new ListCitaMedica();
-		panelListUsuario.setBounds(0, 45, 1124, 606);
+		panelListCitaMedica.setLocation(0, 62);
+		panelListUsuario.setBounds(0, 62, 1124, 584);
 		panelMain.add(panelListCitaMedica);
 		
 		panelListPaciente = new ListPaciente();
-		panelListPaciente.setBounds(0, 45, 1124, 606);
+		panelListPaciente.setBounds(0, 62, 1124, 584);
 		panelMain.add(panelListPaciente);
 		
+		panelListVacuna = new ListVacuna();
+		panelListVacuna.setBounds(0, 62, 1124, 584);
+		panelMain.add(panelListVacuna);
+		
 		panelListEnfermedad = new ListEnfermedad();
-		panelListEnfermedad.setBounds(0, 45, 1124, 606);
+		panelListEnfermedad.setBounds(0, 62, 1124, 584);
 		panelMain.add(panelListEnfermedad);
 		
 		viewLoginPanel();
@@ -370,12 +370,14 @@ public class PrincipalClinica extends JFrame {
 			*/
 			btnLogOut.setText("Log Out");
 			btnInicio.setEnabled(true);
-			lblUser.setText(Clinica.getInstace().getLoginUser().getNombre());
+			lblUser.setText("User: " + Clinica.getInstace().getLoginUser().getNombre());
+			viewCleanPanelUser();
 		}
 		else {
+			lblUser.setText("User: N/A");
 			btnLogOut.setText("Log In");
-			lblUser.setText("N/A");
+			btnInicio.setEnabled(false);
+			viewLoginPanel();
 		}
-		viewCleanPanelUser();
 	}
 }

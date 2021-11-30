@@ -142,6 +142,7 @@ public class PanelLogin extends JPanel {
 			txtUsername.setEditable(true);
 			btnLogin.setText("Log In");
 			JOptionPane.showMessageDialog(null, "Sesión Finalizada", "Log Out", JOptionPane.INFORMATION_MESSAGE);
+			PrincipalClinica.getInstace().getUserLoginFeedback();
 			salir = true;
 		}
 		return salir;
