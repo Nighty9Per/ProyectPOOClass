@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logical.Clinica;
+import logical.Enfermedad;
+import logical.Paciente;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -48,7 +50,7 @@ public class RegConsulta extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta();
+			RegConsulta dialog = new RegConsulta(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -59,7 +61,7 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegConsulta() {
+	public RegConsulta(Paciente patient) {
 		setTitle("Registro de Consulta");
 		setResizable(false);
 		setModal(true);
@@ -221,6 +223,18 @@ public class RegConsulta extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnRegistro = new JButton("Registrar");
+				btnRegistro.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (rdbtnNegar.isSelected()) {
+							Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null);
+		
+						}else if (rdbtnAfirmar.isSelected()) {
+							String codigo = selected.substring(0, selected.lastIndexOf(":"));
+							Enfermedad sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
+							Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick);
+						}
+					}
+				});
 				btnRegistro.setActionCommand("OK");
 				buttonPane.add(btnRegistro);
 				getRootPane().setDefaultButton(btnRegistro);
