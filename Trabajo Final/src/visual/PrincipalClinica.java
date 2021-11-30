@@ -23,6 +23,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class PrincipalClinica extends JFrame {
 
@@ -82,6 +91,20 @@ public class PrincipalClinica extends JFrame {
 	}
 
 	private PrincipalClinica() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				try {
+					guardarDatos();
+				} catch (FileNotFoundException e1) {
+					// No se pundo encontrar un File.
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// Ha ocurrido un error al guardar
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		Clinica.getInstace().crearAdministrado("asd", "admin", "admin", "asd", "asdasd", "direasdasdccion", "asd");
 		setResizable(false);
@@ -134,7 +157,15 @@ public class PrincipalClinica extends JFrame {
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Clinica.getInstace().setLoginUser(null);
+				try {
+					guardarDatos();
+				} catch (FileNotFoundException e1) {
+					// No se pundo encontrar un File.
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// Ha ocurrido un error al guardar
+					e1.printStackTrace();
+				}
 				dispose();
 			}
 		});
@@ -279,8 +310,33 @@ public class PrincipalClinica extends JFrame {
 		viewLoginPanel();
 	}
 	
-	private void guardarDatos() {
+	private void guardarDatos() throws IOException {
+		Clinica.getInstace().setLoginUser(null);
+		File output = new File("clinica.dat");
+		FileOutputStream outputStream = new FileOutputStream(output);
+		ObjectOutputStream objectInput = new ObjectOutputStream(outputStream);
 		
+		
+	}
+	private void loadDatos() {
+		File input = new File("clinica.dat");
+		FileInputStream inputStream;
+		try {
+			inputStream = new FileInputStream(input);
+			try {
+				ObjectInputStream objectInput = new ObjectInputStream(inputStream);
+			} catch (IOException e) {
+				// Ha ocurrido un error con el IO.
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e1) {
+			// No se encontro clinica.dat
+			e1.printStackTrace();
+		}
+		
+		
+		
+		Clinica.getInstace().setLoginUser(null);
 	}
 	
 	// Poner el panel Login en frente
