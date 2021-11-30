@@ -241,7 +241,7 @@ public class Clinica implements Serializable{
 		return returnVacuna;
 	}
 	
-	private Enfermedad buscarEnfermedadCodigo(String codigo) {
+	public Enfermedad buscarEnfermedadCodigo(String codigo) {
 		Enfermedad enf = null;
 		boolean encontrado = false;
 		int i = 0, cantEnfermedades = misEnfermedas.size();
