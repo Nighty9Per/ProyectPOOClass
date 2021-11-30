@@ -319,22 +319,17 @@ public class PrincipalClinica extends JFrame {
 		
 	}
 	private void loadDatos() {
-		File input = new File("clinica.dat");
-		FileInputStream inputStream;
 		try {
-			inputStream = new FileInputStream(input);
-			try {
-				ObjectInputStream objectInput = new ObjectInputStream(inputStream);
-			} catch (IOException e) {
-				// Ha ocurrido un error con el IO.
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e1) {
-			// No se encontro clinica.dat
-			e1.printStackTrace();
+			ObjectInputStream objInput = new ObjectInputStream(new FileInputStream("clinica.dat"));
+			Clinica.getInstace().setClinica((Clinica)objInput.readObject());
+			objInput.close();
+		} catch (IOException e) {
+			// Ha ocurrido un error con el IO.
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// No se encontro objeto Clinica.
+			e.printStackTrace();
 		}
-		
-		
 		
 		Clinica.getInstace().setLoginUser(null);
 	}

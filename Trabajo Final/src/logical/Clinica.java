@@ -23,7 +23,7 @@ public class Clinica implements Serializable{
 	private int generateCodigoHistorial;
 	private int generateCodigoVacuna;
 	
-	public static Clinica alma = null;
+	private static Clinica clinica = null;
 	private Usuario loginUser = null;
 	
 	private Clinica () {
@@ -45,10 +45,10 @@ public class Clinica implements Serializable{
 	}
 	
 	public static Clinica getInstace() {
-		if(alma == null) {
-			alma = new Clinica();
+		if(getClinica() == null) {
+			setClinica(new Clinica());
 		}
-		return alma;
+		return getClinica();
 	}
 
 	public ArrayList<Paciente> getMisPacientes() {
@@ -356,6 +356,14 @@ public class Clinica implements Serializable{
 
 	public void setLoginUser(Usuario user) {
 		loginUser = user;
+	}
+
+	public static Clinica getClinica() {
+		return clinica;
+	}
+
+	public static void setClinica(Clinica clinica) {
+		Clinica.clinica = clinica;
 	}
 	
 }
