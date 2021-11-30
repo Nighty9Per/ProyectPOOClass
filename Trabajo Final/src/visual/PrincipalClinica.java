@@ -66,6 +66,7 @@ public class PrincipalClinica extends JFrame {
 	private JMenuItem mntmRegistrarCita;
 	private JMenuItem mntmListUsuarios;
 	private JMenuItem mntmMedicoPacientes;
+	private JMenuItem mntmNewMenuItem;
 
 	/**
 	 * Launch the application.
@@ -206,6 +207,16 @@ public class PrincipalClinica extends JFrame {
 				viewListUsuarioPanel();
 			}
 		});
+		
+		mntmNewMenuItem = new JMenuItem("Registrar Paciente");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegPaciente regp = new RegPaciente(null, null);
+				regp.setVisible(true);
+				
+			}
+		});
+		mnAdministrador.add(mntmNewMenuItem);
 		mnAdministrador.add(mntmListUsuarios);
 		
 		
