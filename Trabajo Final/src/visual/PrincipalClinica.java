@@ -94,19 +94,15 @@ public class PrincipalClinica extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				try {
-					guardarDatos();
-				} catch (FileNotFoundException e1) {
-					// No se pundo encontrar un File.
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// Ha ocurrido un error al guardar
-					e1.printStackTrace();
-				}
+				guardarDatos();
 			}
 		});
 		
-		Clinica.getInstace().crearAdministrado("asd", "admin", "admin", "asd", "asdasd", "direasdasdccion", "asd");
+		loadDatos();
+		if(Clinica.getClinica().getMisUsuarios().size() == 0) {
+			Clinica.getInstace().crearAdministrado("asd", "admin", "admin", "asd", "asdasd", "direasdasdccion", "asd");
+		}
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1150, 700);
@@ -157,15 +153,7 @@ public class PrincipalClinica extends JFrame {
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					guardarDatos();
-				} catch (FileNotFoundException e1) {
-					// No se pundo encontrar un File.
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// Ha ocurrido un error al guardar
-					e1.printStackTrace();
-				}
+				guardarDatos();
 				dispose();
 			}
 		});
@@ -310,13 +298,17 @@ public class PrincipalClinica extends JFrame {
 		viewLoginPanel();
 	}
 	
-	private void guardarDatos() throws IOException {
+	private void guardarDatos(){
 		Clinica.getInstace().setLoginUser(null);
-		File output = new File("clinica.dat");
-		FileOutputStream outputStream = new FileOutputStream(output);
-		ObjectOutputStream objectInput = new ObjectOutputStream(outputStream);
-		
-		
+		ObjectOutputStream objOutput;
+		try {
+			objOutput = new ObjectOutputStream(new FileOutputStream("clinica.dat"));
+			objOutput.writeObject(Clinica.getInstace().getClinica());
+			objOutput.close();
+		} catch (IOException e) {
+			// Ha ocurrido un problema.
+			e.printStackTrace();
+		}
 	}
 	private void loadDatos() {
 		try {
