@@ -86,6 +86,8 @@ public class RegPaciente extends JDialog {
 				if (update != null) {
 					txtCedula.setEnabled(false);
 				}
+				
+				txtCedula.setText(cita.getCedulaPaciente());
 				txtCedula.setColumns(10);
 				txtCedula.setBounds(63, 8, 113, 23);
 				panel.add(txtCedula);
@@ -204,12 +206,10 @@ public class RegPaciente extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Date dateaux = (Date) spnNacimiento.getValue();
 						if (update == null) {
-							Clinica.getInstace().crearPaciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
+							Paciente pat = Clinica.getInstace().crearPaciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
 							JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
-							Paciente pat = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
-							HistorialClinica history = Clinica.getInstace().crearHistorial();
 							clean();
-							RegConsulta regc = new RegConsulta(pat, history);
+							RegConsulta regc = new RegConsulta(pat, pat.getHistorial());
 							regc.setVisible(true);
 						}else {
 							Paciente aux = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());

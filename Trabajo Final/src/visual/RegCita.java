@@ -42,6 +42,7 @@ public class RegCita extends JDialog {
 	private JComboBox cbxMedico;
 	private DefaultComboBoxModel<String> cadena = null;
 	private ArrayList<String> cadCodigo = null;
+	private JTextField txtCed;
 
 	/**
 	 * Launch the application.
@@ -63,7 +64,7 @@ public class RegCita extends JDialog {
 		setTitle("Registro de Citas");
 		setModal(true);
 		setResizable(false);
-		setBounds(100, 100, 476, 236);
+		setBounds(100, 100, 476, 264);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -98,7 +99,7 @@ public class RegCita extends JDialog {
 		spnFecha.setModel(new SpinnerDateModel(date, null, null, Calendar.YEAR));
 		JSpinner.DateEditor de_spnFecha = new JSpinner.DateEditor(spnFecha,"dd/MM/yyyy");
 		spnFecha.setEditor(de_spnFecha);
-		spnFecha.setBounds(301, 7, 124, 23);
+		spnFecha.setBounds(301, 7, 92, 23);
 		panel.add(spnFecha);
 		
 		lblNewLabel_2 = new JLabel("Nombre Agendado:");
@@ -111,20 +112,20 @@ public class RegCita extends JDialog {
 		txtNombre.setColumns(10);
 		
 		lblTlefonoAgendado = new JLabel("T\u00E9lefono Agendado:");
-		lblTlefonoAgendado.setBounds(155, 68, 124, 14);
+		lblTlefonoAgendado.setBounds(10, 130, 124, 14);
 		panel.add(lblTlefonoAgendado);
 		
 		txtTelefono = new JTextField();
 		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(155, 91, 124, 23);
+		txtTelefono.setBounds(10, 153, 124, 23);
 		panel.add(txtTelefono);
 		
 		lblNewLabel_3 = new JLabel("M\u00E9dico Agendado:");
-		lblNewLabel_3.setBounds(301, 68, 124, 14);
+		lblNewLabel_3.setBounds(211, 67, 124, 14);
 		panel.add(lblNewLabel_3);
 		
 		cbxMedico = new JComboBox();
-		cbxMedico.setBounds(301, 92, 124, 23);
+		cbxMedico.setBounds(211, 91, 124, 23);
 		cadena = new DefaultComboBoxModel<String>();
 		cadCodigo = new ArrayList<String>();
 		cadena.addElement("<<Seleccione>>");
@@ -137,6 +138,15 @@ public class RegCita extends JDialog {
 		}
 		cbxMedico.setModel(cadena);
 		panel.add(cbxMedico);
+		
+		JLabel lblCdulaAgendada = new JLabel("C\u00E9dula Agendada:");
+		lblCdulaAgendada.setBounds(211, 130, 124, 14);
+		panel.add(lblCdulaAgendada);
+		
+		txtCed = new JTextField();
+		txtCed.setColumns(10);
+		txtCed.setBounds(211, 153, 124, 23);
+		panel.add(txtCed);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -148,7 +158,7 @@ public class RegCita extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Usuario med = Clinica.getInstace().buscarUsuarioCodigo(cadCodigo.get(cbxMedico.getSelectedIndex()));
 						Date dateaux = (Date) spnFecha.getValue();
-						Clinica.getInstace().crearCitaMedica(dateaux, txtNombre.getText(), txtTelefono.getText(), med);
+						Clinica.getInstace().crearCitaMedica(txtCed.getText(),dateaux, txtNombre.getText(), txtTelefono.getText(), med);
 						JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
 						clean();
 					}
