@@ -181,6 +181,17 @@ public class RegPaciente extends JDialog {
 			txtDireccion.setBounds(322, 110, 229, 23);
 			panel.add(txtDireccion);
 		}
+		if (update != null) {
+			txtCedula.setText(update.getCedula());
+			txtNombre.setText(update.getNombre());
+			txtTelefono.setText(update.getTelefono());
+			txtDireccion.setText(update.getDireccion());
+			cbxSexo.setSelectedItem(update.getGenero());
+			spnNacimiento.setModel(new SpinnerDateModel(update.getFechaNacimiento(), null, null, Calendar.YEAR));
+			JSpinner.DateEditor de_spnFecha = new JSpinner.DateEditor(spnNacimiento,"dd/MM/yyyy");
+			spnNacimiento.setEditor(de_spnFecha);
+		}
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));

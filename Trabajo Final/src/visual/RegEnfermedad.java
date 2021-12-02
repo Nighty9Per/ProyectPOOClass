@@ -127,6 +127,13 @@ public class RegEnfermedad extends JDialog {
 				scrollPane.setViewportView(txtpDescrip);
 			}
 		}
+		if (update != null) {
+			txtCod.setText(update.getCodigoEnfermedad());
+			txtNombre.setText(update.getNombreEnfermedad());
+			txtpDescrip.setText(update.getDescripcionEnfermedad());
+			cbxTipo.setSelectedItem(update.getTipoEnfermedad());
+		}
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));

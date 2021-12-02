@@ -263,6 +263,32 @@ public class RegUsuario extends JDialog {
 				pnMed.add(txtEspecialidad);
 			}
 		}
+		if (update != null) {
+			txtCed.setText(update.getCedula());
+			txtCodigo.setText(update.getCodigoUsuario());
+			txtNombre.setText(update.getNombre());
+			txtTelefono.setText(update.getTelefono());
+			txtDirec.setText(update.getDireccion());
+			txtLogin.setText(update.getLogin());
+			txtPassword.setText(update.getPassword());
+			if (update instanceof U_Administrador) {
+				U_Administrador aux = (U_Administrador)update;
+				pnAdmin.setVisible(true);
+				rdbtnAdmin.setEnabled(false);
+				rdbtnMedico.setEnabled(false);
+				rdbtnAdmin.setSelected(true);
+				txtPuesto.setText(aux.getPuestoLaboral());
+			}else if (update instanceof U_Medico) {
+				U_Medico aux = (U_Medico)update;
+				pnMed.setVisible(true);
+				rdbtnAdmin.setEnabled(false);
+				rdbtnMedico.setEnabled(false);
+				rdbtnMedico.setSelected(true);
+				txtCodMed.setText(aux.getCodigoMedico());
+				txtEspecialidad.setText(aux.getEspecialidad());
+			}
+		}
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -292,6 +318,21 @@ public class RegUsuario extends JDialog {
 									txtCodigo.setText("M-"+Clinica.getInstace().getGenerateCodigoMedico());
 								}
 								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+							}else {
+								JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intente de nuevo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+							}
+						}else {
+							if (pass.equals(conf)) {
+								if (rdbtnAdmin.isSelected()) {
+									Usuario aux = new U_Administrador(txtCodigo.getText(), txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtPuesto.getText());
+									Clinica.getInstace().editarUsuario(update.getCodigoUsuario(), aux);
+								}
+								if (rdbtnMedico.isSelected()) {
+									Usuario aux = new U_Medico(txtCodigo.getText(), txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtCodMed.getText(), txtEspecialidad.getText());
+								}
+								JOptionPane.showMessageDialog(null, "Usuario editado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
 
 							}else {
 								JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intente de nuevo", "Advertencia", JOptionPane.WARNING_MESSAGE);
