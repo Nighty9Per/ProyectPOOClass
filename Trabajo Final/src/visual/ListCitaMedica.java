@@ -9,7 +9,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logical.CitaMedica;
+import logical.Clinica;
+import logical.U_Medico;
+import logical.Usuario;
+
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
@@ -17,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListCitaMedica extends JPanel {
 
@@ -31,6 +41,9 @@ public class ListCitaMedica extends JPanel {
 	private JComboBox cbxBusqueda;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private static DefaultTableModel model;
+	private static Object[] rows;
+	private ArrayList<CitaMedica> arrayListCita;
 	/**
 	 * Create the panel.
 	 */
@@ -76,6 +89,15 @@ public class ListCitaMedica extends JPanel {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		String[] headers = {"Codigo", "Nombre del Paciente", "Fecha de Cita", "Telefono"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers);
+		table.setModel(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 		
@@ -120,5 +142,35 @@ public class ListCitaMedica extends JPanel {
 	protected void resetFiltros() {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
+	}
+	
+	public void loadCitas() {
+		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user != null) {
+			if(user instanceof U_Medico) {
+				loadArrayCitas(user.getCedula());
+				model.setRowCount(0);
+				rows = new Object[model.getColumnCount()];
+				for (CitaMedica citaMedica : arrayListCita) {
+					rows[0] = citaMedica.getCodigoCita();
+					rows[1] = citaMedica.getNombrePaciente();
+					rows[2] = citaMedica.getFechaCita();
+					rows[3] = citaMedica.getTelefonoPaciente();
+				}
+			}
+		}
+	}
+	
+	private void loadArrayCitas(String cedulaMedico) {
+		if(Clinica.getInstace().getLoginUser() != null) {
+			if(Clinica.getInstace().getLoginUser() instanceof U_Medico) {
+				arrayListCita.removeAll(arrayListCita);
+				for (CitaMedica citaMedica : Clinica.getInstace().getMisCitas()) {
+					if(citaMedica.getMedico().getCedula().equalsIgnoreCase(cedulaMedico)) {
+						arrayListCita.add(citaMedica);
+					}
+				}
+			}
+		}
 	}
 }

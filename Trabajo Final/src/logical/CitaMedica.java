@@ -11,15 +11,17 @@ public class CitaMedica implements Serializable{
 	 */
 	private String codigoCita;
 	private Date fechaCita;
+	private String cedulaPaciente;
 	private String nombrePaciente;
 	private String telefonoPaciente;
 	private U_Medico medico;
 	private Boolean cancelada;
 	
-	public CitaMedica(String codigoCita, Date fechaCita, String nombrePaciente, String telefonoPaciente,
+	public CitaMedica(String codigoCita, String cedulaPaciente, Date fechaCita, String nombrePaciente, String telefonoPaciente,
 			U_Medico medico) {
 		super();
 		this.codigoCita = codigoCita;
+		this.cedulaPaciente = cedulaPaciente;
 		this.fechaCita = fechaCita;
 		this.nombrePaciente = nombrePaciente;
 		this.telefonoPaciente = telefonoPaciente;
@@ -62,6 +64,12 @@ public class CitaMedica implements Serializable{
 	
 	public void setCancelada(Boolean cancelada) {
 		this.cancelada = cancelada;
+	}
+	public String getCedulaPaciente() {
+		return cedulaPaciente;
+	}
+	public void setCedulaPaciente(String cedulaPaciente) {
+		this.cedulaPaciente = cedulaPaciente;
 	}
 
 }

@@ -136,8 +136,8 @@ public class Clinica implements Serializable{
 	}
 	
 	// Crear Cita Medica.
-	public CitaMedica crearCitaMedica(Date fechaCita, String nombrePaciente, String telefonoPaciente, Usuario medico) {
-		CitaMedica cita = new CitaMedica("CM-"+generateCodigoCita, fechaCita, nombrePaciente, telefonoPaciente, (U_Medico) medico);
+	public CitaMedica crearCitaMedica(String cedulaPaciente, Date fechaCita, String nombrePaciente, String telefonoPaciente, Usuario medico) {
+		CitaMedica cita = new CitaMedica("CM-"+generateCodigoCita, cedulaPaciente, fechaCita, nombrePaciente, telefonoPaciente, (U_Medico) medico);
 		generateCodigoCita++;
 		addCitaMedica(cita);
 		return cita;
