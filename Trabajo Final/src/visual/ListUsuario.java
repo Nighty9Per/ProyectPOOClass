@@ -4,10 +4,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logical.CitaMedica;
+import logical.Clinica;
+import logical.U_Administrador;
+import logical.U_Medico;
+import logical.Usuario;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -16,6 +24,8 @@ import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListUsuario extends JPanel {
 
@@ -30,6 +40,9 @@ public class ListUsuario extends JPanel {
 	private JComboBox cbxBusqueda;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private static DefaultTableModel model;
+	private static Object[] rows;
+	private ArrayList<Usuario> arrayListUsuario;
 	/**
 	 * Create the panel.
 	 */
@@ -74,6 +87,14 @@ public class ListUsuario extends JPanel {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		String[] headers = {"Codigo Usuario", "Cedula Usurio", "Nombre del Usuario", "Trabajo", "Telefono"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers);
 		scrollPane.setViewportView(table);
 		
 		panelFiltro = new JPanel();
@@ -119,4 +140,37 @@ public class ListUsuario extends JPanel {
 		cbxBusqueda.setSelectedIndex(0);
 	}
 
+	public void loadCitas() {
+		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user != null) {
+			if(user instanceof U_Administrador) {
+				filterCitaMedica(user.getCedula());
+				model.setRowCount(0);
+				rows = new Object[model.getColumnCount()];
+				for (Usuario usuario : arrayListUsuario) {
+					rows[0] = usuario.getCodigoUsuario();
+					rows[1] = usuario.getCedula();
+					rows[2] = usuario.getNombre();
+					if(usuario instanceof U_Medico) {
+						((U_Medico) usuario).getEspecialidad();
+					}
+					else {
+						((U_Administrador) usuario).getPuestoLaboral();
+					}
+					rows[3] = usuario.getTelefono();
+				}
+			}
+		}
+	}
+	
+	private void filterCitaMedica(String cedulaMedico) {
+		if(Clinica.getInstace().getLoginUser() != null) {
+			if(Clinica.getInstace().getLoginUser() instanceof U_Medico) {
+				arrayListUsuario.removeAll(arrayListUsuario);
+				for (Usuario usuario : Clinica.getInstace().getMisUsuarios()) {
+					arrayListUsuario.add(usuario);
+				}
+			}
+		}
+	}
 }

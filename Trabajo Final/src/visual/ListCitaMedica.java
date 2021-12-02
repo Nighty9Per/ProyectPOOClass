@@ -94,7 +94,7 @@ public class ListCitaMedica extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		String[] headers = {"Codigo", "Nombre del Paciente", "Fecha de Cita", "Telefono"};
+		String[] headers = {"Codigo", "Cedula Paciente", "Nombre del Paciente", "Fecha de Cita", "Telefono"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(headers);
 		table.setModel(model);
@@ -148,20 +148,21 @@ public class ListCitaMedica extends JPanel {
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null) {
 			if(user instanceof U_Medico) {
-				loadArrayCitas(user.getCedula());
+				filterCitaMedica(user.getCedula());
 				model.setRowCount(0);
 				rows = new Object[model.getColumnCount()];
 				for (CitaMedica citaMedica : arrayListCita) {
 					rows[0] = citaMedica.getCodigoCita();
-					rows[1] = citaMedica.getNombrePaciente();
-					rows[2] = citaMedica.getFechaCita();
-					rows[3] = citaMedica.getTelefonoPaciente();
+					rows[1] = citaMedica.getCedulaPaciente();
+					rows[2] = citaMedica.getNombrePaciente();
+					rows[3] = citaMedica.getFechaCita();
+					rows[4] = citaMedica.getTelefonoPaciente();
 				}
 			}
 		}
 	}
 	
-	private void loadArrayCitas(String cedulaMedico) {
+	private void filterCitaMedica(String cedulaMedico) {
 		if(Clinica.getInstace().getLoginUser() != null) {
 			if(Clinica.getInstace().getLoginUser() instanceof U_Medico) {
 				arrayListCita.removeAll(arrayListCita);
