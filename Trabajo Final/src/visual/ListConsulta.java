@@ -115,7 +115,7 @@ public class ListConsulta extends JPanel {
 		panelFiltro.add(lblFiltroDeBusqueda);
 		
 	}
-	protected void resetFiltros() {
+	private void resetFiltros() {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
 	}

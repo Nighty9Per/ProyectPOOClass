@@ -135,9 +135,10 @@ public class ListUsuario extends JPanel {
 		panelFiltro.add(lblFiltroDeBusqueda);
 		
 	}
-	protected void resetFiltros() {
+	private void resetFiltros() {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
+		loadCitas();
 	}
 
 	public void loadCitas() {
