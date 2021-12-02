@@ -48,6 +48,7 @@ public class ListUsuario extends JPanel {
 	 */
 	public ListUsuario() {
 
+		arrayListUsuario = new ArrayList<Usuario>();
 		setLayout(null);
 		setBounds(0, 67, 1124, 584);
 		
@@ -95,6 +96,7 @@ public class ListUsuario extends JPanel {
 		String[] headers = {"Codigo Usuario", "Cedula Usurio", "Nombre del Usuario", "Trabajo", "Telefono"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(headers);
+		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
 		panelFiltro = new JPanel();
@@ -134,43 +136,42 @@ public class ListUsuario extends JPanel {
 		lblFiltroDeBusqueda.setBounds(170, 15, 128, 14);
 		panelFiltro.add(lblFiltroDeBusqueda);
 		
+		loadUsuarios();
 	}
 	private void resetFiltros() {
+		
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
-		loadCitas();
+		loadUsuarios();
 	}
 
-	public void loadCitas() {
+	public void loadUsuarios() {
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null) {
-			if(user instanceof U_Administrador) {
-				filterCitaMedica(user.getCedula());
-				model.setRowCount(0);
-				rows = new Object[model.getColumnCount()];
-				for (Usuario usuario : arrayListUsuario) {
-					rows[0] = usuario.getCodigoUsuario();
-					rows[1] = usuario.getCedula();
-					rows[2] = usuario.getNombre();
-					if(usuario instanceof U_Medico) {
-						((U_Medico) usuario).getEspecialidad();
-					}
-					else {
-						((U_Administrador) usuario).getPuestoLaboral();
-					}
-					rows[3] = usuario.getTelefono();
+			filterUsuario(user.getCedula());
+			model.setRowCount(0);
+			rows = new Object[model.getColumnCount()];
+			for (Usuario usuario : arrayListUsuario) {
+				rows[0] = usuario.getCodigoUsuario();
+				rows[1] = usuario.getCedula();
+				rows[2] = usuario.getNombre();
+				if(usuario instanceof U_Medico) {
+					((U_Medico) usuario).getEspecialidad();
 				}
+				else if(usuario instanceof U_Administrador) {
+					((U_Administrador) usuario).getPuestoLaboral();
+				}
+				rows[3] = usuario.getTelefono();
+				model.addRow(rows);
 			}
 		}
 	}
 	
-	private void filterCitaMedica(String cedulaMedico) {
+	private void filterUsuario(String cedulaMedico) {
 		if(Clinica.getInstace().getLoginUser() != null) {
-			if(Clinica.getInstace().getLoginUser() instanceof U_Medico) {
-				arrayListUsuario.removeAll(arrayListUsuario);
-				for (Usuario usuario : Clinica.getInstace().getMisUsuarios()) {
-					arrayListUsuario.add(usuario);
-				}
+			arrayListUsuario.removeAll(arrayListUsuario);
+			for (Usuario usuario : Clinica.getInstace().getMisUsuarios()) {
+				arrayListUsuario.add(usuario);
 			}
 		}
 	}

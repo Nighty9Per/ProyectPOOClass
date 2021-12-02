@@ -51,6 +51,7 @@ public class ListCitaMedica extends JPanel {
 
 		setLayout(null);
 		setBounds(0, 67, 1124, 584);
+		arrayListCita = new ArrayList<CitaMedica>();
 		
 		panelMain = new JPanel();
 		panelMain.setBounds(0, 0, 1124, 584);
@@ -148,8 +149,8 @@ public class ListCitaMedica extends JPanel {
 	public void loadCitas() {
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null) {
-			if(user instanceof U_Medico) {
-				filterCitaMedica(user.getCedula());
+			if(user instanceof U_Medico){
+				filterCitaMedica(user);
 				model.setRowCount(0);
 				rows = new Object[model.getColumnCount()];
 				for (CitaMedica citaMedica : arrayListCita) {
@@ -158,17 +159,18 @@ public class ListCitaMedica extends JPanel {
 					rows[2] = citaMedica.getNombrePaciente();
 					rows[3] = citaMedica.getFechaCita();
 					rows[4] = citaMedica.getTelefonoPaciente();
+					model.addRow(rows);
 				}
 			}
 		}
 	}
 	
-	private void filterCitaMedica(String cedulaMedico) {
-		if(Clinica.getInstace().getLoginUser() != null) {
-			if(Clinica.getInstace().getLoginUser() instanceof U_Medico) {
+	private void filterCitaMedica(Usuario user) {
+		if(user != null) {
+			if(user instanceof U_Medico){
 				arrayListCita.removeAll(arrayListCita);
 				for (CitaMedica citaMedica : Clinica.getInstace().getMisCitas()) {
-					if(citaMedica.getMedico().getCedula().equalsIgnoreCase(cedulaMedico)) {
+					if(citaMedica.getMedico().getCodigoUsuario().equalsIgnoreCase(user.getCodigoUsuario())) {
 						arrayListCita.add(citaMedica);
 					}
 				}
