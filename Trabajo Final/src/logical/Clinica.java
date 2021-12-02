@@ -120,7 +120,7 @@ public class Clinica implements Serializable{
 	}
 
 	// Crear Historial Medico.
-	private HistorialClinica crearHistorial() {
+	public HistorialClinica crearHistorial() {
 		HistorialClinica historial = new HistorialClinica("H-" + generateCodigoHistorial);
 		generateCodigoHistorial++;
 		return historial;

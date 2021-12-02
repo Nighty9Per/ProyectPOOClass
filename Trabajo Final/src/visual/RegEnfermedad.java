@@ -88,9 +88,9 @@ public class RegEnfermedad extends JDialog {
 				panel.add(txtCod);
 			}
 			{
-				JLabel label = new JLabel("Nombre de Vacuna:");
-				label.setBounds(10, 71, 123, 14);
-				panel.add(label);
+				JLabel lblNombreDeEnfermedad = new JLabel("Nombre de Enfermedad:");
+				lblNombreDeEnfermedad.setBounds(10, 71, 164, 14);
+				panel.add(lblNombreDeEnfermedad);
 			}
 			{
 				txtNombre = new JTextField();

@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import logical.CitaMedica;
 import logical.Clinica;
 import logical.Enfermedad;
+import logical.HistorialClinica;
 import logical.Paciente;
 
 import javax.swing.JLabel;
@@ -205,9 +206,10 @@ public class RegPaciente extends JDialog {
 						if (update == null) {
 							Clinica.getInstace().crearPaciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
 							JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
-							//Paciente pat = new Paciente(txtCedula.getText(), nombre, genero, fechaNacimiento, direccion, telefono)
+							Paciente pat = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
+							HistorialClinica history = Clinica.getInstace().crearHistorial();
 							clean();
-							RegConsulta regc = new RegConsulta(null);
+							RegConsulta regc = new RegConsulta(pat, history);
 							regc.setVisible(true);
 						}else {
 							Paciente aux = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());

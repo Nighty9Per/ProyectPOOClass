@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logical.Clinica;
+import logical.Consulta;
 import logical.Enfermedad;
+import logical.HistorialClinica;
 import logical.Paciente;
 
 import javax.swing.JLabel;
@@ -18,6 +20,9 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
+
+import com.sun.org.apache.bcel.internal.classfile.ConstantUtf8;
+
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -50,7 +55,7 @@ public class RegConsulta extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta(null);
+			RegConsulta dialog = new RegConsulta(null,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -61,7 +66,7 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegConsulta(Paciente patient) {
+	public RegConsulta(Paciente patient, HistorialClinica history) {
 		setTitle("Registro de Consulta");
 		setResizable(false);
 		setModal(true);
@@ -226,12 +231,12 @@ public class RegConsulta extends JDialog {
 				btnRegistro.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (rdbtnNegar.isSelected()) {
-							Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null);
+							Consulta aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null);
 		
 						}else if (rdbtnAfirmar.isSelected()) {
 							String codigo = selected.substring(0, selected.lastIndexOf(":"));
 							Enfermedad sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
-							Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick);
+							Consulta aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick);
 						}
 					}
 				});
