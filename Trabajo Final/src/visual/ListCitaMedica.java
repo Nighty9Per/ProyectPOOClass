@@ -20,15 +20,19 @@ import logical.Usuario;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerDateModel;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 public class ListCitaMedica extends JPanel {
 
@@ -179,7 +183,7 @@ public class ListCitaMedica extends JPanel {
 		panelFiltro.add(btnBuscar);
 		
 		cbxBusqueda = new JComboBox();
-		cbxBusqueda.setModel(new DefaultComboBoxModel(new String[] {"Cedula", "Nombre"}));
+		cbxBusqueda.setModel(new DefaultComboBoxModel(new String[] {"Cedula del Paciente", "Nombre del Paciente"}));
 		cbxBusqueda.setBounds(170, 34, 150, 23);
 		panelFiltro.add(cbxBusqueda);
 		
@@ -188,12 +192,15 @@ public class ListCitaMedica extends JPanel {
 		panelFiltro.add(lblFiltroDeBusqueda);
 		
 	}
+	
+	// Reset Filtros
 	private void resetFiltros() {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
 		loadCitas();
 	}
 	
+	// Load Citas a Tabla
 	public void loadCitas() {
 		btnEnable(false);
 		Usuario user = Clinica.getInstace().getLoginUser();
@@ -206,7 +213,9 @@ public class ListCitaMedica extends JPanel {
 					rows[0] = citaMedica.getCodigoCita();
 					rows[1] = citaMedica.getCedulaPaciente();
 					rows[2] = citaMedica.getNombrePaciente();
-					rows[3] = citaMedica.getFechaCita();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+					String fecha = dateFormat.format(citaMedica.getFechaCita()).toString();
+					rows[3] = fecha;
 					rows[4] = citaMedica.getTelefonoPaciente();
 					model.addRow(rows);
 				}
@@ -214,19 +223,34 @@ public class ListCitaMedica extends JPanel {
 		}
 	}
 	
+	// Filtro de Busqueda
 	private void filterCitaMedica(Usuario user) {
 		if(user != null) {
 			if(user instanceof U_Medico){
 				arrayListCita.removeAll(arrayListCita);
 				for (CitaMedica citaMedica : Clinica.getInstace().getMisCitas()) {
-					if(citaMedica.getMedico().getCodigoUsuario().equalsIgnoreCase(user.getCodigoUsuario())) {
-						arrayListCita.add(citaMedica);
+					if(!citaMedica.getMedico().getCodigoUsuario().equalsIgnoreCase(user.getCodigoUsuario())) {
+						continue;
 					}
+					if(!txtBuscar.getText().equalsIgnoreCase("")) {
+						if(cbxBusqueda.getSelectedIndex() == 0) {
+							if(!filtroCedula(citaMedica.getCedulaPaciente())) {
+								continue;
+							}
+						}
+						if(cbxBusqueda.getSelectedIndex() == 1) {
+							if(!filtroNombre(citaMedica.getNombrePaciente())) {
+								continue;
+							}
+						}
+					}
+					arrayListCita.add(citaMedica);
 				}
 			}
 		}
 	}
 	
+	// Enable or Disable Buttons.
 	private void btnEnable(boolean enable) {
 		if(enable) {
 			btnConsulta.setEnabled(true);
@@ -238,11 +262,30 @@ public class ListCitaMedica extends JPanel {
 		}
 	}
 	
+	// Obtener la cita Medica de la tabla
 	private CitaMedica getCitaTable() {
 		CitaMedica cita = null;
 		if(table.getSelectedRow() != -1) {
 			cita = Clinica.getInstace().buscaCitaMedicaCodigo(table.getValueAt(table.getSelectedRow(), 0).toString());
 		}
 		return cita;
+	}
+	
+	// Filtro de Cedula
+	private boolean filtroCedula(String cedulaPaciente) {
+		boolean pass = false;
+		if(txtBuscar.getText().equalsIgnoreCase(cedulaPaciente)) {
+			pass = true;
+		}
+		return pass;
+	}
+	
+	// Filtro de Nombre
+	private boolean filtroNombre(String nombrePaciente) {
+		boolean pass = false;
+		if(txtBuscar.getText().equalsIgnoreCase(nombrePaciente)) {
+			pass = true;
+		}
+		return pass;
 	}
 }
