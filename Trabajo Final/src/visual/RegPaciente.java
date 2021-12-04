@@ -36,7 +36,6 @@ public class RegPaciente extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtTelefono;
 	private JTextField txtDireccion;
-	private JButton btnBuscar;
 	private JComboBox cbxSexo;
 	private JSpinner spnNacimiento;
 	private static Paciente update = null;
@@ -83,6 +82,8 @@ public class RegPaciente extends JDialog {
 			panel.add(lblNewLabel);
 			{
 				txtCedula = new JTextField();
+				txtCedula.setEnabled(false);
+				txtCedula.setText(cita.getCedulaPaciente());
 				if (update != null) {
 					txtCedula.setEnabled(false);
 				}
@@ -99,7 +100,7 @@ public class RegPaciente extends JDialog {
 			}
 			{
 				txtNombre = new JTextField();
-				txtNombre.setEnabled(false);
+				txtNombre.setText(cita.getNombrePaciente());
 				if (update != null) {
 					txtNombre.setEnabled(true);
 				}
@@ -109,7 +110,6 @@ public class RegPaciente extends JDialog {
 			}
 			
 			spnNacimiento = new JSpinner();
-			spnNacimiento.setEnabled(false);
 			Date date = new Date();
 			spnNacimiento.setModel(new SpinnerDateModel(date, null, null, Calendar.YEAR));
 			JSpinner.DateEditor de_spnFecha = new JSpinner.DateEditor(spnNacimiento,"dd/MM/yyyy");
@@ -117,35 +117,13 @@ public class RegPaciente extends JDialog {
 			spnNacimiento.setBounds(119, 110, 124, 23);
 			panel.add(spnNacimiento);
 			
-			btnBuscar = new JButton("Buscar");
-			if(update != null) {
-				btnBuscar.setEnabled(false);
-			}
-			btnBuscar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					Paciente pat = Clinica.getInstace().buscarPacienteCedula(txtCedula.getText());
-						if (pat == null) {
-							txtDireccion.setEnabled(true);
-							cbxSexo.setEnabled(true);
-							spnNacimiento.setEnabled(true);
-						}else {
-							cbxSexo.setSelectedItem(pat.getGenero());
-							spnNacimiento.setModel(new SpinnerDateModel(pat.getFechaNacimiento(), null, null, Calendar.YEAR));
-							JSpinner.DateEditor de_spnNac = new JSpinner.DateEditor(spnNacimiento,"dd/MM/yyyy");
-							spnNacimiento.setEditor(de_spnNac);
-							txtDireccion.setText(pat.getDireccion());
-						}
-					}
-			});
-			btnBuscar.setBounds(185, 7, 89, 23);
-			panel.add(btnBuscar);
 			
 			JLabel lblNewLabel_3 = new JLabel("T\u00E9lefono:");
 			lblNewLabel_3.setBounds(190, 64, 72, 14);
 			panel.add(lblNewLabel_3);
 			
 			txtTelefono = new JTextField();
-			txtTelefono.setEnabled(false);
+			txtTelefono.setText(cita.getTelefonoPaciente());
 			if (update != null) {
 				txtTelefono.setEnabled(true);
 			}
@@ -159,7 +137,6 @@ public class RegPaciente extends JDialog {
 			}
 			{
 				cbxSexo = new JComboBox();
-				cbxSexo.setEnabled(false);
 				cbxSexo.setEditable(true);
 				cbxSexo.setModel(new DefaultComboBoxModel(new String[] {"<<Seleccione>>", "Masculino", "Femenino"}));
 				cbxSexo.setBounds(423, 61, 128, 23);
@@ -176,7 +153,6 @@ public class RegPaciente extends JDialog {
 			panel.add(lblNewLabel_4);
 			
 			txtDireccion = new JTextField();
-			txtDireccion.setEnabled(false);
 			if (update != null) {
 				txtDireccion.setEnabled(true);
 			}
