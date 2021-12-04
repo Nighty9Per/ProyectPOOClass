@@ -124,7 +124,6 @@ public class RegPaciente extends JDialog {
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Paciente pat = Clinica.getInstace().buscarPacienteCedula(txtCedula.getText());
-					if (validacion() == true) {
 						if (pat == null) {
 							txtDireccion.setEnabled(true);
 							cbxSexo.setEnabled(true);
@@ -137,7 +136,6 @@ public class RegPaciente extends JDialog {
 							txtDireccion.setText(pat.getDireccion());
 						}
 					}
-				}
 			});
 			btnBuscar.setBounds(185, 7, 89, 23);
 			panel.add(btnBuscar);
