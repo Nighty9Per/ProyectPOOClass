@@ -328,6 +328,20 @@ public class Clinica implements Serializable{
 		return user;
 	}
 	
+	// Eliminar Cita Medica
+	public boolean eliminarCitaMedicaCodigo(String codigoCita) {
+		boolean eliminado = false;
+		int i = 0, cantCitaMedica = misCitas.size();
+		while (!eliminado && i < cantCitaMedica) {
+			if (misCitas.get(i).getCodigoCita().equalsIgnoreCase(codigoCita)) {
+				misCitas.remove(i);
+				eliminado = true;
+			}
+			i++;
+		}
+		return eliminado;
+	}
+	
 	public void editarUsuario(String codigo, Usuario userUpdate) {
 		Usuario user = buscarUsuarioCodigo(codigo);
 		user.setCedula(userUpdate.getCedula());

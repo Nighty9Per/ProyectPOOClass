@@ -47,7 +47,6 @@ public class ListCitaMedica extends JPanel {
 	private static Object[] rows;
 	private ArrayList<CitaMedica> arrayListCita;
 	private JButton btnConsulta;
-	private JButton btnModificar;
 	private JButton btnCancelarCita;
 	/**
 	 * Create the panel.
@@ -90,15 +89,15 @@ public class ListCitaMedica extends JPanel {
 				if(table.getSelectedRow() != -1) {
 					CitaMedica cita = getCitaTable();
 					Paciente paciente = Clinica.getInstace().buscarPacienteCedula(cita.getCedulaPaciente());
+					if(paciente != null) {
+						RegConsulta consulta = new RegConsulta(paciente, paciente.getHistorial());
+						consulta.setVisible(true);
+					}
 					if(paciente == null) {
 						JOptionPane.showMessageDialog(null, "Paciente debera ser registrado antes de pasar a Consulta.", "Paciente no Encontrado", JOptionPane.INFORMATION_MESSAGE);
 						RegPaciente regPaciente = new RegPaciente(null, cita);
 						regPaciente.setVisible(true);
 						paciente = Clinica.getInstace().buscarPacienteCedula(cita.getCedulaPaciente());
-					}
-					if(paciente != null) {
-						RegConsulta consulta = new RegConsulta(paciente, paciente.getHistorial());
-						consulta.setVisible(true);
 					}
 					loadCitas();
 					btnEnable(false);
@@ -112,26 +111,15 @@ public class ListCitaMedica extends JPanel {
 		btnCancelarCita = new JButton("Cancelar Cita");
 		btnCancelarCita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				loadCitas();
-				btnEnable(false);
+				if(table.getSelectedRow() != -1) {
+					CitaMedica cita = getCitaTable();
+					Clinica.getInstace().eliminarCitaMedicaCodigo(cita.getCodigoCita());
+				}
 			}
 		});
 		btnCancelarCita.setEnabled(false);
-		btnCancelarCita.setBounds(10, 104, 119, 23);
+		btnCancelarCita.setBounds(10, 70, 119, 23);
 		panelBotones.add(btnCancelarCita);
-		
-		btnModificar = new JButton("Modificar Cita");
-		btnModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				loadCitas();
-				btnEnable(false);
-			}
-		});
-		btnModificar.setEnabled(false);
-		btnModificar.setBounds(10, 70, 119, 23);
-		panelBotones.add(btnModificar);
 		
 		panelTable = new JPanel();
 		panelTable.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -182,6 +170,11 @@ public class ListCitaMedica extends JPanel {
 		panelFiltro.add(lblNombre);
 		
 		btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadCitas();
+			}
+		});
 		btnBuscar.setBounds(330, 34, 89, 23);
 		panelFiltro.add(btnBuscar);
 		
@@ -202,6 +195,7 @@ public class ListCitaMedica extends JPanel {
 	}
 	
 	public void loadCitas() {
+		btnEnable(false);
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null) {
 			if(user instanceof U_Medico){
@@ -236,12 +230,10 @@ public class ListCitaMedica extends JPanel {
 	private void btnEnable(boolean enable) {
 		if(enable) {
 			btnConsulta.setEnabled(true);
-			btnModificar.setEnabled(true);
 			btnCancelarCita.setEnabled(true);
 		}
 		else {
 			btnConsulta.setEnabled(false);
-			btnModificar.setEnabled(false);
 			btnCancelarCita.setEnabled(false);
 		}
 	}
