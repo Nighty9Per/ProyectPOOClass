@@ -44,6 +44,9 @@ public class ListCitaMedica extends JPanel {
 	private static DefaultTableModel model;
 	private static Object[] rows;
 	private ArrayList<CitaMedica> arrayListCita;
+	private JButton btnConsulta;
+	private JButton btnModificar;
+	private JButton btnCancelarCita;
 	/**
 	 * Create the panel.
 	 */
@@ -79,6 +82,42 @@ public class ListCitaMedica extends JPanel {
 		lblTitulo.setBounds(10, 11, 119, 14);
 		panelBotones.add(lblTitulo);
 		
+		btnConsulta = new JButton("Consultar");
+		btnConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				loadCitas();
+				btnEnable(false);
+			}
+		});
+		btnConsulta.setEnabled(false);
+		btnConsulta.setBounds(10, 36, 119, 23);
+		panelBotones.add(btnConsulta);
+		
+		btnCancelarCita = new JButton("Cancelar Cita");
+		btnCancelarCita.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				loadCitas();
+				btnEnable(false);
+			}
+		});
+		btnCancelarCita.setEnabled(false);
+		btnCancelarCita.setBounds(10, 104, 119, 23);
+		panelBotones.add(btnCancelarCita);
+		
+		btnModificar = new JButton("Modificar Cita");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				loadCitas();
+				btnEnable(false);
+			}
+		});
+		btnModificar.setEnabled(false);
+		btnModificar.setBounds(10, 70, 119, 23);
+		panelBotones.add(btnModificar);
+		
 		panelTable = new JPanel();
 		panelTable.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelTable.setBounds(0, 89, 975, 495);
@@ -93,6 +132,7 @@ public class ListCitaMedica extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				btnEnable(true);
 			}
 		});
 		String[] headers = {"Codigo", "Cedula Paciente", "Nombre del Paciente", "Fecha de Cita", "Telefono"};
@@ -176,5 +216,26 @@ public class ListCitaMedica extends JPanel {
 				}
 			}
 		}
+	}
+	
+	private void btnEnable(boolean enable) {
+		if(enable) {
+			btnConsulta.setEnabled(true);
+			btnModificar.setEnabled(true);
+			btnCancelarCita.setEnabled(true);
+		}
+		else {
+			btnConsulta.setEnabled(false);
+			btnModificar.setEnabled(false);
+			btnCancelarCita.setEnabled(false);
+		}
+	}
+	
+	private CitaMedica getCitaTable() {
+		CitaMedica cita = null;
+		if(table.getSelectedRow() != -1) {
+			cita = Clinica.getInstace().buscaCitaMedicaCodigo(table.getValueAt(table.getSelectedRow(), 0).toString());
+		}
+		return cita;
 	}
 }

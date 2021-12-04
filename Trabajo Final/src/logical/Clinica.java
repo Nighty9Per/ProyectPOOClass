@@ -241,6 +241,7 @@ public class Clinica implements Serializable{
 		return returnVacuna;
 	}
 	
+	// Buscar Enfermedad Bajo Vigilancia usando codigo.
 	public Enfermedad buscarEnfermedadCodigo(String codigo) {
 		Enfermedad enf = null;
 		boolean encontrado = false;
@@ -253,6 +254,21 @@ public class Clinica implements Serializable{
 			i++;
 		}
 		return enf;
+	}
+	
+	// Buscar CitaMedica usando codigo.
+	public CitaMedica buscaCitaMedicaCodigo(String codigo) {
+		CitaMedica citaMedica = null;
+		boolean encontrado = false;
+		int i = 0, cantCitaMedica = misCitas.size();
+		while (!encontrado && i < cantCitaMedica) {
+			if (misCitas.get(i).getCodigoCita().equalsIgnoreCase(codigo)) {
+				citaMedica = misCitas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return citaMedica;
 	}
 	
 	//Agregar una consulta a un paciente usando la cedula.
