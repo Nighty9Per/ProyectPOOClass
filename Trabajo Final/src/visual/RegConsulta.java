@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -266,16 +267,20 @@ public class RegConsulta extends JDialog {
 				btnRegistro.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Consulta aux = null;
-						if (rdbtnNegar.isSelected()) {
-							aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null);
-		
-						}else if (rdbtnAfirmar.isSelected()) {
-							String codigo = selected.substring(0, selected.lastIndexOf(":"));
-							Enfermedad sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
-							aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick);
-						}
-						if (rdbtnAfirmar.isSelected() || chckbxPasarHistorial.isSelected()) {
-							hist.getMisConsultas().add(aux);
+						if (validacion() == true) {
+							if (rdbtnNegar.isSelected()) {
+								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null);
+			
+							}else if (rdbtnAfirmar.isSelected()) {
+								String codigo = selected.substring(0, selected.lastIndexOf(":"));
+								Enfermedad sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
+								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick);
+							}
+							if (rdbtnAfirmar.isSelected() || chckbxPasarHistorial.isSelected()) {
+								hist.getMisConsultas().add(aux);
+							}
+						}else if (validacion() == false){
+							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});
@@ -294,6 +299,14 @@ public class RegConsulta extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+	}
+	
+	private boolean validacion() {
+		boolean validar = false;
+		if (!txtpSintomas.getText().equals("") && !txtpDiag.getText().equals("") && !txtpProced.getText().equals("") && !txtpTratamiento.getText().equals("")) {
+			validar = true;
+		}
+		return validar;
 	}
 
 	private ArrayList<String> loadlist() {

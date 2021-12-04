@@ -143,20 +143,26 @@ public class RegEnfermedad extends JDialog {
 				btnAccion = new JButton();
 				btnAccion.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (update == null) {
-							if (cbxTipo.getSelectedIndex() != 0) {
-								Clinica.getInstace().crearEnfermedadBajoVigilancia(txtNombre.getText(), cbxTipo.getSelectedItem().toString(), txtpDescrip.getText());
-								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
-								clean();
+						if (validacion() == true) {
+							if (update == null) {
+								if (cbxTipo.getSelectedIndex() != 0) {
+									Clinica.getInstace().crearEnfermedadBajoVigilancia(txtNombre.getText(), cbxTipo.getSelectedItem().toString(), txtpDescrip.getText());
+									JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+									clean();
+								}else {
+									JOptionPane.showMessageDialog(null, "Debe elegir el tipo de enfermedad", "Advertencia", JOptionPane.WARNING_MESSAGE);
+								}
 							}else {
-								JOptionPane.showMessageDialog(null, "Debe elegir el tipo de enfermedad", "Advertencia", JOptionPane.WARNING_MESSAGE);
+								Enfermedad aux = new Enfermedad(update.getCodigoEnfermedad(), txtNombre.getText(), cbxTipo.getSelectedItem().toString(), txtpDescrip.getText());
+								Clinica.getInstace().editarEnfermedad(update.getCodigoEnfermedad(), aux);
+								JOptionPane.showMessageDialog(null, "Enfermedad Actualizada", "Información", JOptionPane.INFORMATION_MESSAGE);
 							}
-						}else {
-							Enfermedad aux = new Enfermedad(update.getCodigoEnfermedad(), txtNombre.getText(), cbxTipo.getSelectedItem().toString(), txtpDescrip.getText());
-							Clinica.getInstace().editarEnfermedad(update.getCodigoEnfermedad(), aux);
-							JOptionPane.showMessageDialog(null, "Enfermedad Actualizada", "Información", JOptionPane.INFORMATION_MESSAGE);
+						}else if (validacion() == false){
+							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
 						}
 					}
+
+					
 
 					
 				});
@@ -191,6 +197,14 @@ public class RegEnfermedad extends JDialog {
 		}
 	}
 
+	private boolean validacion() {
+		boolean validar = false; 
+		if (!txtNombre.getText().equals("") && !txtpDescrip.getText().equals("") && cbxTipo.getSelectedIndex() != 0) {
+			validar = true;
+		}
+		return validar;
+	}
+	
 	private void clean() {
 		txtCod.setText("E-"+Clinica.getInstace().getGenerateCodigoEnfermedad());
 		txtNombre.setText("");

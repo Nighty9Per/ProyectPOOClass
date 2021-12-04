@@ -28,7 +28,7 @@ public class RegVacuna extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	/*
+	
 	public static void main(String[] args) {
 		try {
 			RegVacuna dialog = new RegVacuna();
@@ -38,7 +38,7 @@ public class RegVacuna extends JDialog {
 			e.printStackTrace();
 		}
 	}
-	*/
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -92,10 +92,14 @@ public class RegVacuna extends JDialog {
 				btnRegistrar = new JButton("Registrar");
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Clinica.getInstace().crearVacunaBajoVigilacia(txtNombre.getText());
-						txtCod.setText("V-"+Clinica.getInstace().getGenerateCodigoVacuna());
-						txtNombre.setText("");
-						JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+						if (!txtNombre.getText().equals("")) {
+							Clinica.getInstace().crearVacunaBajoVigilacia(txtNombre.getText());
+							txtCod.setText("V-"+Clinica.getInstace().getGenerateCodigoVacuna());
+							txtNombre.setText("");
+							JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				});
 				btnRegistrar.setActionCommand("OK");

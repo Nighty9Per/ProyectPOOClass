@@ -124,16 +124,18 @@ public class RegPaciente extends JDialog {
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Paciente pat = Clinica.getInstace().buscarPacienteCedula(txtCedula.getText());
-					if (pat == null) {
-						txtDireccion.setEnabled(true);
-						cbxSexo.setEnabled(true);
-						spnNacimiento.setEnabled(true);
-					}else {
-						cbxSexo.setSelectedItem(pat.getGenero());
-						spnNacimiento.setModel(new SpinnerDateModel(pat.getFechaNacimiento(), null, null, Calendar.YEAR));
-						JSpinner.DateEditor de_spnNac = new JSpinner.DateEditor(spnNacimiento,"dd/MM/yyyy");
-						spnNacimiento.setEditor(de_spnNac);
-						txtDireccion.setText(pat.getDireccion());
+					if (validacion() == true) {
+						if (pat == null) {
+							txtDireccion.setEnabled(true);
+							cbxSexo.setEnabled(true);
+							spnNacimiento.setEnabled(true);
+						}else {
+							cbxSexo.setSelectedItem(pat.getGenero());
+							spnNacimiento.setModel(new SpinnerDateModel(pat.getFechaNacimiento(), null, null, Calendar.YEAR));
+							JSpinner.DateEditor de_spnNac = new JSpinner.DateEditor(spnNacimiento,"dd/MM/yyyy");
+							spnNacimiento.setEditor(de_spnNac);
+							txtDireccion.setText(pat.getDireccion());
+						}
 					}
 				}
 			});
@@ -205,16 +207,20 @@ public class RegPaciente extends JDialog {
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Date dateaux = (Date) spnNacimiento.getValue();
-						if (update == null) {
-							Paciente pat = Clinica.getInstace().crearPaciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
-							JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
-							clean();
-							RegConsulta regc = new RegConsulta(pat, pat.getHistorial());
-							regc.setVisible(true);
-						}else {
-							Paciente aux = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
-							Clinica.getInstace().editarPaciente(update.getCedula(), aux);
-							JOptionPane.showMessageDialog(null, "Paciente Actualizada", "Información", JOptionPane.INFORMATION_MESSAGE);
+						if (validacion() == true) {
+							if (update == null) {
+								Paciente pat = Clinica.getInstace().crearPaciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
+								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+								clean();
+								RegConsulta regc = new RegConsulta(pat, pat.getHistorial());
+								regc.setVisible(true);
+							}else {
+								Paciente aux = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
+								Clinica.getInstace().editarPaciente(update.getCedula(), aux);
+								JOptionPane.showMessageDialog(null, "Paciente Actualizada", "Información", JOptionPane.INFORMATION_MESSAGE);
+							}
+						}else if (validacion() == false){
+							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});
@@ -239,6 +245,15 @@ public class RegPaciente extends JDialog {
 			}
 		}
 	}
+	private boolean validacion() {
+		boolean validar = false;
+		if (!txtCedula.getText().equals("") && !txtNombre.getText().equals("") && !txtDireccion.getText().equals("") && !txtTelefono.getText().equals("") && cbxSexo.getSelectedIndex() != 0) {
+			validar = true;
+		}
+		
+		return validar;
+	}
+	
 	private void clean() {
 		txtCedula.setText("");
 		txtNombre.setText("");

@@ -305,41 +305,48 @@ public class RegUsuario extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						String pass = txtPassword.getText();
 						String conf = txtConfirm.getText();
-						if (update == null) {
-							if (pass.equals(conf)) {
-								if (rdbtnAdmin.isSelected()) {
-									Clinica.getInstace().crearAdministrado(txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtPuesto.getText());
-									clean();
-									txtCodigo.setText("A-"+Clinica.getInstace().getGenerateCodigoAdministrador());
-								}
-								if (rdbtnMedico.isSelected()) {
-									Clinica.getInstace().crearMedico(txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtCodMed.getText(), txtEspecialidad.getText());
-									clean();
-									txtCodigo.setText("M-"+Clinica.getInstace().getGenerateCodigoMedico());
-								}
-								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+						if (validacion() == true) {
+							if (update == null) {
+								if (pass.equals(conf)) {
+									if (rdbtnAdmin.isSelected()) {
+										Clinica.getInstace().crearAdministrado(txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtPuesto.getText());
+										clean();
+										txtCodigo.setText("A-"+Clinica.getInstace().getGenerateCodigoAdministrador());
+									}
+									if (rdbtnMedico.isSelected()) {
+										Clinica.getInstace().crearMedico(txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtCodMed.getText(), txtEspecialidad.getText());
+										clean();
+										txtCodigo.setText("M-"+Clinica.getInstace().getGenerateCodigoMedico());
+									}
+									JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
 
+								}else {
+									JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intente de nuevo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+								}
 							}else {
-								JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intente de nuevo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+								if (pass.equals(conf)) {
+									if (rdbtnAdmin.isSelected()) {
+										Usuario aux = new U_Administrador(txtCodigo.getText(), txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtPuesto.getText());
+										Clinica.getInstace().editarUsuario(update.getCodigoUsuario(), aux);
+									}
+									if (rdbtnMedico.isSelected()) {
+										Usuario aux = new U_Medico(txtCodigo.getText(), txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtCodMed.getText(), txtEspecialidad.getText());
+										Clinica.getInstace().editarUsuario(update.getCodigoUsuario(), aux);
+									}
+									JOptionPane.showMessageDialog(null, "Usuario editado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
 
-							}
-						}else {
-							if (pass.equals(conf)) {
-								if (rdbtnAdmin.isSelected()) {
-									Usuario aux = new U_Administrador(txtCodigo.getText(), txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtPuesto.getText());
-									Clinica.getInstace().editarUsuario(update.getCodigoUsuario(), aux);
+								}else {
+									JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intente de nuevo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
 								}
-								if (rdbtnMedico.isSelected()) {
-									Usuario aux = new U_Medico(txtCodigo.getText(), txtCed.getText(), txtLogin.getText(), pass, txtNombre.getText(), txtTelefono.getText(), txtDirec.getText(), txtCodMed.getText(), txtEspecialidad.getText());
-								}
-								JOptionPane.showMessageDialog(null, "Usuario editado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-							}else {
-								JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intente de nuevo", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
 							}
+						}else if (validacion() == false){
+							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
 						}
 					}
+
+				
 				});
 				btnAccion.setActionCommand("OK");
 				buttonPane.add(btnAccion);
@@ -359,6 +366,20 @@ public class RegUsuario extends JDialog {
 		loadUser(update);
 	}
 
+	private boolean validacion() {
+		boolean valido = false;
+		String pass = txtPassword.getText();
+		if (!txtCed.getText().equals("") && !txtNombre.getText().equals("") && !txtTelefono.getText().equals("") && !txtDirec.getText().equals("") && !txtLogin.getText().equals("") && !pass.equals("")) {
+			if (rdbtnAdmin.isSelected() && !txtPuesto.getText().equals("")) {
+				valido = true;
+			}
+			if(rdbtnMedico.isSelected() && !txtCodMed.getText().equals("") && !txtEspecialidad.getText().equals("")) {
+				valido = true;
+			}
+		}
+		return valido;
+	}
+	
 	private void clean() {
 		txtCed.setText("");
 		txtCodigo.setText("");

@@ -103,11 +103,11 @@ public class RegCita extends JDialog {
 		panel.add(spnFecha);
 		
 		lblNewLabel_2 = new JLabel("Nombre Agendado:");
-		lblNewLabel_2.setBounds(10, 68, 124, 14);
+		lblNewLabel_2.setBounds(211, 67, 124, 14);
 		panel.add(lblNewLabel_2);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(10, 91, 124, 23);
+		txtNombre.setBounds(211, 92, 124, 23);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -121,11 +121,11 @@ public class RegCita extends JDialog {
 		panel.add(txtTelefono);
 		
 		lblNewLabel_3 = new JLabel("M\u00E9dico Agendado:");
-		lblNewLabel_3.setBounds(211, 67, 124, 14);
+		lblNewLabel_3.setBounds(211, 129, 124, 14);
 		panel.add(lblNewLabel_3);
 		
 		cbxMedico = new JComboBox();
-		cbxMedico.setBounds(211, 91, 124, 23);
+		cbxMedico.setBounds(211, 153, 124, 23);
 		cadena = new DefaultComboBoxModel<String>();
 		cadCodigo = new ArrayList<String>();
 		cadena.addElement("<<Seleccione>>");
@@ -140,12 +140,12 @@ public class RegCita extends JDialog {
 		panel.add(cbxMedico);
 		
 		JLabel lblCdulaAgendada = new JLabel("C\u00E9dula Agendada:");
-		lblCdulaAgendada.setBounds(211, 130, 124, 14);
+		lblCdulaAgendada.setBounds(10, 67, 124, 14);
 		panel.add(lblCdulaAgendada);
 		
 		txtCed = new JTextField();
 		txtCed.setColumns(10);
-		txtCed.setBounds(211, 153, 124, 23);
+		txtCed.setBounds(10, 90, 124, 23);
 		panel.add(txtCed);
 		{
 			JPanel buttonPane = new JPanel();
@@ -156,14 +156,16 @@ public class RegCita extends JDialog {
 				btnRegistrar = new JButton("Registrar");
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Usuario med = Clinica.getInstace().buscarUsuarioCodigo(cadCodigo.get(cbxMedico.getSelectedIndex()));
-						Date dateaux = (Date) spnFecha.getValue();
-						Clinica.getInstace().crearCitaMedica(txtCed.getText(),dateaux, txtNombre.getText(), txtTelefono.getText(), med);
-						JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
-						clean();
+						if (validacion() == true) {
+							Usuario med = Clinica.getInstace().buscarUsuarioCodigo(cadCodigo.get(cbxMedico.getSelectedIndex()));
+							Date dateaux = (Date) spnFecha.getValue();
+							Clinica.getInstace().crearCitaMedica(txtCed.getText(),dateaux, txtNombre.getText(), txtTelefono.getText(), med);
+							JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
+							clean();
+						}else if (validacion() == false){
+							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+						}
 					}
-
-					
 				});
 				btnRegistrar.setActionCommand("OK");
 				buttonPane.add(btnRegistrar);
@@ -180,6 +182,14 @@ public class RegCita extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+	}
+	
+	private boolean validacion() {
+		boolean validar = false;
+		if (!txtCed.getText().equals("") && !txtNombre.getText().equals("") && !txtTelefono.getText().equals("" ) && cbxMedico.getSelectedIndex() != 0) {
+			validar = true;
+		}
+		return validar;
 	}
 	
 	private void clean() {
