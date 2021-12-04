@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
@@ -13,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import logical.CitaMedica;
 import logical.Clinica;
+import logical.Paciente;
 import logical.U_Medico;
 import logical.Usuario;
 
@@ -85,9 +87,22 @@ public class ListCitaMedica extends JPanel {
 		btnConsulta = new JButton("Consultar");
 		btnConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				loadCitas();
-				btnEnable(false);
+				if(table.getSelectedRow() != -1) {
+					CitaMedica cita = getCitaTable();
+					Paciente paciente = Clinica.getInstace().buscarPacienteCedula(cita.getCedulaPaciente());
+					if(paciente == null) {
+						JOptionPane.showMessageDialog(null, "Paciente debera ser registrado antes de pasar a Consulta.", "Paciente no Encontrado", JOptionPane.INFORMATION_MESSAGE);
+						RegPaciente regPaciente = new RegPaciente(null, cita);
+						regPaciente.setVisible(true);
+						paciente = Clinica.getInstace().buscarPacienteCedula(cita.getCedulaPaciente());
+					}
+					if(paciente != null) {
+						RegConsulta consulta = new RegConsulta(paciente, paciente.getHistorial());
+						consulta.setVisible(true);
+					}
+					loadCitas();
+					btnEnable(false);
+				}
 			}
 		});
 		btnConsulta.setEnabled(false);

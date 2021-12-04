@@ -204,6 +204,7 @@ public class PrincipalClinica extends JFrame {
 		mntmListUsuarios = new JMenuItem("Lista de Usuarios");
 		mntmListUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panelListUsuario.loadUsuarios();
 				viewListUsuarioPanel();
 			}
 		});
@@ -227,6 +228,7 @@ public class PrincipalClinica extends JFrame {
 		mntmListCitaMedica = new JMenuItem("Lista de Citas Medicas");
 		mntmListCitaMedica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panelListCitaMedica.loadCitas();
 				viewListCitaMedicaPanel();
 			}
 		});
@@ -306,6 +308,7 @@ public class PrincipalClinica extends JFrame {
 		panelListEnfermedad.setBounds(0, 62, 1124, 584);
 		panelMain.add(panelListEnfermedad);
 		
+		loadPanelInfo();
 		viewLoginPanel();
 	}
 	
@@ -433,5 +436,10 @@ public class PrincipalClinica extends JFrame {
 			btnInicio.setEnabled(false);
 			viewLoginPanel();
 		}
+	}
+	
+	public void loadPanelInfo() {
+		panelListCitaMedica.loadCitas();
+		panelListUsuario.loadUsuarios();
 	}
 }
