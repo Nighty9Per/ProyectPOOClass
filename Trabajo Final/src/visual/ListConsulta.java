@@ -13,14 +13,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
+import logical.Clinica;
 import logical.Consulta;
+import logical.U_Administrador;
+import logical.U_Medico;
 import logical.Usuario;
 
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListConsulta extends JPanel {
 
@@ -38,6 +44,8 @@ public class ListConsulta extends JPanel {
 	private ArrayList<Consulta> filterConsultas;
 	private ArrayList<Consulta> misConsultas;
 	private Usuario medico;
+	private static DefaultTableModel model;
+	private static Object[] rows;
 	/**
 	 * Create the panel.
 	 */
@@ -85,6 +93,12 @@ public class ListConsulta extends JPanel {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		scrollPane.setViewportView(table);
 		
 		panelFiltro = new JPanel();
@@ -112,6 +126,11 @@ public class ListConsulta extends JPanel {
 		panelFiltro.add(lblNombre);
 		
 		btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadUsuarios();
+			}
+		});
 		btnBuscar.setBounds(330, 34, 89, 23);
 		panelFiltro.add(btnBuscar);
 		
@@ -128,11 +147,32 @@ public class ListConsulta extends JPanel {
 	private void resetFiltros() {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
+		loadUsuarios();
 	}
 	
+	// Load Usuarios a la Tabla
+	public void loadUsuarios() {
+		enableButtons(false);
+		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user != null && user instanceof U_Medico) {
+			
+		}
+	}
 	
+	// Enable buttons
+	private void enableButtons(boolean enable) {
+		if(enable) {
+			
+		}
+		else {
+				
+		}
+	}
 	
-	
+	public void filterConsultas() {
+		
+	}
+
 	public ArrayList<Consulta> getMisConsultas() {
 		return misConsultas;
 	}
