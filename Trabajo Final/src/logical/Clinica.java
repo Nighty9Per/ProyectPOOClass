@@ -342,6 +342,21 @@ public class Clinica implements Serializable{
 		return eliminado;
 	}
 	
+	// Eliminar Usuario
+	public boolean eliminarUsuario(String codigoUsuario) {
+		boolean eliminado = false;
+		int i = 0, cantUsuario = misUsuarios.size();
+		while (!eliminado && i < cantUsuario) {
+			if (misUsuarios.get(i).getCodigoUsuario().equalsIgnoreCase(codigoUsuario)) {
+				misUsuarios.remove(i);
+				eliminado = true;
+			}
+			i++;
+		}
+		return eliminado;
+	}
+	
+	// Editar un Usuario
 	public void editarUsuario(String codigo, Usuario userUpdate) {
 		Usuario user = buscarUsuarioCodigo(codigo);
 		user.setCedula(userUpdate.getCedula());
@@ -366,6 +381,7 @@ public class Clinica implements Serializable{
 		
 	}
 	
+	// Editar una Enfermedad
 	public void editarEnfermedad(String codigo, Enfermedad sick) {
 		Enfermedad aux = buscarEnfermedadCodigo(codigo);
 		aux.setDescripcionEnfermedad(sick.getDescripcionEnfermedad());
@@ -373,6 +389,7 @@ public class Clinica implements Serializable{
 		aux.setTipoEnfermedad(sick.getTipoEnfermedad());
 	}
 	
+	// Editar un Paciente
 	public void editarPaciente (String codigo, Paciente pat) {
 		Paciente aux = buscarPacienteCedula(codigo);
 		aux.setDireccion(pat.getDireccion());
