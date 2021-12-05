@@ -3,6 +3,7 @@ package visual;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,6 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+
+import logical.Consulta;
+import logical.Usuario;
+
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,11 +35,16 @@ public class ListConsulta extends JPanel {
 	private JComboBox cbxBusqueda;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private ArrayList<Consulta> filterConsultas;
+	private ArrayList<Consulta> misConsultas;
+	private Usuario medico;
 	/**
 	 * Create the panel.
 	 */
-	public ListConsulta() {
+	public ListConsulta(ArrayList<Consulta> misConsultas, Usuario medico) {
 
+		this.setMisConsultas(misConsultas);
+		this.setMedico(medico);
 		setLayout(null);
 		setBounds(0, 67, 1124, 584);
 		
@@ -118,6 +128,22 @@ public class ListConsulta extends JPanel {
 	private void resetFiltros() {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
+	}
+	
+	
+	
+	
+	public ArrayList<Consulta> getMisConsultas() {
+		return misConsultas;
+	}
+	public void setMisConsultas(ArrayList<Consulta> misConsultas) {
+		this.misConsultas = misConsultas;
+	}
+	public Usuario getMedico() {
+		return medico;
+	}
+	public void setMedico(Usuario medico) {
+		this.medico = medico;
 	}
 
 }

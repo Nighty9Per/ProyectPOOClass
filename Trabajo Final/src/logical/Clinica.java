@@ -168,8 +168,8 @@ public class Clinica implements Serializable{
 	}
 	
 	//Crear consulta sin agregarla al paciente.
-	public Consulta crearConsulta (String sintomas, String diagnostico, String procedimiento, String tratamiento, String comentarioExtra, Enfermedad enfermedadBajoVigilancia) {
-		Consulta consulta = new Consulta("C-"+generateCodigoConsulta, sintomas, diagnostico, procedimiento, tratamiento, comentarioExtra, enfermedadBajoVigilancia);
+	public Consulta crearConsulta (String sintomas, String diagnostico, String procedimiento, String tratamiento, String comentarioExtra, Enfermedad enfermedadBajoVigilancia, String medicoCodigo) {
+		Consulta consulta = new Consulta("C-"+generateCodigoConsulta, sintomas, diagnostico, procedimiento, tratamiento, comentarioExtra, enfermedadBajoVigilancia, medicoCodigo);
 		generateCodigoConsulta++;
 		return consulta;
 	}
@@ -395,6 +395,21 @@ public class Clinica implements Serializable{
 		aux.setDireccion(pat.getDireccion());
 		aux.setNombre(pat.getNombre());
 		aux.setTelefono(pat.getTelefono());
+	}
+	
+	// Get Pacientes del Medico
+	public ArrayList<Paciente> getPacientesPorMedico(Usuario medico){
+		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
+		if(medico instanceof U_Medico) {
+			Paciente paciente = null;
+			for (String pacienteCedula : ((U_Medico)medico).getMisPacientes()) {
+				paciente = buscarPacienteCedula(pacienteCedula);
+				if(paciente != null) {
+					pacientes.add(paciente);
+				}
+			}
+		}
+		return pacientes;
 	}
 
 	public Usuario getLoginUser() {

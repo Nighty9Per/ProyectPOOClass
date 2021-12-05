@@ -17,9 +17,10 @@ public class Consulta implements Serializable{
 	private String tratamiento;
 	private String comentarioExtra;
 	private Enfermedad enfermedadBajoVigilancia;
+	private String medicoCodigo;
 	
 	public Consulta(String codigoConsulta, String sintomas, String diagnostico,
-			String procedimiento, String tratamiento, String comentarioExtra, Enfermedad enfermedadBajoVigilancia) {
+			String procedimiento, String tratamiento, String comentarioExtra, Enfermedad enfermedadBajoVigilancia, String medicoCodigo) {
 		super();
 		this.codigoConsulta = codigoConsulta;
 		this.fechaConsulta = new Date();
@@ -29,6 +30,7 @@ public class Consulta implements Serializable{
 		this.tratamiento = tratamiento;
 		this.comentarioExtra = comentarioExtra;
 		this.enfermedadBajoVigilancia = enfermedadBajoVigilancia;
+		this.medicoCodigo = medicoCodigo;
 	}
 
 	public String getCodigoConsulta() {
@@ -94,8 +96,12 @@ public class Consulta implements Serializable{
 	public void setFechaConsulta(Date fechaConsulta) {
 		this.fechaConsulta = fechaConsulta;
 	}
-	
-	
 
+	public String getMedicoCodigo() {
+		return medicoCodigo;
+	}
 
+	public void setMedicoCodigo(String medicoCodigo) {
+		this.medicoCodigo = medicoCodigo;
+	}
 }

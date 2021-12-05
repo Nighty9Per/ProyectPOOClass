@@ -94,7 +94,7 @@ public class ListCitaMedica extends JPanel {
 					CitaMedica cita = getCitaTable();
 					Paciente paciente = Clinica.getInstace().buscarPacienteCedula(cita.getCedulaPaciente());
 					if(paciente != null) {
-						RegConsulta consulta = new RegConsulta(paciente, paciente.getHistorial());
+						RegConsulta consulta = new RegConsulta(paciente, Clinica.getInstace().getLoginUser().getCodigoUsuario());
 						consulta.setVisible(true);
 					}
 					if(paciente == null) {

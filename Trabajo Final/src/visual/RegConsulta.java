@@ -14,6 +14,7 @@ import logical.Consulta;
 import logical.Enfermedad;
 import logical.HistorialClinica;
 import logical.Paciente;
+import logical.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -76,8 +77,8 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegConsulta(Paciente patient, HistorialClinica history) {
-		hist = history;
+	public RegConsulta(Paciente patient, String medico) {
+		hist = patient.getHistorial();
 		setTitle("Registro de Consulta");
 		setResizable(false);
 		setModal(true);
@@ -269,12 +270,12 @@ public class RegConsulta extends JDialog {
 						Consulta aux = null;
 						if (validacion() == true) {
 							if (rdbtnNegar.isSelected()) {
-								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null);
+								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null, medico);
 			
 							}else if (rdbtnAfirmar.isSelected()) {
 								String codigo = selected.substring(0, selected.lastIndexOf(":"));
 								Enfermedad sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
-								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick);
+								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico);
 							}
 							if (rdbtnAfirmar.isSelected() || chckbxPasarHistorial.isSelected()) {
 								hist.getMisConsultas().add(aux);
