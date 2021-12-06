@@ -112,9 +112,8 @@ public class ListConsulta extends JPanel {
 				if(table.getSelectedRow() != -1) {
 					Paciente paciente = null;
 					Consulta consulta = getConsultaTable(paciente);
-					
 					if(consulta != null) {
-						RegConsulta verConsulta = new RegConsulta(paciente, consulta.getMedicoCodigo(), consulta);
+						RegConsulta verConsulta = new RegConsulta(paciente, consulta.getMedicoCodigo(), consulta, null);
 						verConsulta.setVisible(true);
 					}
 				}

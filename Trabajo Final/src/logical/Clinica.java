@@ -173,6 +173,7 @@ public class Clinica implements Serializable{
 		generateCodigoConsulta++;
 		agregarConsultaPacienteCedula(cedulaPaciente, consulta, historial);
 		agregarPacienteAMedico(medico, cedulaPaciente);
+		
 		return consulta;
 	}
 	
