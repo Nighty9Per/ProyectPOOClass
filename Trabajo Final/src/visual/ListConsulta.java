@@ -15,8 +15,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logical.CitaMedica;
 import logical.Clinica;
 import logical.Consulta;
+import logical.Paciente;
 import logical.U_Administrador;
 import logical.U_Medico;
 import logical.Usuario;
@@ -27,6 +29,8 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import javax.swing.ListSelectionModel;
 
 public class ListConsulta extends JPanel {
 
@@ -122,12 +126,17 @@ public class ListConsulta extends JPanel {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				enableButtons(true);
 			}
 		});
+		String[] headers = {"Codigo Consulta", "Cedula Paciente", "Nombre del Paciente", "Fecha de Consulta", "Diagnostico"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers);
+		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
 		panelFiltro = new JPanel();
@@ -184,7 +193,24 @@ public class ListConsulta extends JPanel {
 		enableButtons(false);
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null && user instanceof U_Medico) {
-			
+			ArrayList<Paciente> misPacientes = Clinica.getInstace().getPacientesPorMedico(user);
+			model.setRowCount(0);
+			rows = new Object[model.getColumnCount()];
+			for (Paciente paciente : misPacientes) {
+				for (Consulta consulta : paciente.getMisConsulta()) {
+					if(!filterConsultas(consulta, user.getCodigoUsuario())) {
+						continue;
+					}
+					rows[0] = consulta.getCodigoConsulta();
+					rows[1] = paciente.getCedula();
+					rows[2] = paciente.getNombre();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+					String fecha = dateFormat.format(consulta.getFechaConsulta()).toString();
+					rows[3] = fecha;
+					rows[4] = consulta.getDiagnostico();
+					model.addRow(rows);
+				}
+			}
 		}
 	}
 	
@@ -202,8 +228,12 @@ public class ListConsulta extends JPanel {
 		}
 	}
 	
-	public void filterConsultas() {
-		
+	public boolean filterConsultas(Consulta consulta, String codigoMedico) {
+		boolean pass = true;
+		if(!consulta.getMedicoCodigo().equalsIgnoreCase(codigoMedico)) {
+			pass = false;
+		}
+		return pass;
 	}
 
 	public ArrayList<Consulta> getMisConsultas() {

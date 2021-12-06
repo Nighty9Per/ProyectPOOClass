@@ -60,13 +60,14 @@ public class RegConsulta extends JDialog {
 	private JLabel lblTlefono;
 	private JCheckBox chckbxPasarHistorial;
 	private static HistorialClinica hist = null;
+	private static Consulta consultaCreada = null;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta(null,null);
+			RegConsulta dialog = new RegConsulta(null,null,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -77,8 +78,11 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegConsulta(Paciente patient, String medico) {
+	public RegConsulta(Paciente patient, String medico, Consulta consulta) {
+		consultaCreada = consulta;
 		hist = patient.getHistorial();
+		verConsulta();
+		
 		setTitle("Registro de Consulta");
 		setResizable(false);
 		setModal(true);
@@ -267,34 +271,29 @@ public class RegConsulta extends JDialog {
 				btnRegistro = new JButton("Registrar");
 				btnRegistro.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Consulta aux = null;
-						if (validacion() == true) {
-							boolean aHistorial = false;
-							Enfermedad sick = null;
-							if (rdbtnAfirmar.isSelected()) {
-								String codigo = selected.substring(0, selected.lastIndexOf(":"));
-								sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
-							}
-							if (sick != null || chckbxPasarHistorial.isSelected()) {
-								aHistorial = true;
-							}
-							aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico, patient.getCedula(), aHistorial);
-							/*
-							if (rdbtnNegar.isSelected()) {
-								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null, medico, patient.getCedula());
-			
-							}else if (rdbtnAfirmar.isSelected()) {
-								String codigo = selected.substring(0, selected.lastIndexOf(":"));
-								Enfermedad sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
-								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico, patient.getCedula());
-							}
-							if (rdbtnAfirmar.isSelected() || chckbxPasarHistorial.isSelected()) {
-								hist.getMisConsultas().add(aux);
-							}
-							*/
-						}else if (validacion() == false){
-							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+						if(btnRegistro.getText().equalsIgnoreCase("Ok")) {
+							dispose();
 						}
+						verConsulta();
+						if (consultaCreada == null) {
+							if (validacion() == true) {
+								boolean aHistorial = false;
+								Enfermedad sick = null;
+								if (rdbtnAfirmar.isSelected()) {
+									String codigo = selected.substring(0, selected.lastIndexOf(":"));
+									sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
+								}
+								if (sick != null || chckbxPasarHistorial.isSelected()) {
+									aHistorial = true;
+								}
+								consultaCreada =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico, patient.getCedula(), aHistorial);
+								JOptionPane.showMessageDialog(null, "Consulta Creada", "Exito", JOptionPane.INFORMATION_MESSAGE);
+								verConsulta();
+							}else if (validacion() == false){
+								JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+							}
+						}
+						
 					}
 				});
 				btnRegistro.setActionCommand("OK");
@@ -330,5 +329,21 @@ public class RegConsulta extends JDialog {
 			list.add(aux);
 		}
 		return list;
+	}
+	
+	private void verConsulta() {
+		if(consultaCreada != null) {
+			txtpSintomas.setText(consultaCreada.getSintomas());
+			txtpDiag.setText(consultaCreada.getDiagnostico());
+			txtpProced.setText(consultaCreada.getProcedimiento());
+			txtpComent.setText(consultaCreada.getComentarioExtra());
+			txtpTratamiento.setText(consultaCreada.getTratamiento());
+			txtpComent.setEditable(false);
+			txtpDiag.setEditable(false);
+			txtpProced.setEditable(false);
+			txtpSintomas.setEditable(false);
+			txtpTratamiento.setEditable(false);
+			btnRegistro.setText("Ok");
+		}
 	}
 }
