@@ -269,17 +269,29 @@ public class RegConsulta extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Consulta aux = null;
 						if (validacion() == true) {
+							boolean aHistorial = false;
+							Enfermedad sick = null;
+							if (rdbtnAfirmar.isSelected()) {
+								String codigo = selected.substring(0, selected.lastIndexOf(":"));
+								sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
+							}
+							if (sick != null || chckbxPasarHistorial.isSelected()) {
+								aHistorial = true;
+							}
+							aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico, patient.getCedula(), aHistorial);
+							/*
 							if (rdbtnNegar.isSelected()) {
-								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null, medico);
+								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), null, medico, patient.getCedula());
 			
 							}else if (rdbtnAfirmar.isSelected()) {
 								String codigo = selected.substring(0, selected.lastIndexOf(":"));
 								Enfermedad sick = Clinica.getInstace().buscarEnfermedadCodigo(codigo);
-								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico);
+								aux =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico, patient.getCedula());
 							}
 							if (rdbtnAfirmar.isSelected() || chckbxPasarHistorial.isSelected()) {
 								hist.getMisConsultas().add(aux);
 							}
+							*/
 						}else if (validacion() == false){
 							JOptionPane.showMessageDialog(null, "No debe dejar campos vacios", "Advertencia", JOptionPane.WARNING_MESSAGE);
 						}

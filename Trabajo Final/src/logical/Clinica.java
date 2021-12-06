@@ -167,10 +167,12 @@ public class Clinica implements Serializable{
 		return enfermedad;
 	}
 	
-	//Crear consulta sin agregarla al paciente.
-	public Consulta crearConsulta (String sintomas, String diagnostico, String procedimiento, String tratamiento, String comentarioExtra, Enfermedad enfermedadBajoVigilancia, String medicoCodigo) {
-		Consulta consulta = new Consulta("C-"+generateCodigoConsulta, sintomas, diagnostico, procedimiento, tratamiento, comentarioExtra, enfermedadBajoVigilancia, medicoCodigo);
+	//Crear consulta agregandola al paciente.
+	public Consulta crearConsulta (String sintomas, String diagnostico, String procedimiento, String tratamiento, String comentarioExtra, Enfermedad enfermedadBajoVigilancia, String medico, String cedulaPaciente, boolean historial) {
+		Consulta consulta = new Consulta("C-"+generateCodigoConsulta, sintomas, diagnostico, procedimiento, tratamiento, comentarioExtra, enfermedadBajoVigilancia, medico);
 		generateCodigoConsulta++;
+		agregarConsultaPacienteCedula(cedulaPaciente, consulta, historial);
+		agregarPacienteAMedico(medico, cedulaPaciente);
 		return consulta;
 	}
 	
@@ -271,7 +273,7 @@ public class Clinica implements Serializable{
 		return citaMedica;
 	}
 	
-	//Agregar una consulta a un paciente usando la cedula.
+	// Agregar una consulta a un paciente usando la cedula.
 	public boolean agregarConsultaPacienteCedula(String cedula, Consulta consulta, boolean consultaAHistorial) {
 		boolean agregado = false;
 		Paciente paciente = buscarPacienteCedula(cedula);
@@ -283,6 +285,25 @@ public class Clinica implements Serializable{
 			agregado = true;
 		}
 		return agregado;
+	}
+	
+	// Agregar un paciente a lista de pacientes de un medico
+	public void agregarPacienteAMedico(String codigoUsuarioMedico, String paciente) {
+		Usuario medico = buscarUsuarioCodigo(codigoUsuarioMedico);
+		if(medico != null && medico instanceof U_Medico) {
+			int cantPaciente = ((U_Medico)medico).getMisPacientes().size();
+			int i = 0;
+			boolean encontrado = false;
+			while(i < cantPaciente && !encontrado) {
+				if(((U_Medico)medico).getMisPacientes().get(i).equalsIgnoreCase(paciente)) {
+					encontrado = true;
+				}
+				i++;
+			}
+			if(!encontrado) {
+				((U_Medico)medico).getMisPacientes().add(paciente);
+			}
+		}
 	}
 	
 	// add Paciente.

@@ -46,6 +46,8 @@ public class ListConsulta extends JPanel {
 	private Usuario medico;
 	private static DefaultTableModel model;
 	private static Object[] rows;
+	private JButton btnVerPaciente;
+	private JButton btnHacerConsulta;
 	/**
 	 * Create the panel.
 	 */
@@ -82,6 +84,33 @@ public class ListConsulta extends JPanel {
 		lblTitulo.setBounds(10, 11, 119, 14);
 		panelBotones.add(lblTitulo);
 		
+		btnVerPaciente = new JButton("Datos Paciente");
+		btnVerPaciente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnVerPaciente.setBounds(10, 70, 119, 23);
+		panelBotones.add(btnVerPaciente);
+		
+		btnHacerConsulta = new JButton("Hacer Consulta");
+		btnHacerConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnHacerConsulta.setBounds(10, 104, 119, 23);
+		panelBotones.add(btnHacerConsulta);
+		
+		JButton btnNewButton_1 = new JButton("Ver Consulta");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnNewButton_1.setBounds(10, 36, 119, 23);
+		panelBotones.add(btnNewButton_1);
+		
 		panelTable = new JPanel();
 		panelTable.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelTable.setBounds(0, 89, 975, 495);
@@ -96,7 +125,7 @@ public class ListConsulta extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				enableButtons(true);
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -162,10 +191,14 @@ public class ListConsulta extends JPanel {
 	// Enable buttons
 	private void enableButtons(boolean enable) {
 		if(enable) {
-			
+			btnHacerConsulta.setEnabled(true);
+			btnResetFiltro.setEnabled(true);
+			btnVerPaciente.setEnabled(true);
 		}
 		else {
-				
+			btnHacerConsulta.setEnabled(false);
+			btnResetFiltro.setEnabled(false);
+			btnVerPaciente.setEnabled(false);	
 		}
 	}
 	
@@ -185,5 +218,4 @@ public class ListConsulta extends JPanel {
 	public void setMedico(Usuario medico) {
 		this.medico = medico;
 	}
-
 }
