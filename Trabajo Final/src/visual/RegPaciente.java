@@ -39,6 +39,7 @@ public class RegPaciente extends JDialog {
 	private JComboBox cbxSexo;
 	private JSpinner spnNacimiento;
 	private static Paciente update = null;
+	private static CitaMedica cite = null;
 
 	/**
 	 * Launch the application.
@@ -58,6 +59,7 @@ public class RegPaciente extends JDialog {
 	 */
 	public RegPaciente(Paciente modificar, CitaMedica cita) {
 		update = modificar;
+		cite = cita;
 		setModal(true);
 		setResizable(false);
 		if(update == null) {
@@ -186,7 +188,7 @@ public class RegPaciente extends JDialog {
 								Paciente pat = Clinica.getInstace().crearPaciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
 								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
 								clean();
-								RegConsulta regc = new RegConsulta(pat, cita.getMedico().getCodigoUsuario(),null);
+								RegConsulta regc = new RegConsulta(pat, cite.getMedico().getCodigoUsuario(),null);
 								regc.setVisible(true);
 							}else {
 								Paciente aux = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
