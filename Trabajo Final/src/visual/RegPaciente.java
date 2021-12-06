@@ -188,7 +188,7 @@ public class RegPaciente extends JDialog {
 								Paciente pat = Clinica.getInstace().crearPaciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
 								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
 								clean();
-								RegConsulta regc = new RegConsulta(pat, cite.getMedico().getCodigoUsuario(),null);
+								RegConsulta regc = new RegConsulta(pat, cite.getMedico().getCodigoUsuario(),null,cite);
 								regc.setVisible(true);
 								dispose();
 							}else {

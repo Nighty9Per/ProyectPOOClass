@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logical.CitaMedica;
 import logical.Clinica;
 import logical.Consulta;
 import logical.Enfermedad;
@@ -63,13 +64,14 @@ public class RegConsulta extends JDialog {
 	private static Consulta consultaCreada = null;
 	private static String med = "";
 	private static Paciente pat = null;
+	private static CitaMedica deleteCite = null;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegConsulta dialog = new RegConsulta(null,null,null);
+			RegConsulta dialog = new RegConsulta(null,null,null,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -80,10 +82,11 @@ public class RegConsulta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegConsulta(Paciente patient, String medico, Consulta consulta) {
+	public RegConsulta(Paciente patient, String medico, Consulta consulta, CitaMedica eliminarCita) {
 		consultaCreada = consulta;
 		setMed(medico);
 		setPat(patient);
+		setDeleteCite(eliminarCita);
 		hist = patient.getHistorial();
 		verConsulta();
 		
@@ -291,6 +294,7 @@ public class RegConsulta extends JDialog {
 									aHistorial = true;
 								}
 								consultaCreada =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, med, pat.getCedula(), aHistorial);
+								Clinica.getInstace().eliminarCitaMedicaCodigo(deleteCite.getCodigoCita());
 								JOptionPane.showMessageDialog(null, "Consulta Creada", "Exito", JOptionPane.INFORMATION_MESSAGE);
 								verConsulta();
 							}else if (validacion() == false){
@@ -365,5 +369,13 @@ public class RegConsulta extends JDialog {
 
 	public static void setPat(Paciente pat) {
 		RegConsulta.pat = pat;
+	}
+
+	public static CitaMedica getDeleteCite() {
+		return deleteCite;
+	}
+
+	public static void setDeleteCite(CitaMedica deleteCite) {
+		RegConsulta.deleteCite = deleteCite;
 	}
 }
