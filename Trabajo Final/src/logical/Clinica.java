@@ -273,6 +273,28 @@ public class Clinica implements Serializable{
 		return citaMedica;
 	}
 	
+	// Buscar Consulta usando codigo.
+	public Consulta buscarConsultaCodigo(String codigoConsulta, Paciente retPaciente) {
+		Consulta consulta = null;
+		boolean encontrado = false;
+		int indexPaciente = 0, indexConsulta = 0, cantconsulta = 0, cantPacientes = misPacientes.size();
+		Paciente paciente = null;
+		while (!encontrado && indexPaciente < cantPacientes) {
+			paciente = misPacientes.get(indexPaciente);
+			cantconsulta = paciente.getMisConsulta().size();
+			while (!encontrado && indexConsulta < cantconsulta) {
+				if (misPacientes.get(indexPaciente).getMisConsulta().get(indexConsulta).getCodigoConsulta().equalsIgnoreCase(codigoConsulta)) {
+					consulta = misPacientes.get(indexPaciente).getMisConsulta().get(indexConsulta);
+					retPaciente = paciente;
+					encontrado = true;
+				}
+				indexConsulta++;
+			}
+			indexPaciente++;
+		}
+		return consulta;
+	}
+	
 	// Agregar una consulta a un paciente usando la cedula.
 	public boolean agregarConsultaPacienteCedula(String cedula, Consulta consulta, boolean consultaAHistorial) {
 		boolean agregado = false;

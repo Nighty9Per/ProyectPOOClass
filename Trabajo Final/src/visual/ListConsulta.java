@@ -109,7 +109,15 @@ public class ListConsulta extends JPanel {
 		JButton btnNewButton_1 = new JButton("Ver Consulta");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(table.getSelectedRow() != -1) {
+					Paciente paciente = null;
+					Consulta consulta = getConsultaTable(paciente);
+					
+					if(consulta != null) {
+						RegConsulta verConsulta = new RegConsulta(paciente, consulta.getMedicoCodigo(), consulta);
+						verConsulta.setVisible(true);
+					}
+				}
 			}
 		});
 		btnNewButton_1.setBounds(10, 36, 119, 23);
@@ -247,5 +255,13 @@ public class ListConsulta extends JPanel {
 	}
 	public void setMedico(Usuario medico) {
 		this.medico = medico;
+	}
+	
+	private Consulta getConsultaTable(Paciente paciente) {
+		Consulta consulta = null;
+		if(table.getSelectedRow() != -1) {
+			consulta = Clinica.getInstace().buscarConsultaCodigo(table.getValueAt(table.getSelectedRow(), 0).toString(), paciente);
+		}
+		return consulta;
 	}
 }
