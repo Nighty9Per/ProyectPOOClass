@@ -264,8 +264,7 @@ public class PrincipalClinica extends JFrame {
 		mntmVerConsultas = new JMenuItem("Ver Mis Consultas");
 		mntmVerConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setMisConsultasMedico();
-				setConsultaInfo();
+				panelListConsulta.loadUsuarios();
 				viewListConsultaPanel();
 			}
 		});
@@ -473,27 +472,6 @@ public class PrincipalClinica extends JFrame {
 			btnLogOut.setText("Log In");
 			btnInicio.setEnabled(false);
 			viewLoginPanel();
-		}
-	}
-	
-	// Set Consulta Arguments
-	public void setConsultaInfo() {
-		panelListConsulta.setMisConsultas(misConsultasArray);
-		panelListConsulta.setMedico(Clinica.getInstace().getLoginUser());
-	}
-	
-	// misConsultasArray, las Consultas del Medico, todas.
-	public void setMisConsultasMedico() {
-		misConsultasArray.removeAll(misConsultasArray);
-		Usuario user = Clinica.getInstace().getLoginUser();
-		if(user instanceof U_Medico) {
-			for (Paciente paciente : Clinica.getInstace().getPacientesPorMedico(user)) {
-				for (Consulta consulta : paciente.getMisConsulta()) {
-					if(consulta.getMedicoCodigo().equalsIgnoreCase(user.getCodigoUsuario())) {
-						misConsultasArray.add(consulta);
-					}
-				}
-			}
 		}
 	}
 	

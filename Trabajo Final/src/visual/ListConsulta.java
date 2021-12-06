@@ -45,20 +45,15 @@ public class ListConsulta extends JPanel {
 	private JComboBox cbxBusqueda;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private ArrayList<Consulta> filterConsultas;
-	private ArrayList<Consulta> misConsultas;
-	private Usuario medico;
 	private static DefaultTableModel model;
 	private static Object[] rows;
 	private JButton btnVerPaciente;
-	private JButton btnHacerConsulta;
+	private JButton btnVerConsulta;
 	/**
 	 * Create the panel.
 	 */
 	public ListConsulta(ArrayList<Consulta> misConsultas, Usuario medico) {
 
-		this.setMisConsultas(misConsultas);
-		this.setMedico(medico);
 		setLayout(null);
 		setBounds(0, 67, 1124, 584);
 		
@@ -91,23 +86,14 @@ public class ListConsulta extends JPanel {
 		btnVerPaciente = new JButton("Datos Paciente");
 		btnVerPaciente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				enableButtons(false);
 			}
 		});
 		btnVerPaciente.setBounds(10, 70, 119, 23);
 		panelBotones.add(btnVerPaciente);
 		
-		btnHacerConsulta = new JButton("Hacer Consulta");
-		btnHacerConsulta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnHacerConsulta.setBounds(10, 104, 119, 23);
-		panelBotones.add(btnHacerConsulta);
-		
-		JButton btnNewButton_1 = new JButton("Ver Consulta");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnVerConsulta = new JButton("Ver Consulta");
+		btnVerConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1) {
 					Paciente paciente = null;
@@ -117,10 +103,11 @@ public class ListConsulta extends JPanel {
 						verConsulta.setVisible(true);
 					}
 				}
+				enableButtons(false);
 			}
 		});
-		btnNewButton_1.setBounds(10, 36, 119, 23);
-		panelBotones.add(btnNewButton_1);
+		btnVerConsulta.setBounds(10, 36, 119, 23);
+		panelBotones.add(btnVerConsulta);
 		
 		panelTable = new JPanel();
 		panelTable.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -224,13 +211,11 @@ public class ListConsulta extends JPanel {
 	// Enable buttons
 	private void enableButtons(boolean enable) {
 		if(enable) {
-			btnHacerConsulta.setEnabled(true);
-			btnResetFiltro.setEnabled(true);
+			btnVerConsulta.setEnabled(true);
 			btnVerPaciente.setEnabled(true);
 		}
 		else {
-			btnHacerConsulta.setEnabled(false);
-			btnResetFiltro.setEnabled(false);
+			btnVerConsulta.setEnabled(false);
 			btnVerPaciente.setEnabled(false);	
 		}
 	}
@@ -241,19 +226,6 @@ public class ListConsulta extends JPanel {
 			pass = false;
 		}
 		return pass;
-	}
-
-	public ArrayList<Consulta> getMisConsultas() {
-		return misConsultas;
-	}
-	public void setMisConsultas(ArrayList<Consulta> misConsultas) {
-		this.misConsultas = misConsultas;
-	}
-	public Usuario getMedico() {
-		return medico;
-	}
-	public void setMedico(Usuario medico) {
-		this.medico = medico;
 	}
 	
 	private Consulta getConsultaTable(Paciente paciente) {
