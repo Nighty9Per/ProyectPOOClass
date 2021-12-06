@@ -190,6 +190,7 @@ public class RegPaciente extends JDialog {
 								clean();
 								RegConsulta regc = new RegConsulta(pat, cite.getMedico().getCodigoUsuario(),null);
 								regc.setVisible(true);
+								dispose();
 							}else {
 								Paciente aux = new Paciente(txtCedula.getText(), txtNombre.getText(), cbxSexo.getSelectedItem().toString(), dateaux, txtDireccion.getText(), txtTelefono.getText());
 								Clinica.getInstace().editarPaciente(update.getCedula(), aux);
