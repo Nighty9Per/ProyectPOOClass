@@ -61,6 +61,8 @@ public class RegConsulta extends JDialog {
 	private JCheckBox chckbxPasarHistorial;
 	private static HistorialClinica hist = null;
 	private static Consulta consultaCreada = null;
+	private static String med = "";
+	private static Paciente pat = null;
 
 	/**
 	 * Launch the application.
@@ -80,6 +82,8 @@ public class RegConsulta extends JDialog {
 	 */
 	public RegConsulta(Paciente patient, String medico, Consulta consulta) {
 		consultaCreada = consulta;
+		setMed(medico);
+		setPat(patient);
 		hist = patient.getHistorial();
 		verConsulta();
 		
@@ -286,7 +290,7 @@ public class RegConsulta extends JDialog {
 								if (sick != null || chckbxPasarHistorial.isSelected()) {
 									aHistorial = true;
 								}
-								consultaCreada =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, medico, patient.getCedula(), aHistorial);
+								consultaCreada =  Clinica.getInstace().crearConsulta(txtpSintomas.getText(), txtpDiag.getText(), txtpProced.getText(), txtpTratamiento.getText(), txtpComent.getText(), sick, med, pat.getCedula(), aHistorial);
 								JOptionPane.showMessageDialog(null, "Consulta Creada", "Exito", JOptionPane.INFORMATION_MESSAGE);
 								verConsulta();
 							}else if (validacion() == false){
@@ -345,5 +349,21 @@ public class RegConsulta extends JDialog {
 			txtpTratamiento.setEditable(false);
 			btnRegistro.setText("Ok");
 		}
+	}
+
+	public static String getMed() {
+		return med;
+	}
+
+	public static void setMed(String med) {
+		RegConsulta.med = med;
+	}
+
+	public static Paciente getPat() {
+		return pat;
+	}
+
+	public static void setPat(Paciente pat) {
+		RegConsulta.pat = pat;
 	}
 }
