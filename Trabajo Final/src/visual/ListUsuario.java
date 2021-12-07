@@ -72,7 +72,13 @@ public class ListUsuario extends JPanel {
 		JButton btnNewButton = new JButton("Regresar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PrincipalClinica.getInstace().viewCleanPanelUser();
+				Usuario user = Clinica.getInstace().getLoginUser();
+				if(user instanceof U_Medico) {
+					PrincipalClinica.getInstace().viewListCitaMedicaPanel();
+				}
+				else if(user instanceof U_Administrador) {
+					PrincipalClinica.getInstace().viewListUsuarioPanel();
+				}
 			}
 		});
 		btnNewButton.setBounds(10, 539, 119, 23);

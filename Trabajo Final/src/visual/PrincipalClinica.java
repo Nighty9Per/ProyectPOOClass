@@ -158,7 +158,13 @@ public class PrincipalClinica extends JFrame {
 		btnInicio.setEnabled(false);
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewCleanPanelUser();
+				Usuario user = Clinica.getInstace().getLoginUser();
+				if(user instanceof U_Medico) {
+					PrincipalClinica.getInstace().viewListCitaMedicaPanel();
+				}
+				else if(user instanceof U_Administrador) {
+					PrincipalClinica.getInstace().viewListUsuarioPanel();
+				}
 			}
 		});
 		btnInicio.setBounds(926, 13, 89, 23);
@@ -217,7 +223,6 @@ public class PrincipalClinica extends JFrame {
 		mntmListUsuarios = new JMenuItem("Lista de Usuarios");
 		mntmListUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelListUsuario.loadUsuarios();
 				viewListUsuarioPanel();
 			}
 		});
@@ -231,7 +236,6 @@ public class PrincipalClinica extends JFrame {
 		mntmListCitaMedica = new JMenuItem("Lista de Citas Medicas");
 		mntmListCitaMedica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelListCitaMedica.loadCitas();
 				viewListCitaMedicaPanel();
 			}
 		});
@@ -260,7 +264,6 @@ public class PrincipalClinica extends JFrame {
 		mntmVerConsultas = new JMenuItem("Ver Mis Consultas");
 		mntmVerConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelListConsulta.loadUsuarios();
 				viewListConsultaPanel();
 			}
 		});
@@ -272,7 +275,6 @@ public class PrincipalClinica extends JFrame {
 		mntmListVacuna = new JMenuItem("Lista de Vacunas");
 		mntmListVacuna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelListVacuna.loadVacuna();
 				viewListVacuna();
 			}
 		});
@@ -284,7 +286,6 @@ public class PrincipalClinica extends JFrame {
 		mntmNewMenuItem_6 = new JMenuItem("Lista de Enfermedades");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelListEnfermedad.loadEnfermedades();
 				viewListEnfermedad();
 			}
 		});
@@ -409,6 +410,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	public void viewListConsultaPanel() {
+		panelListConsulta.loadConsulta();
 		panelLogin.setVisible(false);
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(false);
@@ -420,6 +422,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	public void viewListUsuarioPanel() {
+		panelListUsuario.loadUsuarios();
 		panelLogin.setVisible(false);
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(true);
@@ -431,6 +434,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	public void viewListCitaMedicaPanel() {
+		panelListCitaMedica.loadCitas();
 		panelLogin.setVisible(false);
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(false);
@@ -442,6 +446,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	public void viewListPacientes() {
+		panelListPaciente.loadPacientes();
 		panelLogin.setVisible(false);
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(false);
@@ -453,6 +458,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	public void viewListVacuna() {
+		panelListVacuna.loadVacuna();
 		panelLogin.setVisible(false);
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(false);
@@ -464,6 +470,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	public void viewListEnfermedad() {
+		panelListEnfermedad.loadEnfermedades();
 		panelLogin.setVisible(false);
 		panelUser.setVisible(true);
 		panelListUsuario.setVisible(false);
@@ -472,6 +479,18 @@ public class PrincipalClinica extends JFrame {
 		panelListVacuna.setVisible(false);
 		panelListEnfermedad.setVisible(true);
 		panelListConsulta.setVisible(false);
+	}
+	
+	public void iniLogin() {
+		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user != null) {
+			if(user instanceof U_Medico) {
+				viewListCitaMedicaPanel();
+			}
+			else {
+				viewListUsuarioPanel();
+			}
+		}
 	}
 	
 	// Recordar remover los comentario despues de todos los test.
@@ -489,7 +508,7 @@ public class PrincipalClinica extends JFrame {
 			btnLogOut.setText("Log Out");
 			btnInicio.setEnabled(true);
 			lblUser.setText("User: " + Clinica.getInstace().getLoginUser().getNombre());
-			viewCleanPanelUser();
+			iniLogin();
 		}
 		else {
 			lblUser.setText("User: N/A");

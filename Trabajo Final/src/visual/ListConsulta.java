@@ -159,7 +159,7 @@ public class ListConsulta extends JPanel {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadUsuarios();
+				loadConsulta();
 			}
 		});
 		btnBuscar.setBounds(330, 34, 89, 23);
@@ -178,11 +178,11 @@ public class ListConsulta extends JPanel {
 	private void resetFiltros() {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
-		loadUsuarios();
+		loadConsulta();
 	}
 	
 	// Load Usuarios a la Tabla
-	public void loadUsuarios() {
+	public void loadConsulta() {
 		enableButtons(false);
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null && user instanceof U_Medico) {

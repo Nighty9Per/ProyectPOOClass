@@ -51,7 +51,7 @@ public class ListPaciente extends JPanel {
 		JButton btnNewButton = new JButton("Regresar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PrincipalClinica.getInstace().viewCleanPanelUser();
+				PrincipalClinica.getInstace().viewListCitaMedicaPanel();
 			}
 		});
 		btnNewButton.setBounds(10, 539, 119, 23);
@@ -117,5 +117,8 @@ public class ListPaciente extends JPanel {
 		txtBuscar.setText("");
 		cbxBusqueda.setSelectedIndex(0);
 	}
-
+	public void loadPacientes() {
+		
+		
+	}
 }

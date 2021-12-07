@@ -8,6 +8,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -69,7 +70,13 @@ public class ListVacuna extends JPanel {
 		JButton btnNewButton = new JButton("Regresar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PrincipalClinica.getInstace().viewCleanPanelUser();
+				Usuario user = Clinica.getInstace().getLoginUser();
+				if(user instanceof U_Medico) {
+					PrincipalClinica.getInstace().viewListCitaMedicaPanel();
+				}
+				else if(user instanceof U_Administrador) {
+					PrincipalClinica.getInstace().viewListUsuarioPanel();
+				}
 			}
 		});
 		btnNewButton.setBounds(10, 539, 119, 23);
@@ -99,6 +106,7 @@ public class ListVacuna extends JPanel {
 				if(table.getSelectedRow() != -1) {
 					Vacuna vacuna = getVacunaTable();
 					Clinica.getInstace().eliminarVacuna(vacuna.getCodigoVacuna());
+					JOptionPane.showMessageDialog(null, "Vacuna fue eliminda con Exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
 					loadVacuna();
 				}
 			}
@@ -120,7 +128,7 @@ public class ListVacuna extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				enableButtons(true);
 			}
 		});
 		String[] headers = {"Codigo Vacuna", "Nombre Vacuna"};
@@ -166,6 +174,7 @@ public class ListVacuna extends JPanel {
 			btnCrearVacuna.setEnabled(true);
 		}
 		
+		loadVacuna();
 	}
 	private void resetFiltros() {
 		txtBuscar.setText("");

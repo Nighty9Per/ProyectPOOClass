@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import logical.Clinica;
 import logical.Enfermedad;
 import logical.U_Administrador;
+import logical.U_Medico;
 import logical.Usuario;
 import logical.Vacuna;
 
@@ -66,7 +67,13 @@ public class ListEnfermedad extends JPanel {
 		JButton btnNewButton = new JButton("Regresar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PrincipalClinica.getInstace().viewCleanPanelUser();
+				Usuario user = Clinica.getInstace().getLoginUser();
+				if(user instanceof U_Medico) {
+					PrincipalClinica.getInstace().viewListCitaMedicaPanel();
+				}
+				else if(user instanceof U_Administrador) {
+					PrincipalClinica.getInstace().viewListUsuarioPanel();
+				}
 			}
 		});
 		btnNewButton.setBounds(10, 539, 119, 23);

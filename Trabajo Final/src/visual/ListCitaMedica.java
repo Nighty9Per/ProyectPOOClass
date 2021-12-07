@@ -52,6 +52,9 @@ public class ListCitaMedica extends JPanel {
 	private ArrayList<CitaMedica> arrayListCita;
 	private JButton btnConsulta;
 	private JButton btnCancelarCita;
+	private JButton btnCrearCita;
+	private JButton btnVerConsultas;
+	private JButton btnNewButton_1;
 	/**
 	 * Create the panel.
 	 */
@@ -109,7 +112,7 @@ public class ListCitaMedica extends JPanel {
 			}
 		});
 		btnConsulta.setEnabled(false);
-		btnConsulta.setBounds(10, 36, 119, 23);
+		btnConsulta.setBounds(10, 70, 119, 23);
 		panelBotones.add(btnConsulta);
 		
 		btnCancelarCita = new JButton("Cancelar Cita");
@@ -122,8 +125,37 @@ public class ListCitaMedica extends JPanel {
 			}
 		});
 		btnCancelarCita.setEnabled(false);
-		btnCancelarCita.setBounds(10, 70, 119, 23);
+		btnCancelarCita.setBounds(10, 104, 119, 23);
 		panelBotones.add(btnCancelarCita);
+		
+		btnCrearCita = new JButton("Crear Cita");
+		btnCrearCita.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegCita regCita = new RegCita();
+				regCita.setVisible(true);
+				loadCitas();
+			}
+		});
+		btnCrearCita.setBounds(10, 36, 119, 23);
+		panelBotones.add(btnCrearCita);
+		
+		btnVerConsultas = new JButton("Mis Consultas");
+		btnVerConsultas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PrincipalClinica.getInstace().viewListConsultaPanel();
+			}
+		});
+		btnVerConsultas.setBounds(10, 138, 119, 23);
+		panelBotones.add(btnVerConsultas);
+		
+		btnNewButton_1 = new JButton("Mis Pacientes");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PrincipalClinica.getInstace().viewListPacientes();
+			}
+		});
+		btnNewButton_1.setBounds(10, 172, 119, 23);
+		panelBotones.add(btnNewButton_1);
 		
 		panelTable = new JPanel();
 		panelTable.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -225,27 +257,25 @@ public class ListCitaMedica extends JPanel {
 	
 	// Filtro de Busqueda
 	private void filterCitaMedica(Usuario user) {
-		if(user != null) {
-			if(user instanceof U_Medico){
-				arrayListCita.removeAll(arrayListCita);
-				for (CitaMedica citaMedica : Clinica.getInstace().getMisCitas()) {
-					if(!citaMedica.getMedico().getCodigoUsuario().equalsIgnoreCase(user.getCodigoUsuario())) {
-						continue;
-					}
-					if(!txtBuscar.getText().equalsIgnoreCase("")) {
-						if(cbxBusqueda.getSelectedIndex() == 0) {
-							if(!filtroCedula(citaMedica.getCedulaPaciente())) {
-								continue;
-							}
-						}
-						if(cbxBusqueda.getSelectedIndex() == 1) {
-							if(!filtroNombre(citaMedica.getNombrePaciente())) {
-								continue;
-							}
-						}
-					}
-					arrayListCita.add(citaMedica);
+		if(user != null && user instanceof U_Medico) {
+			arrayListCita.removeAll(arrayListCita);
+			for (CitaMedica citaMedica : Clinica.getInstace().getMisCitas()) {
+				if(!citaMedica.getMedico().getCodigoUsuario().equalsIgnoreCase(user.getCodigoUsuario())) {
+					continue;
 				}
+				if(!txtBuscar.getText().equalsIgnoreCase("")) {
+					if(cbxBusqueda.getSelectedIndex() == 0) {
+						if(!filtroCedula(citaMedica.getCedulaPaciente())) {
+							continue;
+						}
+					}
+					if(cbxBusqueda.getSelectedIndex() == 1) {
+						if(!filtroNombre(citaMedica.getNombrePaciente())) {
+							continue;
+						}
+					}
+				}
+				arrayListCita.add(citaMedica);
 			}
 		}
 	}
