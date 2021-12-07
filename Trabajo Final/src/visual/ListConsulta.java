@@ -96,8 +96,8 @@ public class ListConsulta extends JPanel {
 		btnVerConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1) {
-					Paciente paciente = null;
-					Consulta consulta = getConsultaTable(paciente);
+					Paciente paciente = getPacienteTable();
+					Consulta consulta = getConsultaTable();
 					if(consulta != null) {
 						RegConsulta verConsulta = new RegConsulta(paciente, consulta.getMedicoCodigo(), consulta, null);
 						verConsulta.setVisible(true);
@@ -228,11 +228,19 @@ public class ListConsulta extends JPanel {
 		return pass;
 	}
 	
-	private Consulta getConsultaTable(Paciente paciente) {
+	private Consulta getConsultaTable() {
 		Consulta consulta = null;
 		if(table.getSelectedRow() != -1) {
-			consulta = Clinica.getInstace().buscarConsultaCodigo(table.getValueAt(table.getSelectedRow(), 0).toString(), paciente);
+			consulta = Clinica.getInstace().buscarConsultaCodigo(table.getValueAt(table.getSelectedRow(), 0).toString());
 		}
 		return consulta;
+	}
+	
+	private Paciente getPacienteTable() {
+		Paciente paciente = null;
+		if(table.getSelectedRow() != -1) {
+			paciente = Clinica.getInstace().buscarPacientePorCodigoConsulta(table.getValueAt(table.getSelectedRow(), 0).toString());
+		}
+		return paciente;
 	}
 }

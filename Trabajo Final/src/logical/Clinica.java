@@ -275,7 +275,7 @@ public class Clinica implements Serializable{
 	}
 	
 	// Buscar Consulta usando codigo.
-	public Consulta buscarConsultaCodigo(String codigoConsulta, Paciente retPaciente) {
+	public Consulta buscarConsultaCodigo(String codigoConsulta) {
 		Consulta consulta = null;
 		boolean encontrado = false;
 		int indexPaciente = 0, indexConsulta = 0, cantconsulta = 0, cantPacientes = misPacientes.size();
@@ -286,7 +286,6 @@ public class Clinica implements Serializable{
 			while (!encontrado && indexConsulta < cantconsulta) {
 				if (misPacientes.get(indexPaciente).getMisConsulta().get(indexConsulta).getCodigoConsulta().equalsIgnoreCase(codigoConsulta)) {
 					consulta = misPacientes.get(indexPaciente).getMisConsulta().get(indexConsulta);
-					retPaciente = paciente;
 					encontrado = true;
 				}
 				indexConsulta++;
@@ -295,6 +294,27 @@ public class Clinica implements Serializable{
 		}
 		return consulta;
 	}
+	
+	// Buscar Paciente usando una consulta del Paciente.
+		public Paciente buscarPacientePorCodigoConsulta(String codigoConsulta) {
+			Paciente retPaciente = null;
+			boolean encontrado = false;
+			int indexPaciente = 0, indexConsulta = 0, cantconsulta = 0, cantPacientes = misPacientes.size();
+			Paciente paciente = null;
+			while (!encontrado && indexPaciente < cantPacientes) {
+				paciente = misPacientes.get(indexPaciente);
+				cantconsulta = paciente.getMisConsulta().size();
+				while (!encontrado && indexConsulta < cantconsulta) {
+					if (misPacientes.get(indexPaciente).getMisConsulta().get(indexConsulta).getCodigoConsulta().equalsIgnoreCase(codigoConsulta)) {
+						retPaciente = paciente;
+						encontrado = true;
+					}
+					indexConsulta++;
+				}
+				indexPaciente++;
+			}
+			return retPaciente;
+		}
 	
 	// Agregar una consulta a un paciente usando la cedula.
 	public boolean agregarConsultaPacienteCedula(String cedula, Consulta consulta, boolean consultaAHistorial) {
