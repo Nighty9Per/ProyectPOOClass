@@ -71,7 +71,7 @@ public class ListConsulta extends JPanel {
 		JButton btnNewButton = new JButton("Regresar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PrincipalClinica.getInstace().viewCleanPanelUser();
+				PrincipalClinica.getInstace().viewListCitaMedicaPanel();
 			}
 		});
 		btnNewButton.setBounds(10, 539, 119, 23);
@@ -83,7 +83,7 @@ public class ListConsulta extends JPanel {
 		lblTitulo.setBounds(10, 11, 119, 14);
 		panelBotones.add(lblTitulo);
 		
-		btnVerPaciente = new JButton("Datos Paciente");
+		btnVerPaciente = new JButton("Ver Paciente");
 		btnVerPaciente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				enableButtons(false);
@@ -98,12 +98,11 @@ public class ListConsulta extends JPanel {
 				if(table.getSelectedRow() != -1) {
 					Paciente paciente = getPacienteTable();
 					Consulta consulta = getConsultaTable();
-					if(consulta != null) {
+					if(consulta != null && paciente != null) {
 						RegConsulta verConsulta = new RegConsulta(paciente, consulta.getMedicoCodigo(), consulta, null);
 						verConsulta.setVisible(true);
 					}
 				}
-				enableButtons(false);
 			}
 		});
 		btnVerConsulta.setBounds(10, 36, 119, 23);
