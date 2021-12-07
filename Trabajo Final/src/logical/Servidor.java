@@ -28,14 +28,17 @@ public class Servidor extends Thread {
 		}
 		
 		//Entorno de Ejecucion
-		try {
-			readFlujo = new ObjectInputStream(nsfd.getInputStream());
-		} catch (IOException ioe) {				
-			JOptionPane.showMessageDialog(null, "Error", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		}
-		Clinica clinic = (Clinica) readFlujo.readObject();
-		respaldos = clinic;
-		JOptionPane.showMessageDialog(null, "Respaldo creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+		while (true) {
+			try {
+				readFlujo = new ObjectInputStream(nsfd.getInputStream());
+			} catch (IOException ioe) {
+				JOptionPane.showMessageDialog(null, "Error", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			}
+			Clinica clinic = (Clinica) readFlujo.readObject();
+			respaldos = clinic;
+			JOptionPane.showMessageDialog(null, "Respaldo creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+			
+	}
 	}
 	
 }
