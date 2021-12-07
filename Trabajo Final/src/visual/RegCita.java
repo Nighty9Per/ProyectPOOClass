@@ -201,7 +201,7 @@ public class RegCita extends JDialog {
 		spnFecha.setEditor(de_spnFecha);
 		txtCodigo.setText("CM-"+Clinica.getInstace().getGenerateCodigoCita());
 		cbxMedico.setSelectedIndex(0);
-		
+		txtCed.setText("");
 	}
 
 	public DefaultComboBoxModel<String> getCadena() {
