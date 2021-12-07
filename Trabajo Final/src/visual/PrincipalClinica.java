@@ -12,6 +12,7 @@ import logical.Clinica;
 import logical.Consulta;
 import logical.Enfermedad;
 import logical.Paciente;
+import logical.Servidor;
 import logical.U_Administrador;
 import logical.U_Medico;
 import logical.Usuario;
@@ -23,6 +24,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -34,6 +37,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class PrincipalClinica extends JFrame {
@@ -72,6 +77,8 @@ public class PrincipalClinica extends JFrame {
 	private JMenuItem mntmMedicoPacientes;
 	private JMenuItem mntmVerConsultas;
 	private ArrayList<Consulta> misConsultasArray;
+	private JMenu mnNewMenu;
+	private JMenuItem mntmNewMenuItem;
 
 	/**
 	 * Launch the application.
@@ -283,6 +290,17 @@ public class PrincipalClinica extends JFrame {
 		});
 		mnListEnfermedades.add(mntmNewMenuItem_6);
 		
+		mnNewMenu = new JMenu("Respaldo");
+		menuBar.add(mnNewMenu);
+		
+		mntmNewMenuItem = new JMenuItem("Crear Backup");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardarRespaldo();
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
+		
 		
 		panelFoundation = new JPanel();
 		panelFoundation.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -348,6 +366,23 @@ public class PrincipalClinica extends JFrame {
 		}
 		
 		Clinica.getInstace().setLoginUser(null);
+	}
+	
+	private void guardarRespaldo() {
+		String host = "LocalHost";
+		try {
+			Socket client = new Socket(host,6000);
+			ObjectOutputStream writeFlujo = new ObjectOutputStream(new FileOutputStream("respaldo.dat"));
+			writeFlujo.writeObject(Clinica.getInstace().getClinica());
+			client.close();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JOptionPane.showMessageDialog(null, "Respaldo creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	// Poner el panel Login en frente
