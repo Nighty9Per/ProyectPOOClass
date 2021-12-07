@@ -70,7 +70,6 @@ public class PrincipalClinica extends JFrame {
 	private JMenuItem mntmRegistrarCita;
 	private JMenuItem mntmListUsuarios;
 	private JMenuItem mntmMedicoPacientes;
-	private JMenuItem mntmNewMenuItem;
 	private JMenuItem mntmVerConsultas;
 	private ArrayList<Consulta> misConsultasArray;
 
@@ -145,7 +144,7 @@ public class PrincipalClinica extends JFrame {
 		
 		lblUser = new JLabel("User: N/A");
 		lblUser.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUser.setBounds(10, 15, 166, 14);
+		lblUser.setBounds(10, 13, 166, 23);
 		panelUserInfo.add(lblUser);
 		
 		btnInicio = new JButton("Inicio");
@@ -215,16 +214,6 @@ public class PrincipalClinica extends JFrame {
 				viewListUsuarioPanel();
 			}
 		});
-		
-		mntmNewMenuItem = new JMenuItem("Registrar Paciente");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				RegPaciente regp = new RegPaciente(null, null);
-				regp.setVisible(true);
-				
-			}
-		});
-		mnAdministrador.add(mntmNewMenuItem);
 		mnAdministrador.add(mntmListUsuarios);
 		
 		
