@@ -58,6 +58,7 @@ public class RegUsuario extends JDialog {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		try {
 			RegUsuario dialog = new RegUsuario(null);
@@ -67,7 +68,7 @@ public class RegUsuario extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	*/
 	/**
 	 * Create the dialog.
 	 */
@@ -216,7 +217,7 @@ public class RegUsuario extends JDialog {
 			panel_1.add(rdbtnMedico);
 			
 			pnAdmin = new JPanel();
-			pnAdmin.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			pnAdmin.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			pnAdmin.setBounds(286, 184, 268, 95);
 			panel_1.add(pnAdmin);
 			pnAdmin.setLayout(null);
@@ -234,7 +235,7 @@ public class RegUsuario extends JDialog {
 			
 			pnMed = new JPanel();
 			pnMed.setVisible(false);
-			pnMed.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			pnMed.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			pnMed.setBounds(286, 184, 268, 95);
 			panel_1.add(pnMed);
 			pnMed.setLayout(null);
@@ -271,18 +272,23 @@ public class RegUsuario extends JDialog {
 			txtDirec.setText(update.getDireccion());
 			txtLogin.setText(update.getLogin());
 			txtPassword.setText(update.getPassword());
+			txtConfirm.setText(update.getPassword());
 			if (update instanceof U_Administrador) {
 				U_Administrador aux = (U_Administrador)update;
 				pnAdmin.setVisible(true);
+				pnMed.setVisible(false);
 				rdbtnAdmin.setEnabled(false);
 				rdbtnMedico.setEnabled(false);
 				rdbtnAdmin.setSelected(true);
+				rdbtnMedico.setSelected(false);
 				txtPuesto.setText(aux.getPuestoLaboral());
 			}else if (update instanceof U_Medico) {
 				U_Medico aux = (U_Medico)update;
+				pnAdmin.setVisible(false);
 				pnMed.setVisible(true);
 				rdbtnAdmin.setEnabled(false);
 				rdbtnMedico.setEnabled(false);
+				rdbtnAdmin.setSelected(false);
 				rdbtnMedico.setSelected(true);
 				txtCodMed.setText(aux.getCodigoMedico());
 				txtEspecialidad.setText(aux.getEspecialidad());
