@@ -3,6 +3,7 @@ package visual;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,9 +13,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logical.Clinica;
+import logical.Enfermedad;
+import logical.U_Administrador;
+import logical.Usuario;
+import logical.Vacuna;
+
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListEnfermedad extends JPanel {
 
@@ -26,9 +37,12 @@ public class ListEnfermedad extends JPanel {
 	private JButton btnBuscar;
 	private JButton btnResetFiltro;
 	private JLabel lblNombre;
-	private JComboBox cbxBusqueda;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private ArrayList<Enfermedad> arrayListEnfermedad;
+	private static DefaultTableModel model;
+	private static Object[] rows;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -37,6 +51,7 @@ public class ListEnfermedad extends JPanel {
 		setLayout(null);
 		setBounds(0, 67, 1124, 584);
 		
+		arrayListEnfermedad = new ArrayList<Enfermedad>();
 		panelMain = new JPanel();
 		panelMain.setBounds(0, 0, 1124, 584);
 		add(panelMain);
@@ -73,6 +88,15 @@ public class ListEnfermedad extends JPanel {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		String[] headers = {"Codigo Enfermedad", "Nombre" , "Tipo", "Descipción"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers);
+		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
 		panelFiltro = new JPanel();
@@ -100,22 +124,83 @@ public class ListEnfermedad extends JPanel {
 		panelFiltro.add(lblNombre);
 		
 		btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(330, 34, 89, 23);
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadEnfermedades();
+			}
+		});
+		btnBuscar.setBounds(170, 34, 89, 23);
 		panelFiltro.add(btnBuscar);
 		
-		cbxBusqueda = new JComboBox();
-		cbxBusqueda.setModel(new DefaultComboBoxModel(new String[] {"Cedula", "Nombre"}));
-		cbxBusqueda.setBounds(170, 34, 150, 23);
-		panelFiltro.add(cbxBusqueda);
-		
-		JLabel lblFiltroDeBusqueda = new JLabel("Filtro de Busqueda:");
-		lblFiltroDeBusqueda.setBounds(170, 15, 128, 14);
-		panelFiltro.add(lblFiltroDeBusqueda);
-		
+		loadEnfermedades();
 	}
+	
 	private void resetFiltros() {
 		txtBuscar.setText("");
-		cbxBusqueda.setSelectedIndex(0);
+		loadEnfermedades();
+	}
+	
+	// Load Enfermedades a la Tabla
+	public void loadEnfermedades() {
+		enableButtons(false);
+		filterVacuna();
+		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user != null) {
+			filterVacuna();
+			model.setRowCount(0);
+			rows = new Object[model.getColumnCount()];
+			for (Enfermedad enfermedad : arrayListEnfermedad) {
+				rows[0] = enfermedad.getCodigoEnfermedad();
+				rows[1] = enfermedad.getNombreEnfermedad();
+				rows[2] = enfermedad.getTipoEnfermedad();
+				rows[3] = enfermedad.getDescripcionEnfermedad();
+				model.addRow(rows);
+			}
+		}
+	}
+	
+	// Filtro de Usuarios
+	private void filterVacuna() {
+		arrayListEnfermedad.removeAll(arrayListEnfermedad);
+		for (Enfermedad enfermedad : Clinica.getInstace().getMisEnfermedas()) {
+			/*
+			if(!filterTextBox(enfermedad.getCodigoEnfermedad())) {
+				continue;
+			}
+			*/
+			arrayListEnfermedad.add(enfermedad);
+		}
+	}
+	
+	// Filtro TextBox
+	private boolean filterTextBox(String text) {
+		boolean pass = false;
+		if(txtBuscar.getText().equalsIgnoreCase("")) {
+			pass = true;
+		} else {
+			if(txtBuscar.getText().equalsIgnoreCase(text)) {
+				pass = true;
+			}
+		}
+		return pass;
 	}
 
+	// Enable buttons
+	private void enableButtons(boolean enable) {
+		if(enable) {
+			
+		}
+		else {
+			
+		}
+	}
+	
+	// Obtener la Vacuna selecionado de la tabla
+	private Enfermedad getEnfermedadTable() {
+		Enfermedad selectedEnfermedad = null;
+		if(table.getSelectedRow() != -1) {
+			selectedEnfermedad = Clinica.getInstace().buscarEnfermedadCodigo(table.getValueAt(table.getSelectedRow(), 0).toString());
+		}
+		return selectedEnfermedad;
+	}
 }

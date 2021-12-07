@@ -12,9 +12,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logical.Clinica;
+import logical.U_Administrador;
+import logical.U_Medico;
+import logical.Usuario;
+import logical.Vacuna;
+
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class ListVacuna extends JPanel {
 
@@ -26,10 +37,15 @@ public class ListVacuna extends JPanel {
 	private JButton btnBuscar;
 	private JButton btnResetFiltro;
 	private JLabel lblNombre;
-	private JComboBox cbxBusqueda;
 	private JLabel lblTitulo;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private JButton btnCrearVacuna;
+	private JButton btnEliminar;
+	private static DefaultTableModel model;
+	private static Object[] rows;
+	private ArrayList<Vacuna> filtroVacunas;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -38,6 +54,7 @@ public class ListVacuna extends JPanel {
 		setLayout(null);
 		setBounds(0, 67, 1124, 584);
 		
+		filtroVacunas = new ArrayList<Vacuna>();
 		panelMain = new JPanel();
 		panelMain.setBounds(0, 0, 1124, 584);
 		add(panelMain);
@@ -64,6 +81,32 @@ public class ListVacuna extends JPanel {
 		lblTitulo.setBounds(10, 11, 119, 14);
 		panelBotones.add(lblTitulo);
 		
+		btnCrearVacuna = new JButton("Crear Vacuna");
+		btnCrearVacuna.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegVacuna regVacuna = new RegVacuna();
+				regVacuna.setVisible(true);
+				loadVacuna();
+			}
+		});
+		btnCrearVacuna.setEnabled(false);
+		btnCrearVacuna.setBounds(10, 36, 119, 23);
+		panelBotones.add(btnCrearVacuna);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow() != -1) {
+					Vacuna vacuna = getVacunaTable();
+					Clinica.getInstace().eliminarVacuna(vacuna.getCodigoVacuna());
+					loadVacuna();
+				}
+			}
+		});
+		btnEliminar.setEnabled(false);
+		btnEliminar.setBounds(10, 70, 119, 23);
+		panelBotones.add(btnEliminar);
+		
 		panelTable = new JPanel();
 		panelTable.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelTable.setBounds(0, 89, 975, 495);
@@ -74,6 +117,16 @@ public class ListVacuna extends JPanel {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		String[] headers = {"Codigo Vacuna", "Nombre Vacuna"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers);
+		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
 		panelFiltro = new JPanel();
@@ -96,29 +149,90 @@ public class ListVacuna extends JPanel {
 		panelFiltro.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		
-		lblNombre = new JLabel("Busqueda:");
-		lblNombre.setBounds(10, 15, 95, 14);
+		lblNombre = new JLabel("Busqueda Por C\u00F3digo:");
+		lblNombre.setBounds(10, 15, 150, 14);
 		panelFiltro.add(lblNombre);
 		
 		btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(330, 34, 89, 23);
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadVacuna();
+			}
+		});
+		btnBuscar.setBounds(170, 34, 89, 23);
 		panelFiltro.add(btnBuscar);
 		
-		cbxBusqueda = new JComboBox();
-		cbxBusqueda.setModel(new DefaultComboBoxModel(new String[] {"Cedula", "Nombre"}));
-		cbxBusqueda.setBounds(170, 34, 150, 23);
-		panelFiltro.add(cbxBusqueda);
-		
-		JLabel lblFiltroDeBusqueda = new JLabel("Filtro de Busqueda:");
-		lblFiltroDeBusqueda.setBounds(170, 15, 128, 14);
-		panelFiltro.add(lblFiltroDeBusqueda);
+		if(Clinica.getInstace().getLoginUser() instanceof U_Administrador) {
+			btnCrearVacuna.setEnabled(true);
+		}
 		
 	}
 	private void resetFiltros() {
 		txtBuscar.setText("");
-		cbxBusqueda.setSelectedIndex(0);
+		loadVacuna();
 	}
-
 	
-
+	// Enable buttons
+	private void enableButtons(boolean enable) {
+		if(enable) {
+			if(Clinica.getInstace().getLoginUser() instanceof U_Administrador) {
+				btnEliminar.setEnabled(true);
+			}
+		}
+		else {
+			btnEliminar.setEnabled(false);
+		}
+	}
+	
+	// Load Usuarios a la Tabla
+	public void loadVacuna() {
+		enableButtons(false);
+		if(Clinica.getInstace().getLoginUser() instanceof U_Administrador) {
+			btnCrearVacuna.setEnabled(true);
+		}
+		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user != null) {
+			filterVacuna();
+			model.setRowCount(0);
+			rows = new Object[model.getColumnCount()];
+			for (Vacuna vacuna : filtroVacunas) {
+				rows[0] = vacuna.getCodigoVacuna();
+				rows[1] = vacuna.getNombreVacuna();
+				model.addRow(rows);
+			}
+		}
+	}
+	
+	// Filtro de Usuarios
+	private void filterVacuna() {
+		filtroVacunas.removeAll(filtroVacunas);
+		for (Vacuna vacuna : Clinica.getInstace().getMisVacunas()) {
+			if(!filterTextBox(vacuna.getCodigoVacuna())) {
+				continue;
+			}
+			filtroVacunas.add(vacuna);
+		}
+	}
+	
+	// Filtro TextBox
+	private boolean filterTextBox(String text) {
+		boolean pass = false;
+		if(txtBuscar.getText().equalsIgnoreCase("")) {
+			pass = true;
+		} else {
+			if(txtBuscar.getText().equalsIgnoreCase(text)) {
+				pass = true;
+			}
+		}
+		return pass;
+	}
+	
+	// Obtener la Vacuna selecionado de la tabla
+	private Vacuna getVacunaTable() {
+		Vacuna selectedVacuna = null;
+		if(table.getSelectedRow() != -1) {
+			selectedVacuna = Clinica.getInstace().buscarVacunaCodigo(table.getValueAt(table.getSelectedRow(), 0).toString());
+		}
+		return selectedVacuna;
+	}
 }

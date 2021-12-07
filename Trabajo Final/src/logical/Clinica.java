@@ -296,30 +296,31 @@ public class Clinica implements Serializable{
 	}
 	
 	// Buscar Paciente usando una consulta del Paciente.
-		public Paciente buscarPacientePorCodigoConsulta(String codigoConsulta) {
-			for (Paciente paciente : misPacientes) {
-				for (Consulta consulta : paciente.getMisConsulta()) {
-					if (consulta.getCodigoConsulta().equalsIgnoreCase(codigoConsulta)) {
-						return paciente;
-					}
+	public Paciente buscarPacientePorCodigoConsulta(String codigoConsulta) {
+		for (Paciente paciente : misPacientes) {
+			for (Consulta consulta : paciente.getMisConsulta()) {
+				if (consulta.getCodigoConsulta().equalsIgnoreCase(codigoConsulta)) {
+					return paciente;
 				}
 			}
-			return null;
-			/*
-			boolean encontrado = false;
-			int indexPaciente = 0, indexConsulta = 0, cantconsulta = 0, cantPacientes = misPacientes.size();
-			while (!encontrado && indexPaciente < cantPacientes) {
-				paciente = misPacientes.get(indexPaciente);
-				cantconsulta = paciente.getMisConsulta().size();
-				while (!encontrado && indexConsulta < cantconsulta) {
-					
-					indexConsulta++;
-				}
-				indexPaciente++;
-			}
-			return retPaciente;
-			*/
 		}
+		return null;
+	}
+	
+	// Buscar Enfermedad usando codigo.
+	public Enfermedad buscaEnfermedadCodigo(String codigoEnfermedad) {
+		Enfermedad enfermedad = null;
+		boolean encontrado = false;
+		int i = 0, cantEnfermedad = misEnfermedas.size();
+		while (!encontrado && i < cantEnfermedad) {
+			if (misEnfermedas.get(i).getCodigoEnfermedad().equalsIgnoreCase(codigoEnfermedad)) {
+				enfermedad = misEnfermedas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return enfermedad;
+	}
 	
 	// Agregar una consulta a un paciente usando la cedula.
 	public boolean agregarConsultaPacienteCedula(String cedula, Consulta consulta, boolean consultaAHistorial) {
@@ -424,6 +425,20 @@ public class Clinica implements Serializable{
 		}
 		return eliminado;
 	}
+	
+	// Eliminar Vacuna
+		public boolean eliminarVacuna(String codigoVacuna) {
+			boolean eliminado = false;
+			int i = 0, cantVacunas = misVacunas.size();
+			while (!eliminado && i < cantVacunas) {
+				if (misVacunas.get(i).getCodigoVacuna().equalsIgnoreCase(codigoVacuna)) {
+					misVacunas.remove(i);
+					eliminado = true;
+				}
+				i++;
+			}
+			return eliminado;
+		}
 	
 	// Editar un Usuario
 	public void editarUsuario(String codigo, Usuario userUpdate) {

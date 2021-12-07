@@ -265,6 +265,7 @@ public class PrincipalClinica extends JFrame {
 		mntmListVacuna = new JMenuItem("Lista de Vacunas");
 		mntmListVacuna.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panelListVacuna.loadVacuna();
 				viewListVacuna();
 			}
 		});
@@ -276,6 +277,7 @@ public class PrincipalClinica extends JFrame {
 		mntmNewMenuItem_6 = new JMenuItem("Lista de Enfermedades");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panelListEnfermedad.loadEnfermedades();
 				viewListEnfermedad();
 			}
 		});
@@ -441,7 +443,6 @@ public class PrincipalClinica extends JFrame {
 	public void getUserLoginFeedback() {
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null) {
-			/*
 			if(user instanceof U_Medico) {
 				mnMedico.setEnabled(true);
 				mnAdministrador.setEnabled(false);
@@ -450,7 +451,6 @@ public class PrincipalClinica extends JFrame {
 				mnMedico.setEnabled(false);
 				mnAdministrador.setEnabled(true);
 			}
-			*/
 			btnLogOut.setText("Log Out");
 			btnInicio.setEnabled(true);
 			lblUser.setText("User: " + Clinica.getInstace().getLoginUser().getNombre());
