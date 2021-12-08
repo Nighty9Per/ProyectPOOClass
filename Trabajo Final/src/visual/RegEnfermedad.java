@@ -35,23 +35,26 @@ public class RegEnfermedad extends JDialog {
 	private JTextPane txtpDescrip;
 	private JComboBox cbxTipo;
 
+	
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		try {
-			RegEnfermedad dialog = new RegEnfermedad(null);
+			RegEnfermedad dialog = new RegEnfermedad(null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	*/
 
 	/**
 	 * Create the dialog.
 	 */
-	public RegEnfermedad(Enfermedad modificar) {
+	public RegEnfermedad(Enfermedad modificar, boolean ver) {
 		update = modificar;
 		setModal(true);
 		setResizable(false);
@@ -143,7 +146,10 @@ public class RegEnfermedad extends JDialog {
 				btnAccion = new JButton();
 				btnAccion.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (validacion() == true) {
+						if(btnAccion.getText().equalsIgnoreCase("OK")) {
+							dispose();
+						}
+						else if (validacion() == true) {
 							if (update == null) {
 								if (cbxTipo.getSelectedIndex() != 0) {
 									Clinica.getInstace().crearEnfermedadBajoVigilancia(txtNombre.getText(), cbxTipo.getSelectedItem().toString(), txtpDescrip.getText());
@@ -218,5 +224,31 @@ public class RegEnfermedad extends JDialog {
 
 	public static void setUpdate(Enfermedad update) {
 		RegEnfermedad.update = update;
+	}
+	
+	private void verEnfermedad(boolean view) {
+		if(view) {
+			setTitle("Ver Enfermedad");
+			txtCod.setText(update.getCodigoEnfermedad());
+			txtNombre.setText(update.getNombreEnfermedad());
+			txtpDescrip.setText(update.getDescripcionEnfermedad());
+			if(update.getTipoEnfermedad().equalsIgnoreCase("Viral")) {
+				cbxTipo.setSelectedIndex(1);
+			}
+			else if(update.getTipoEnfermedad().equalsIgnoreCase("Bacteriana")) {
+				cbxTipo.setSelectedIndex(2);
+			}
+			else if(update.getTipoEnfermedad().equalsIgnoreCase("Fúngica")) {
+				cbxTipo.setSelectedIndex(3);
+			}
+			else if(update.getTipoEnfermedad().equalsIgnoreCase("Parasitarias")) {
+				cbxTipo.setSelectedIndex(4);
+			}
+			txtCod.setEnabled(false);
+			txtNombre.setEnabled(false);
+			txtpDescrip.setEnabled(false);
+			cbxTipo.setEnabled(true);
+			btnAccion.setText("OK");
+		}
 	}
 }

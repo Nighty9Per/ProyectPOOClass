@@ -214,7 +214,7 @@ public class PrincipalClinica extends JFrame {
 		mntmRegEnfermedad = new JMenuItem("Registrar Enfermedad");
 		mntmRegEnfermedad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegEnfermedad regEnfermedad = new RegEnfermedad(null);
+				RegEnfermedad regEnfermedad = new RegEnfermedad(null,false);
 				regEnfermedad.setVisible(true);
 			}
 		});

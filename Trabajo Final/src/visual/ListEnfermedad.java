@@ -90,6 +90,11 @@ public class ListEnfermedad extends JPanel {
 		panelBotones.add(lblTitulo);
 		
 		btnCrearEnfermedad = new JButton("Crear Enfer.");
+		btnCrearEnfermedad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnCrearEnfermedad.setBounds(10, 36, 119, 23);
 		panelBotones.add(btnCrearEnfermedad);
 		
@@ -224,10 +229,18 @@ public class ListEnfermedad extends JPanel {
 	// Enable buttons
 	private void enableButtons(boolean enable) {
 		if(enable) {
-			
+			if(Clinica.getInstace().getLoginUser() instanceof U_Administrador) {
+				btnCrearEnfermedad.setEnabled(true);
+				btnEliminar.setEnabled(true);
+			}
+			btnVerEnfermedad.setEnabled(true);
 		}
 		else {
-			
+			if(Clinica.getInstace().getLoginUser() instanceof U_Medico) {
+				btnCrearEnfermedad.setEnabled(false);
+			}
+			btnEliminar.setEnabled(false);
+			btnVerEnfermedad.setEnabled(false);
 		}
 	}
 	
