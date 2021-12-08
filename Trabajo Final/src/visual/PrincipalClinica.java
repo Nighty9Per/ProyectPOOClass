@@ -30,6 +30,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -374,9 +376,24 @@ public class PrincipalClinica extends JFrame {
 		String host = "LocalHost";
 		try {
 			Socket client = new Socket(host,6000);
-			ObjectOutputStream writeFlujo = new ObjectOutputStream(new FileOutputStream("respaldo.dat"));
-			writeFlujo.writeObject(Clinica.getInstace().getClinica());
-			client.close();
+			DataInputStream inSocket = new DataInputStream(client.getInputStream());
+			DataOutputStream outSocket = new DataOutputStream(client.getOutputStream());
+			File origen = new File("clinica.dat");
+			File copia = new File("respaldo.dat");
+			
+			FileInputStream reader = new FileInputStream(origen);
+			FileOutputStream writer = new FileOutputStream(copia);
+			int copyByte;
+			System.out.println("\n\tGuardando Respaldo...");
+			try {
+				while ((copyByte = reader.read()) != -1) {
+					writer.write(copyByte);
+				}
+				reader.close();
+				writer.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
