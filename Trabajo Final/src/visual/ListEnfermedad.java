@@ -92,7 +92,8 @@ public class ListEnfermedad extends JPanel {
 		btnCrearEnfermedad = new JButton("Crear Enfer.");
 		btnCrearEnfermedad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				RegEnfermedad regEnfermedad = new RegEnfermedad(null, false);
+				regEnfermedad.setVisible(true);
 			}
 		});
 		btnCrearEnfermedad.setBounds(10, 36, 119, 23);
