@@ -200,6 +200,8 @@ public class ListVacuna extends JPanel {
 		enableButtons(false);
 		if(Clinica.getInstace().getLoginUser() instanceof U_Administrador) {
 			btnCrearVacuna.setEnabled(true);
+		}else {
+			btnCrearVacuna.setEnabled(false);
 		}
 		Usuario user = Clinica.getInstace().getLoginUser();
 		if(user != null) {

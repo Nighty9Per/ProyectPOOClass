@@ -54,7 +54,7 @@ public class RegEnfermedad extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegEnfermedad(Enfermedad modificar, boolean ver) {
+	public RegEnfermedad(Enfermedad modificar, boolean view) {
 		update = modificar;
 		setModal(true);
 		setResizable(false);
@@ -193,6 +193,7 @@ public class RegEnfermedad extends JDialog {
 			}
 		}
 		loadEnfermedad(update);
+		viewEnfermedad(view);
 	}
 	private void loadEnfermedad(Enfermedad aux) {
 		if (aux != null) {
@@ -201,6 +202,7 @@ public class RegEnfermedad extends JDialog {
 			cbxTipo.setSelectedItem(aux.getTipoEnfermedad());
 			txtpDescrip.setText(aux.getDescripcionEnfermedad());
 		}
+		
 	}
 
 	private boolean validacion() {
@@ -226,7 +228,7 @@ public class RegEnfermedad extends JDialog {
 		RegEnfermedad.update = update;
 	}
 	
-	private void verEnfermedad(boolean view) {
+	private void viewEnfermedad(boolean view) {
 		if(view) {
 			setTitle("Ver Enfermedad");
 			txtCod.setText(update.getCodigoEnfermedad());
@@ -244,10 +246,10 @@ public class RegEnfermedad extends JDialog {
 			else if(update.getTipoEnfermedad().equalsIgnoreCase("Parasitarias")) {
 				cbxTipo.setSelectedIndex(4);
 			}
-			txtCod.setEnabled(false);
-			txtNombre.setEnabled(false);
-			txtpDescrip.setEnabled(false);
-			cbxTipo.setEnabled(true);
+			txtCod.setEditable(false);
+			txtNombre.setEditable(false);
+			txtpDescrip.setEditable(false);
+			cbxTipo.setEnabled(false);
 			btnAccion.setText("OK");
 		}
 	}

@@ -370,6 +370,7 @@ public class PrincipalClinica extends JFrame {
 	}
 	
 	private void guardarRespaldo() {
+		guardarDatos();
 		String host = "LocalHost";
 		try {
 			Socket client = new Socket(host,6000);

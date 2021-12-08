@@ -116,6 +116,17 @@ public class ListEnfermedad extends JPanel {
 		panelBotones.add(btnEliminar);
 		
 		btnVerEnfermedad = new JButton("Ver Detalles");
+		btnVerEnfermedad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow() != -1) {
+					Enfermedad enfermedad = getEnfermedadTable();
+					if(enfermedad != null) {
+						RegEnfermedad viewEnfermedad = new RegEnfermedad(enfermedad, true);
+						viewEnfermedad.setVisible(true);
+					}
+				}
+			}
+		});
 		btnVerEnfermedad.setBounds(10, 104, 119, 23);
 		panelBotones.add(btnVerEnfermedad);
 		
@@ -187,6 +198,11 @@ public class ListEnfermedad extends JPanel {
 		enableButtons(false);
 		filterVacuna();
 		Usuario user = Clinica.getInstace().getLoginUser();
+		if(user instanceof U_Administrador) {
+			btnCrearEnfermedad.setEnabled(true);
+		}else {
+			btnCrearEnfermedad.setEnabled(false);
+		}
 		if(user != null) {
 			filterVacuna();
 			model.setRowCount(0);
@@ -231,15 +247,11 @@ public class ListEnfermedad extends JPanel {
 	private void enableButtons(boolean enable) {
 		if(enable) {
 			if(Clinica.getInstace().getLoginUser() instanceof U_Administrador) {
-				btnCrearEnfermedad.setEnabled(true);
 				btnEliminar.setEnabled(true);
 			}
 			btnVerEnfermedad.setEnabled(true);
 		}
 		else {
-			if(Clinica.getInstace().getLoginUser() instanceof U_Medico) {
-				btnCrearEnfermedad.setEnabled(false);
-			}
 			btnEliminar.setEnabled(false);
 			btnVerEnfermedad.setEnabled(false);
 		}
