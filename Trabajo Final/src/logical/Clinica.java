@@ -511,5 +511,18 @@ public class Clinica implements Serializable{
 	public static void setClinica(Clinica clinica) {
 		Clinica.clinica = clinica;
 	}
+
+	public boolean eliminarEnfermedad(String codigoEnfermedad) {
+		boolean eliminado = false;
+		int i = 0, cantEnfermedad = misEnfermedas.size();
+		while (!eliminado && i < cantEnfermedad) {
+			if (misEnfermedas.get(i).getCodigoEnfermedad().equalsIgnoreCase(codigoEnfermedad)) {
+				misEnfermedas.remove(i);
+				eliminado = true;
+			}
+			i++;
+		}
+		return eliminado;
+	}
 	
 }

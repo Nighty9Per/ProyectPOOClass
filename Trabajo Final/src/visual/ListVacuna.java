@@ -105,8 +105,10 @@ public class ListVacuna extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1) {
 					Vacuna vacuna = getVacunaTable();
-					Clinica.getInstace().eliminarVacuna(vacuna.getCodigoVacuna());
-					JOptionPane.showMessageDialog(null, "Vacuna fue eliminda con Exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+					if(vacuna != null) {
+						Clinica.getInstace().eliminarVacuna(vacuna.getCodigoVacuna());
+						JOptionPane.showMessageDialog(null, "Vacuna fue eliminda con Exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+					}
 					loadVacuna();
 				}
 			}

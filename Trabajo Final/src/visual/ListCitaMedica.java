@@ -120,7 +120,11 @@ public class ListCitaMedica extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow() != -1) {
 					CitaMedica cita = getCitaTable();
-					Clinica.getInstace().eliminarCitaMedicaCodigo(cita.getCodigoCita());
+					if(cita != null) {
+						Clinica.getInstace().eliminarCitaMedicaCodigo(cita.getCodigoCita());
+						JOptionPane.showMessageDialog(null, "Cita fue eliminda con Exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+					}
+					loadCitas();
 				}
 			}
 		});

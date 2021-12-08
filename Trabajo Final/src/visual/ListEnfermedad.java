@@ -9,6 +9,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -43,6 +44,9 @@ public class ListEnfermedad extends JPanel {
 	private ArrayList<Enfermedad> arrayListEnfermedad;
 	private static DefaultTableModel model;
 	private static Object[] rows;
+	private JButton btnVerEnfermedad;
+	private JButton btnCrearEnfermedad;
+	private JButton btnEliminar;
 	
 	/**
 	 * Create the panel.
@@ -85,6 +89,30 @@ public class ListEnfermedad extends JPanel {
 		lblTitulo.setBounds(10, 11, 119, 14);
 		panelBotones.add(lblTitulo);
 		
+		btnCrearEnfermedad = new JButton("Crear Enfer.");
+		btnCrearEnfermedad.setBounds(10, 36, 119, 23);
+		panelBotones.add(btnCrearEnfermedad);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow() != -1) {
+					Enfermedad enfermedad = getEnfermedadTable();
+					if(enfermedad != null) {
+						Clinica.getInstace().eliminarEnfermedad(enfermedad.getCodigoEnfermedad());
+						JOptionPane.showMessageDialog(null, "Enfermedad fue eliminda con Exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+					}
+					loadEnfermedades();
+				}
+			}
+		});
+		btnEliminar.setBounds(10, 70, 119, 23);
+		panelBotones.add(btnEliminar);
+		
+		btnVerEnfermedad = new JButton("Ver Detalles");
+		btnVerEnfermedad.setBounds(10, 104, 119, 23);
+		panelBotones.add(btnVerEnfermedad);
+		
 		panelTable = new JPanel();
 		panelTable.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelTable.setBounds(0, 89, 975, 495);
@@ -98,6 +126,7 @@ public class ListEnfermedad extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				enableButtons(true);
 			}
 		});
 		String[] headers = {"Codigo Enfermedad", "Nombre" , "Tipo", "Descipción"};
